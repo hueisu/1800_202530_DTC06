@@ -57,6 +57,7 @@ elmo-hikes/
 ## Contributors
 
 - **Su** - Currently reading Moon and Sixpence.
+- Matthew - BCIT CST Student with a passion for indoor adventures and friendly applications. Fun fact: Has arms.
 - **Teammate Name** - BCIT CST Student, Frontend enthusiast with a knack for creative design. Fun fact: Has a collection of over 50 houseplants.
 
 ---
