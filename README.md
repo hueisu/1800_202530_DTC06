@@ -56,7 +56,7 @@ elmo-hikes/
 
 ## Contributors
 
-- **Your Name** - Su. Currently reading Moon and Sixpence.
+- **Su** - Currently reading Moon and Sixpence.
 - **Teammate Name** - BCIT CST Student, Frontend enthusiast with a knack for creative design. Fun fact: Has a collection of over 50 houseplants.
 
 ---
