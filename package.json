@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
-    "firebase": "^12.4.0"
+    "firebase": "^12.4.0",
+    "tailwindcss": "^4.1.16"
   }
 }
