@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Fridge Friends</title>
+    <meta name="comp1800 template" content="My 1800 App" />
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Other libraries go here -->
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Link to styles of your own -->
+    <link rel="stylesheet" href="./src/styles/style.css" />
+  </head>
+
+  <body>
+    <!------------------------------>
+    <!-- Your HTML Layout go here -->
+    <!------------------------------>
+    <!-- Stuff for body goes here -->
+    <!-- Place Holder for Fixed Navbar -->
+    <div style="height: 92px"></div>
+    <nav
+      class="d-flex p-3 fixed-top bg-white justify-content-between align-items-center"
+    >
+      <a href="" class="text-black">
+        <i class="fa-solid fa-bars fa-2xl"></i>
+      </a>
+      <a class="navbar-brand" href="#">
+        <img src="./images/Fridge_Friends.png" height="60" />
+      </a>
+      <div class="d-flex gap-2">
+        <a href="" class="text-black">
+          <i class="fa-solid fa-magnifying-glass fa-2xl"></i>
+        </a>
+        <a href="" class="text-black">
+          <i class="fa-solid fa-cart-shopping fa-2xl"></i>
+        </a>
+      </div>
+    </nav>
+    <div class="container py-5" style="max-width: 420px">
+      <!-- Alerts -->
+      <div id="authAlert" class="alert alert-danger d-none" role="alert"></div>
+
+      <!-- Login -->
+      <div id="loginView">
+        <h3 class="mb-3 text-center">Login</h3>
+        <form id="loginForm" novalidate>
+          <div class="mb-3">
+            <input
+              type="email"
+              id="loginEmail"
+              class="form-control"
+              placeholder="Email"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <input
+              type="password"
+              id="loginPassword"
+              class="form-control"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+        <small class="d-block mt-3 text-center">
+          Don’t have an account?
+          <a href="#" id="toSignup">Sign up</a>
+        </small>
+      </div>
+
+      <!-- Signup -->
+      <div id="signupView" class="d-none">
+        <h3 class="mb-3 text-center">Sign Up</h3>
+        <form id="signupForm" novalidate>
+          <div class="mb-3">
+            <input
+              type="text"
+              id="signupName"
+              class="form-control"
+              placeholder="First and Last Name"
+              aria-label="Full name"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <input
+              type="email"
+              id="signupEmail"
+              class="form-control"
+              placeholder="Email"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <input
+              type="password"
+              id="signupPassword"
+              class="form-control"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-success w-100">
+            Create Account
+          </button>
+        </form>
+        <small class="d-block mt-3 text-center">
+          Already have an account?
+          <a href="#" id="toLogin">Login</a>
+        </small>
+      </div>
+    </div>
+    <!---------------------------------------------->
+    <!-- Your own JavaScript functions go here    -->
+    <!---------------------------------------------->
+
+    <!-- Link to scripts of your own -->
+    <script type="module" src="./src/app.js"></script>
+    <script type="module" src="./src/firebaseConfig.js"></script>
+    <script type="module" src="./src/authentication.js"></script>
+    <script type="module" src="./src/loginSignup.js"></script>
+  </body>
+</html>
