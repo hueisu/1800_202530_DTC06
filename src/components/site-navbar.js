@@ -21,7 +21,7 @@ class SiteNavbar extends HTMLElement {
         <a href="" class="text-black">
           <i class="fa-solid fa-bars fa-2xl"></i>
         </a>
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/index">
           <img src="./images/Fridge_Friends.png" height="60" />
         </a>
         <div class="d-flex gap-2">
