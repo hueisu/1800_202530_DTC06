@@ -16,27 +16,29 @@ class SiteNavbar extends HTMLElement {
       <!-- Navbar: single source of truth -->
       <div style="height: 160px"></div>
       <nav
-        class="flex fixed top-0 bg-white py-10 px-2 items-center justify-between w-full md:max-w-4xl"
+        class="fixed w-full top-0 bg-white border-b border-gray-300"
       >
-        <div class="flex gap-2">
-          <div>
-            <i class="fa-solid fa-bars fa-2xl"></i>
+        <div class="flex py-10 px-2 items-center justify-between md:max-w-4xl m-auto">
+          <div class="flex gap-2">
+            <div>
+              <i class="fa-solid fa-bars fa-2xl"></i>
+            </div>
+            <!-- Placeholder icon --!>
+            <div>
+              <i class="fa-solid fa-2xl"></i>
+            </div>
           </div>
-          <!-- Placeholder icon --!>
-          <div>
-            <i class="fa-solid fa-2xl"></i>
+          <a href="/">
+            <img class="h-20" src="./images/Fridge_Friends.png" alt="logo" />
+          </a>
+          <div class="flex gap-2">
+            <a href="" class="">
+              <i class="fa-solid fa-magnifying-glass fa-2xl"></i>
+            </a>
+            <a href="" class="">
+              <i class="fa-solid fa-cart-shopping fa-2xl"></i>
+            </a>
           </div>
-        </div>
-        <a href="/">
-          <img class="h-20" src="./images/Fridge_Friends.png" alt="logo" />
-        </a>
-        <div class="flex gap-2">
-          <a href="" class="">
-            <i class="fa-solid fa-magnifying-glass fa-2xl"></i>
-          </a>
-          <a href="" class="">
-            <i class="fa-solid fa-cart-shopping fa-2xl"></i>
-          </a>
         </div>
       </nav>
         `;
