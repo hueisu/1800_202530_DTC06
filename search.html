@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <title>Search - Fridge Friends</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,37 +8,47 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
 
     <!-- Web Components for shared layout -->
     <script type="module" src="/src/components/site-navbar.js"></script>
+    <script type="module" src="/src/components/site-footer.js"></script>
 
     <!-- Link to styles of your own -->
     <link rel="stylesheet" href="./src/styles/style.css" />
-</head>
+  </head>
 
-<body>
+  <body>
     <!-- Navigation bar -->
     <site-navbar></site-navbar>
 
     <!-- Search bar -->
     <div class="max-w-[480px] p-3 m-auto">
-        <div class="rounded px-8 pt-6 pb-8 mb-4">
-            <div class="relative mb-4">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i class="fa-solid fa-magnifying-glass fa-lg text-gray-700"></i>
-                </div>
-                <input
-                    class="block w-full pl-10 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="search" type="text" placeholder="Search for products...">
-            </div>
+      <div class="rounded px-8 pt-6 pb-8 mb-4">
+        <div class="relative mb-4">
+          <div
+            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          >
+            <i class="fa-solid fa-magnifying-glass fa-lg text-gray-700"></i>
+          </div>
+          <input
+            class="block w-full pl-10 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="search"
+            type="text"
+            placeholder="Search for products..."
+          />
         </div>
+      </div>
     </div>
+    <site-footer></site-footer>
 
     <!-- Link to scripts of your own -->
-    <script type="module" src="./src/main.js"></script>
-</body>
-
+    <script type="module" src="./src/app.js"></script>
+  </body>
 </html>
