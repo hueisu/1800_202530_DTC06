@@ -18,7 +18,7 @@ class SiteNavbar extends HTMLElement {
       <!-- Navbar: single source of truth -->
       <div style="height: 160px"></div>
       <nav
-        class="fixed w-full top-0 bg-white border-b border-gray-300"
+        class="z-9 fixed w-full top-0 bg-white border-b border-gray-300"
       >
         <div class="flex py-10 px-2 items-center justify-between md:max-w-4xl m-auto">
           <div class="flex gap-2 relative">
