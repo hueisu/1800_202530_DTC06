@@ -16,19 +16,25 @@ class SiteNavbar extends HTMLElement {
       <!-- Navbar: single source of truth -->
       <div style="height: 92px"></div>
       <nav
-        class="d-flex p-3 fixed-top bg-white justify-content-between align-items-center"
+        class="flex fixed top-0 bg-white py-10 px-2 items-center justify-between w-full md:max-w-4xl"
       >
-        <a href="" class="text-black">
-          <i class="fa-solid fa-bars fa-2xl"></i>
+        <div class="flex gap-2">
+          <a href="" class="">
+            <i class="fa-solid fa-bars fa-2xl"></i>
+          </a>
+          <!-- Placeholder icon --!>
+          <a href="" class="">
+            <i class="fa-solid fa-2xl"></i>
+          </a>
+        </div>
+        <a class="" href="">
+          <img class="h-20" src="./images/Fridge_Friends.png" alt="logo" />
         </a>
-        <a class="navbar-brand" href="/index">
-          <img src="./images/Fridge_Friends.png" height="60" />
-        </a>
-        <div class="d-flex gap-2">
-          <a href="" class="text-black">
+        <div class="flex gap-2">
+          <a href="" class="">
             <i class="fa-solid fa-magnifying-glass fa-2xl"></i>
           </a>
-          <a href="" class="text-black">
+          <a href="" class="">
             <i class="fa-solid fa-cart-shopping fa-2xl"></i>
           </a>
         </div>
