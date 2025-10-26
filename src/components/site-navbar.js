@@ -26,13 +26,13 @@ class SiteNavbar extends HTMLElement {
               <i class="fa-solid fa-bars fa-2xl"></i>
             </button>
             <div id="menu-content" class="hidden bg-zinc-500 text-white w-50 absolute top-[42px]">
-              <div class="p-3">Grocery Stores</div>
-              <div class="p-3">Products</div>
-              <div class="p-3">Categories</div>
-              <div class="p-3 border-b-2 border-zinc-800">Coupons</div>
-              <div class="p-3">Login</div>
-              <div class="p-3">Profile</div>
-              <div class="p-3">Help</div>
+              <a href="" class="block p-3">Grocery Stores</a>
+              <a href="" class="block p-3">Products</a>
+              <a href="" class="block p-3">Categories</a>
+              <a href="" class="block p-3 border-b-2 border-zinc-800">Coupons</a>
+              <a href="/login" class="block p-3">Login</a>
+              <a href="" class="block p-3">Profile</a>
+              <a href="" class="block p-3">Help</a>
             </div>
             <!-- Placeholder icon --!>
             <div>
