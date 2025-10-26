@@ -30,7 +30,7 @@ class SiteNavbar extends HTMLElement {
               <a href="" class="block p-3">Products</a>
               <a href="" class="block p-3">Categories</a>
               <a href="" class="block p-3 border-b-2 border-zinc-800">Coupons</a>
-              <a href="/login" class="block p-3">Login</a>
+              <div id="authControls" class="block p-3 hover:cursor-pointer"></div>
               <a href="" class="block p-3">Profile</a>
               <a href="" class="block p-3">Help</a>
             </div>
@@ -55,21 +55,18 @@ class SiteNavbar extends HTMLElement {
         `;
   }
   renderAuthControls() {
-    // const authControls = this.querySelector("#authControls");
-    // // Initialize with invisible placeholder to maintain layout space
-    // authControls.innerHTML = `<div class="btn btn-outline-light" style="visibility: hidden; min-width: 80px;">Log out</div>`;
-    // onAuthStateChanged(auth, (user) => {
-    //   let updatedAuthControl;
-    //   if (user) {
-    //     updatedAuthControl = `<button class="btn btn-outline-light" id="signOutBtn" type="button" style="min-width: 80px;">Log out</button>`;
-    //     authControls.innerHTML = updatedAuthControl;
-    //     const signOutBtn = authControls.querySelector("#signOutBtn");
-    //     signOutBtn?.addEventListener("click", logoutUser);
-    //   } else {
-    //     updatedAuthControl = `<a class="btn btn-outline-light" id="loginBtn" href="/login.html" style="min-width: 80px;">Log in</a>`;
-    //     authControls.innerHTML = updatedAuthControl;
-    //   }
-    // });
+    const authControls = $("#authControls");
+    onAuthStateChanged(auth, (user) => {
+      let updatedAuthControl;
+      if (user) {
+        updatedAuthControl = `<button id="signOutBtn" class="hover:cursor-pointer">Log out</button>`;
+        authControls.html(updatedAuthControl);
+        $("#signOutBtn").on("click", logoutUser);
+      } else {
+        updatedAuthControl = `<a href="/login">Login</a>`;
+        authControls.html(updatedAuthControl);
+      }
+    });
   }
 
   renderMenu() {
