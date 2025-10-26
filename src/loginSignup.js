@@ -6,8 +6,6 @@
 // Manages the login/signup form behaviour and redirects.
 // -------------------------------------------------------------
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap";
 import "./styles/style.css";
 import { loginUser, signupUser, authErrorMessage } from "./authentication.js";
 
@@ -29,21 +27,21 @@ function initAuthUI() {
   // --- Helper Functions ---
   // Toggle element visibility
   function setVisible(el, visible) {
-    el.classList.toggle("d-none", !visible);
+    el.classList.toggle("hidden", !visible);
   }
 
   // Show error message with accessibility and auto-hide
   let errorTimeout;
   function showError(msg) {
     alertEl.textContent = msg || "";
-    alertEl.classList.remove("d-none");
+    alertEl.classList.remove("hidden");
     clearTimeout(errorTimeout);
     errorTimeout = setTimeout(hideError, 5000); // Auto-hide after 5s
   }
 
   // Hide error message
   function hideError() {
-    alertEl.classList.add("d-none");
+    alertEl.classList.add("hidden");
     alertEl.textContent = "";
     clearTimeout(errorTimeout);
   }
