@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "firebase": "^12.4.0",
+    "jquery": "^3.7.1",
     "tailwindcss": "^4.1.16"
   }
 }

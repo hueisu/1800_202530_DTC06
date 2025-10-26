@@ -3,12 +3,14 @@ import { onAuthStateChanged } from "firebase/auth";
 
 import { auth } from "/src/firebaseConfig.js";
 import { logoutUser } from "/src/authentication.js";
+import $ from "jquery";
 
 class SiteNavbar extends HTMLElement {
   constructor() {
     super();
     this.renderNavbar();
     this.renderAuthControls();
+    this.renderMenu();
   }
 
   renderNavbar() {
@@ -19,9 +21,18 @@ class SiteNavbar extends HTMLElement {
         class="fixed w-full top-0 bg-white border-b border-gray-300"
       >
         <div class="flex py-10 px-2 items-center justify-between md:max-w-4xl m-auto">
-          <div class="flex gap-2">
-            <div>
+          <div class="flex gap-2 relative">
+            <button id="menu" class="py-2 hover:cursor-pointer">
               <i class="fa-solid fa-bars fa-2xl"></i>
+            </button>
+            <div id="menu-content" class="hidden bg-zinc-500 text-white w-50 absolute top-[42px]">
+              <div class="p-3">Grocery Stores</div>
+              <div class="p-3">Products</div>
+              <div class="p-3">Categories</div>
+              <div class="p-3 border-b-2 border-zinc-800">Coupons</div>
+              <div class="p-3">Login</div>
+              <div class="p-3">Profile</div>
+              <div class="p-3">Help</div>
             </div>
             <!-- Placeholder icon --!>
             <div>
@@ -32,10 +43,10 @@ class SiteNavbar extends HTMLElement {
             <img class="h-20" src="./images/Fridge_Friends.png" alt="logo" />
           </a>
           <div class="flex gap-2">
-            <a href="" class="">
+            <a href="" class="py-2">
               <i class="fa-solid fa-magnifying-glass fa-2xl"></i>
             </a>
-            <a href="" class="">
+            <a href="" class="py-2">
               <i class="fa-solid fa-cart-shopping fa-2xl"></i>
             </a>
           </div>
@@ -44,7 +55,6 @@ class SiteNavbar extends HTMLElement {
         `;
   }
   renderAuthControls() {
-    // TODO: add logout feature
     // const authControls = this.querySelector("#authControls");
     // // Initialize with invisible placeholder to maintain layout space
     // authControls.innerHTML = `<div class="btn btn-outline-light" style="visibility: hidden; min-width: 80px;">Log out</div>`;
@@ -60,6 +70,15 @@ class SiteNavbar extends HTMLElement {
     //     authControls.innerHTML = updatedAuthControl;
     //   }
     // });
+  }
+
+  renderMenu() {
+    $("#menu").on("click", function () {
+      // toggle class of menu icon
+      $("#menu").toggleClass("border-b-2 bg-zinc-500");
+      // toggle class of menu content visibility
+      $("#menu-content").toggleClass("hidden");
+    });
   }
 }
 
