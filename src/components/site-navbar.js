@@ -14,20 +14,20 @@ class SiteNavbar extends HTMLElement {
   renderNavbar() {
     this.innerHTML = `
       <!-- Navbar: single source of truth -->
-      <div style="height: 92px"></div>
+      <div style="height: 160px"></div>
       <nav
         class="flex fixed top-0 bg-white py-10 px-2 items-center justify-between w-full md:max-w-4xl"
       >
         <div class="flex gap-2">
-          <a href="" class="">
+          <div>
             <i class="fa-solid fa-bars fa-2xl"></i>
-          </a>
+          </div>
           <!-- Placeholder icon --!>
-          <a href="" class="">
+          <div>
             <i class="fa-solid fa-2xl"></i>
-          </a>
+          </div>
         </div>
-        <a class="" href="">
+        <a href="/">
           <img class="h-20" src="./images/Fridge_Friends.png" alt="logo" />
         </a>
         <div class="flex gap-2">
