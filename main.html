@@ -9,13 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Other libraries go here -->
-    <!-- Bootstrap -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Font Awesome -->
     <link
       rel="stylesheet"
@@ -38,68 +33,50 @@
     <!------------------------------>
     <!-- Stuff for body goes here -->
     <site-navbar></site-navbar>
-
-    <div class="p-5 mb-4 bg-light rounded-3">
-      <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">
+    <div class="px-5 py-15 bg-gray-100">
+      <div class="space-y-2 md:max-w-4xl m-auto">
+        <h1 class="text-3xl font-bold">
           Welcome back to FridgeFriends,
           <span id="name-goes-here">friend!</span>
         </h1>
-        <p class="col-md-8 fs-4">Signup now to shop smarter!</p>
+        <p>Signup now to shop smarter!</p>
       </div>
     </div>
-    <div class="container">
-      <div class="row row-cols-1 row-cols-md-2 g-4">
-        <div class="col">
-          <div class="card">
-            <img
-              src="./images/heavy-cream.png"
-              class="card-img-top"
-              alt="..."
-            />
-            <div class="card-body">
-              <h5 class="card-title">Great Deals</h5>
-              <p class="card-text">
-                Horizon Heavy Cream 473 ml (Walmart) - $2.99 (Regular Price:
-                $5.99)
-              </p>
-            </div>
+    <div class="md:max-w-4xl m-auto">
+      <div class="grid grid-cols-1 gap-5 m-5 sm:grid-cols-2 md:grid-cols-4">
+        <div class="border border-gray-300 rounded-md">
+          <img src="./images/heavy-cream.png" class="" alt="..." />
+          <div class="p-3">
+            <h5 class="font-bold">Great Deals</h5>
+            <p class="">
+              Horizon Heavy Cream 473 ml (Walmart) - $2.99 (Regular Price:
+              $5.99)
+            </p>
           </div>
         </div>
-        <div class="col">
-          <div class="card">
-            <img src="./images/bananas.png" class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h5 class="card-title">Trending Now</h5>
-              <p class="card-text">Bananas (Superstore) - $0.35 ea</p>
-            </div>
+        <div class="border border-gray-300 rounded-md">
+          <img src="./images/bananas.png" class="" alt="..." />
+          <div class="p-3">
+            <h5 class="font-bold">Trending Now</h5>
+            <p class="">Bananas (Superstore) - $0.35 ea</p>
           </div>
         </div>
-        <div class="col">
-          <div class="card">
-            <img
-              src="./images/pumpkin-pie.png"
-              class="card-img-top"
-              alt="..."
-            />
-            <div class="card-body">
-              <h5 class="card-title">Limited Time</h5>
-              <p class="card-text">Pumpkin Pie 1.2 kg (Costco) - $6.99</p>
-            </div>
+        <div class="border border-gray-300 rounded-md">
+          <img src="./images/pumpkin-pie.png" class="" alt="..." />
+          <div class="p-3">
+            <h5 class="font-bold">Limited Time</h5>
+            <p class="">Pumpkin Pie 1.2 kg (Costco) - $6.99</p>
           </div>
         </div>
-        <div class="col">
-          <div class="card">
-            <img src="./images/mini-oreo.png" class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h5 class="card-title">Top Rated</h5>
-              <p class="card-text">Mini Oreos (Safeway) - $4.99</p>
-            </div>
+        <div class="border border-gray-300 rounded-md">
+          <img src="./images/mini-oreo.png" class="" alt="..." />
+          <div class="p-3">
+            <h5 class="font-bold">Top Rated</h5>
+            <p class="">Mini Oreos (Safeway) - $4.99</p>
           </div>
         </div>
       </div>
     </div>
-
     <!---------------------------------------------->
     <!-- Your own JavaScript functions go here    -->
     <!---------------------------------------------->
