@@ -46,7 +46,7 @@ class SiteNavbar extends HTMLElement {
             <a href="/search" class="py-2">
               <i class="fa-solid fa-magnifying-glass fa-2xl"></i>
             </a>
-            <a href="" class="py-2">
+            <a href="/cart" class="py-2">
               <i class="fa-solid fa-cart-shopping fa-2xl"></i>
             </a>
           </div>
