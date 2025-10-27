@@ -26,7 +26,7 @@ class SiteNavbar extends HTMLElement {
               <i class="fa-solid fa-bars fa-2xl"></i>
             </button>
             <div id="menu-content" class="hidden bg-zinc-500 text-white w-50 absolute top-[42px]">
-              <a href="" class="block p-3">Grocery Stores</a>
+              <a href="store-list.html" class="block p-3">Grocery Stores</a>
               <a href="" class="block p-3">Products</a>
               <a href="" class="block p-3">Categories</a>
               <a href="" class="block p-3 border-b-2 border-zinc-800">Coupons</a>
