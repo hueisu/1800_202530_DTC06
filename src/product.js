@@ -1,14 +1,17 @@
 import { db } from "./firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import $ from "jquery";
+import { hideLoading, showLoading } from "./general";
 
 async function displayProductsCards() {
   const productsRef = collection(db, "products");
   const productContainer = $("#product-container");
 
+  showLoading();
   try {
     const querySnapshot = await getDocs(productsRef);
     let elements = "";
+
     querySnapshot.forEach((doc) => {
       const product = doc.data();
 
@@ -31,6 +34,7 @@ async function displayProductsCards() {
   } catch (error) {
     console.error(error);
   }
+  hideLoading();
 }
 
 async function seedProducts() {
