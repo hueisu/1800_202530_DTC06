@@ -44,7 +44,7 @@
       <div class="p-6 bg-gray-600 text-white flex items-center space-x-4">
         <div>
           <h1 class="text-3xl font-bold">User Profile</h1>
-          <p class="text-indigo-200">View and manage your account details.</p>
+          <p class="text-white">View and manage your account details.</p>
         </div>
       </div>
 
@@ -52,7 +52,38 @@
         <h2 class="text-xl font-semibold text-gray-700 mb-4">
           Account Details
         </h2>
-        <hr class="border-gray-200 mx-6" />
+      </div>
+
+      <hr class="border-gray-200 mx-6" />
+
+      <div class="p-6">
+        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+          <p>Name: <span id="name-goes-here"></span></p>
+        </div>
+      </div>
+
+      <hr class="border-gray-200 mx-6" />
+
+      <div class="p-6">
+        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+          <p>Email: <span id="email-goes-here"></span></p>
+        </div>
+      </div>
+
+      <hr class="border-gray-200 mx-6" />
+
+      <div class="p-6">
+        <a class="hover:cursor-pointer hover:text-gray-600" href="#"
+          >Shopping List History</a
+        >
+      </div>
+
+      <hr class="border-gray-200 mx-6" />
+
+      <div class="p-6">
+        <a class="hover:cursor-pointer hover:text-gray-600" href="#"
+          >Favorites</a
+        >
       </div>
     </div>
 
@@ -63,5 +94,6 @@
 
     <!-- Link to scripts of your own -->
     <script type="module" src="./src/app.js"></script>
+    <script type="module" src="./src/profile.js"></script>
   </body>
 </html>
