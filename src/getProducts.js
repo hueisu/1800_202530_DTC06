@@ -16,7 +16,7 @@ async function displayProductsCards() {
       const product = doc.data();
 
       elements += `
-        <div class="border border-gray-300 rounded-md flex flex-col">
+        <a href="/product?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col">
           <div class="flex items-center justify-center grow-1">
             <img src="${product.imageUrl}" class="" alt="${product.name}-image" />
           </div>
@@ -26,7 +26,7 @@ async function displayProductsCards() {
               ${product.quantity} ${product.unit} - $${product.price}
             </p>
           </div>
-        </div>
+        </a>
       `;
     });
 
