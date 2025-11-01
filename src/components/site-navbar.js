@@ -27,12 +27,12 @@ class SiteNavbar extends HTMLElement {
             </button>
             <div id="menu-content" class="hidden bg-zinc-500 text-white w-50 absolute top-[42px]">
               <a href="store-list.html" class="block p-3">Grocery Stores</a>
-              <a href="" class="block p-3">Products</a>
-              <a href="" class="block p-3">Categories</a>
+              <a href="/" class="block p-3">Products</a>
+              <a href="/category" class="block p-3">Categories</a>
               <a href="" class="block p-3 border-b-2 border-zinc-800">Coupons</a>
               <div id="authControls" class="block p-3 hover:cursor-pointer"></div>
-              <a href="" class="block p-3">Profile</a>
-              <a href="" class="block p-3">Help</a>
+              <a href="/profile" class="block p-3">Profile</a>
+              <a href="/help" class="block p-3">Help</a>
             </div>
             <!-- Placeholder icon --!>
             <div>
