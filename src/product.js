@@ -1,5 +1,5 @@
 import { db } from "./firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import $ from "jquery";
 import { hideLoading, showLoading } from "./general";
 
@@ -45,12 +45,61 @@ async function seedProducts() {
     // Check if the collection is empty
     if (querySnapshot.empty) {
       console.log("Products collection is empty. Seeding data...");
-      // TODO: add data function
+      addProductData();
     }
   } catch (error) {
     console.error(error);
   }
 }
 
-seedProducts();
+function addProductData() {
+  const productsRef = collection(db, "products");
+
+  addDoc(productsRef, {
+    brand: "Horizon",
+    category: "dairy",
+    description:
+      "A rich, thick dairy product with a high fat content (usually around 36–40%), perfect for adding a smooth, velvety texture to sauces, soups, desserts, and coffee. Heavy cream can be whipped into soft or stiff peaks for use in cakes, pastries, or toppings. Keep refrigerated and shake lightly before use.",
+    imageUrl: "./images/heavy-cream.png",
+    name: "Heavy cream",
+    price: 6.89,
+    quantity: 986,
+    unit: "ml",
+  });
+  addDoc(productsRef, {
+    brand: "",
+    category: "dairy",
+    description:
+      "Fresh, naturally sweet bananas packed with potassium and essential nutrients. Perfect for smoothies, snacks, or baking. Enjoy them on their own or sliced over cereal, oatmeal, or yogurt for a healthy boost of energy.",
+    imageUrl: "./images/bananas.png",
+    name: "Bananas",
+    price: 0.35,
+    quantity: 1,
+    unit: "ea",
+  });
+  addDoc(productsRef, {
+    brand: "Horizon",
+    category: "dairy",
+    description:
+      "A rich and creamy pumpkin pie made with real pumpkin purée and warm spices like cinnamon and nutmeg. Its buttery crust and smooth texture make it the perfect dessert for holidays or any cozy occasion.",
+    imageUrl: "./images/pumpkin-pie.png",
+    name: "Pumpkin pie",
+    price: 6.99,
+    quantity: 1.2,
+    unit: "kg",
+  });
+  addDoc(productsRef, {
+    brand: "Horizon",
+    category: "dairy",
+    description:
+      "Bite-sized Oreo cookies with the same classic chocolate crunch and sweet crème filling you love. Great for snacking, lunch boxes, or as a fun topping for ice cream and desserts.",
+    imageUrl: "./images/mini-oreo.png",
+    name: "Mini oreo",
+    price: 4.25,
+    quantity: 1,
+    unit: "pack",
+  });
+}
+
 displayProductsCards();
+seedProducts();
