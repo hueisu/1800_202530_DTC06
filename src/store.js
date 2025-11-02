@@ -91,8 +91,7 @@ async function getProducts(storeId, storeName) {
         ...doc.data(),
       };
     });
-    return productArray;
-
+    displayProducts(productArray);
     // Switch view to product
     switchView(false);
   } catch (error) {
