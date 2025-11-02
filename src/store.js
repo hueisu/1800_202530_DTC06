@@ -1,8 +1,7 @@
 import { db } from "./firebaseConfig.js";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 
-// Helper function to add the sample store documents.
-
+// Get data from Firestore
 async function getStores() {
   try {
     const storesCollection = collection(db, "stores");
@@ -20,6 +19,7 @@ async function getStores() {
   }
 }
 
+// Get data synchronously
 async function init() {
   const storesData = await getStores();
   if (storesData && storesData.length > 0) {
@@ -31,6 +31,7 @@ async function init() {
 
 init();
 
+// Display stores in dynamically made cards
 function displayStores(stores) {
   const container = document.getElementById("store-cards-container");
 
@@ -39,7 +40,7 @@ function displayStores(stores) {
     const storeCard = `
             <div class="border border-gray-300 rounded-md flex flex-col">
                 <div class="flex items-center justify-center grow-1">
-                    <img src="${store.imageUrl}" class="" alt="${store.name} logo" />
+                    <img class = "hover:cursor-pointer" src="${store.imageUrl}" class="" alt="${store.name} logo" />
                 </div>
                 <div class="p-3">
                     <h5 class="font-bold text-center">${store.name}</h5>
@@ -53,22 +54,30 @@ function displayStores(stores) {
   });
 }
 
-displayStores(getStores());
-
 function switchView(showStores) {
   const storeView = document.getElementById("store-list-view");
   const productView = document.getElementById("product-list-view");
 
   if (showStores) {
-    storeView.style.display = "block";
-    productView.style.display = "none";
+    // Show stores view
+    storeView.classList.remove("hidden");
+    storeView.classList.add("block");
+
+    // Hide product view
+    productView.classList.remove("block");
+    productView.classList.add("hidden");
   } else {
-    storeView.style.display = "none";
-    productView.style.display = "block";
+    // Show product view
+    storeView.classList.remove("block");
+    storeView.classList.add("hidden");
+
+    // Hide stores view
+    productView.classList.remove("hidden");
+    productView.classList.add("block");
   }
 }
 
-async function loadProducts(storeId, storeName) {
+async function getProducts(storeId, storeName) {
   document.getElementById(
     "store-name-header"
   ).textContent = `#{storeName} Products`;
@@ -76,21 +85,39 @@ async function loadProducts(storeId, storeName) {
   try {
     const productsList = collection(db, "stores", storeId, "products");
     const querySnapshot = await getDocs(productsList);
-    const products = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    displayProducts(products);
+    const productArray = querySnapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      };
+    });
+    return productArray;
 
     // Switch view to product
     switchView(false);
   } catch (error) {
     console.error("Error: ", error);
   }
-
-  // Switch view to product
-  switchView(false);
 }
 
-// Call the seeding function when the main.html page loads.
-seedHikes();
+function displayProducts(products) {
+  const container = document.getElementById("product-cards-ccontainer");
+  container.innerHTML = "";
+
+  products.forEach((product) => {
+    const productCard = `
+            <div class="product-card border p-4 rounded-md shadow-lg">
+                <img src="${product.imageUrl}" alt="${
+      product.name
+    }" class="w-full h-32 object-cover mb-2" />
+                <h5 class="font-semibold">${product.name}</h5>
+                <p class="text-sm text-gray-600">$${product.price.toFixed(
+                  2
+                )}</p>
+            </div>
+        `;
+    const cardDiv = document.createElement("div");
+    cardDiv.innerHTML = productCard.trim();
+    container.appendChild(cardDiv.firstChild);
+  });
+}
