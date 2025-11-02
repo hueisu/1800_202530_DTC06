@@ -20,6 +20,30 @@ async function getStores() {
   }
 }
 
+function displayStores(stores) {
+  const container = document.getElementById("store-cards-container");
+
+  container.innerHTML = "";
+  stores.forEach((store) => {
+    const storeCard = `
+            <div class="border border-gray-300 rounded-md flex flex-col">
+                <div class="flex items-center justify-center grow-1">
+                    <img src="${store.imageUrl}" class="" alt="${store.name} logo" />
+                </div>
+                <div class="p-3">
+                    <h5 class="font-bold text-center">${store.name}</h5>
+                </div>
+            </div>
+        `;
+    const cardDiv = document.createElement("div");
+    cardDiv.innerHTML = storeCardHTML.trim();
+
+    container.appendChild(cardDiv.firstChild);
+  });
+}
+
+displayStores(getStores());
+
 function switchView(showStores) {
   const storeView = document.getElementById("store-list-view");
   const productView = document.getElementById("product-list-view");
