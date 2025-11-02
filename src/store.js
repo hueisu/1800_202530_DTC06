@@ -2,39 +2,21 @@ import { db } from "./firebaseConfig.js";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 
 // Helper function to add the sample store documents.
-function addStoreData() {
-  const storesRef = collection(db, "stores");
-  console.log("Adding grocery store data");
-  addDoc(storesRef, {
-    name: "Costco",
-  });
-  addDoc(storesRef, {
-    name: "T&T",
-  });
-  addDoc(storesRef, {
-    name: "Safeway",
-  });
-  addDoc(storesRef, {
-    name: "Save-on-Foods",
-  });
-  addDoc(storesRef, {
-    name: "Superstore",
-  });
-  addDoc(storesRef, {
-    name: "Walmart",
-  });
-}
 
-async function seedStores() {
-  const storesRef = collection(db, "stores");
-  const querySnapshot = await getDocs(storesRef);
-
-  // Check if the collection is empty
-  if (querySnapshot.empty) {
-    console.log("Stores collection is empty. Seeding data...");
-    addStoreData();
-  } else {
-    console.log("Stores collection already contains data. Skipping seed.");
+async function getStores() {
+  try {
+    const storesCollection = collection(db, "stores");
+    const querySnapshot = await getDocs(storesCollection);
+    const storesArray = querySnapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      };
+    });
+    return storesArray;
+  } catch (error) {
+    console.error("Error: ", error);
+    return [];
   }
 }
 
