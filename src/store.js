@@ -49,8 +49,16 @@ function displayStores(stores) {
         `;
     const cardDiv = document.createElement("div");
     cardDiv.innerHTML = storeCard.trim();
+    const storeCardElement = container.appendChild(cardDiv.firstChild);
 
-    container.appendChild(cardDiv.firstChild);
+    // Change to product list on click
+    storeCardElement.addEventListener("click", () => {
+      const storeId = storeCardElement.dataset.storeId;
+      const storeName = storeCardElement.dataset.storeName;
+      getProducts(storeId, storeName);
+    });
+
+    container.appendChild(storeCardElement);
   });
 }
 
