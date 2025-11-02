@@ -20,6 +20,17 @@ async function getStores() {
   }
 }
 
+async function init() {
+  const storesData = await getStores();
+  if (storesData && storesData.length > 0) {
+    displayStores(storesData);
+  } else {
+    console.log("No store data");
+  }
+}
+
+init();
+
 function displayStores(stores) {
   const container = document.getElementById("store-cards-container");
 
@@ -36,7 +47,7 @@ function displayStores(stores) {
             </div>
         `;
     const cardDiv = document.createElement("div");
-    cardDiv.innerHTML = storeCardHTML.trim();
+    cardDiv.innerHTML = storeCard.trim();
 
     container.appendChild(cardDiv.firstChild);
   });
