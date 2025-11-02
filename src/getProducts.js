@@ -68,7 +68,7 @@ function addProductData() {
   });
   addDoc(productsRef, {
     brand: "",
-    category: "dairy",
+    category: "produce",
     description:
       "Fresh, naturally sweet bananas packed with potassium and essential nutrients. Perfect for smoothies, snacks, or baking. Enjoy them on their own or sliced over cereal, oatmeal, or yogurt for a healthy boost of energy.",
     imageUrl: "./images/bananas.png",
@@ -79,7 +79,7 @@ function addProductData() {
   });
   addDoc(productsRef, {
     brand: "Horizon",
-    category: "dairy",
+    category: "bakery",
     description:
       "A rich and creamy pumpkin pie made with real pumpkin purée and warm spices like cinnamon and nutmeg. Its buttery crust and smooth texture make it the perfect dessert for holidays or any cozy occasion.",
     imageUrl: "./images/pumpkin-pie.png",
@@ -90,7 +90,7 @@ function addProductData() {
   });
   addDoc(productsRef, {
     brand: "Horizon",
-    category: "dairy",
+    category: "snacks",
     description:
       "Bite-sized Oreo cookies with the same classic chocolate crunch and sweet crème filling you love. Great for snacking, lunch boxes, or as a fun topping for ice cream and desserts.",
     imageUrl: "./images/mini-oreo.png",
