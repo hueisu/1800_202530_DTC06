@@ -31,64 +31,35 @@
     <!-- Cart Content -->
     <div class="max-w-[480px] p-4 mx-auto space-y-4">
       <!-- Cart Items Count -->
-      <h2 id="cart-items-count" class="text-lg font-bold">Cart (3 items)</h2>
+      <h2 class="text-lg font-bold">
+        Cart (<span id="cart-items-count"></span> items)
+      </h2>
 
       <!-- Cart Item Content -->
-      <div id="cart-container" class="space-y-4">
-        <div
-          id="cart-item-1"
-          class="rounded-lg bg-gray-200 p-4 flex justify-between gap-2 min-w-fit"
-        >
-          <div class="min-w-[80px] max-w-[150px]">
-            <img src="images/bananas.png" alt="Product Image" />
-          </div>
-
-          <div class="flex flex-col items-start justify-between">
-            <p class="font-semibold">Product Name</p>
-            <button class="text-red-500 hover:cursor-pointer">Remove</button>
-          </div>
-
-          <div class="flex flex-col justify-between items-end">
-            <div class="flex items-center gap-2">
-              <button class="hover:cursor-pointer px-2 rounded bg-blue-200">
-                -
-              </button>
-              <input
-                class="bg-white w-[30px] text-center"
-                name="quantity"
-                value="1"
-              />
-              <button class="hover:cursor-pointer px-2 rounded bg-blue-200">
-                +
-              </button>
-            </div>
-            <p class="text-right font-semibold">$10.99</p>
-          </div>
-        </div>
-        <!-- Repeat the above div for each item in the cart -->
-      </div>
+      <div id="cart-container" class="space-y-4"></div>
 
       <!-- Spacer -->
       <div class="border-t my-8"></div>
 
       <!-- Total Summary -->
-      <div>
+      <div class="font-semibold">
         <div class="flex justify-between">
-          <p class="font-semibold">Subtotal:</p>
-          <p class="font-semibold">$34.92</p>
+          <p>Subtotal:</p>
+          <p id="subtotal">$34.92</p>
         </div>
         <div class="flex justify-between">
-          <p class="font-semibold">Tax:</p>
-          <p class="font-semibold">$3.49</p>
+          <p>Tax:</p>
+          <p id="tax">$3.49</p>
         </div>
         <div class="flex justify-between font-bold">
           <p>Total:</p>
-          <p>$38.41</p>
+          <p id="total">$38.41</p>
         </div>
       </div>
 
       <!-- Checkout Button -->
       <button
+        id="checkout-btn"
         class="w-full bg-gray-200 hover:bg-gray-300 hover:cursor-pointer text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow my-6"
       >
         Checkout
@@ -98,5 +69,6 @@
 
     <!-- Link to scripts of your own -->
     <script type="module" src="./src/app.js"></script>
+    <script type="module" src="./src/shoppinglist.js"></script>
   </body>
 </html>
