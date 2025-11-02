@@ -31,7 +31,7 @@ class SiteNavbar extends HTMLElement {
               <a href="" class="block p-3">Categories</a>
               <a href="" class="block p-3 border-b-2 border-zinc-800">Coupons</a>
               <div id="authControls" class="block p-3 hover:cursor-pointer"></div>
-              <a href="" class="block p-3">Profile</a>
+              <a href="profile.html" class="block p-3">Profile</a>
               <a href="" class="block p-3">Help</a>
             </div>
             <!-- Placeholder icon --!>
