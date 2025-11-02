@@ -57,15 +57,14 @@
 
       <!-- Product List -->
       <section class="hidden" id="product-list-view">
-        <button id="back-to-stores-button">← Back to Stores</button>
-        <h2 id="store-name-header" class="text-2xl font-bold mt-4">
+        <h2 id="store-name-header" class="text-2xl font-bold mt-4 ml-5">
           Products at [Store Name]
         </h2>
+        <button class="hover:cursor-pointer hover:bg-gray-300 bg-gray-200 rounded p-2 ml-5" onclick="switchView(true)">Back to Stores</button>
         <div
           id="product-cards-container"
           class="grid gap-5 m-5 sm:grid-cols-2 md:grid-cols-4"
         ></div>
-        <button onclick="switchView(true)">Back to Stores</button>
       </section>
     <site-footer></site-footer>
     <!---------------------------------------------->

@@ -1,7 +1,7 @@
 import { db } from "./firebaseConfig.js";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 
-// Get data from Firestore
+// Get store data from Firestore
 async function getStores() {
   try {
     const storesCollection = collection(db, "stores");
@@ -19,7 +19,7 @@ async function getStores() {
   }
 }
 
-// Get data synchronously
+// Get store data synchronously
 async function init() {
   const storesData = await getStores();
   if (storesData && storesData.length > 0) {
@@ -62,6 +62,7 @@ function displayStores(stores) {
   });
 }
 
+// Switch from store list to product list
 function switchView(showStores) {
   const storeView = document.getElementById("store-list-view");
   const productView = document.getElementById("product-list-view");
@@ -85,6 +86,7 @@ function switchView(showStores) {
   }
 }
 
+// Get store product data
 async function getProducts(storeId, storeName) {
   document.getElementById(
     "store-name-header"
@@ -107,6 +109,7 @@ async function getProducts(storeId, storeName) {
   }
 }
 
+// Display product
 function displayProducts(products) {
   const container = document.getElementById("product-cards-container");
   container.innerHTML = "";
@@ -128,3 +131,5 @@ function displayProducts(products) {
     container.appendChild(cardDiv.firstChild);
   });
 }
+
+window.switchView = switchView;
