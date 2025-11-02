@@ -55,6 +55,7 @@ async function seedProducts() {
 function addProductData() {
   const productsRef = collection(db, "products");
 
+  // TODO: cate with tax info
   addDoc(productsRef, {
     brand: "Horizon",
     category: "dairy",

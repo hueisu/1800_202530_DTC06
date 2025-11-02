@@ -58,12 +58,16 @@ async function getShoppingList() {
             class="rounded-lg bg-gray-200 p-4 flex justify-between gap-2 min-w-fit"
           >
           <div class="min-w-[80px] max-w-[150px]">
-            <img src="${item.imageUrl}" alt="${item.name}" />
+            <a href="/product?id=${item.id}">
+              <img src="${item.imageUrl}" alt="${item.name}" />
+            </a>
           </div>
 
           <div class="basis-2/3 flex justify-between gap-2 max-h-30">
             <div class="flex flex-col items-start justify-between">
-              <p class="font-semibold">${item.name}</p>
+              <a href="/product?id=${item.id}" class="font-semibold">
+                ${item.name}
+              </a>
               <button class="text-red-500 hover:cursor-pointer">Remove</button>
             </div>
 
