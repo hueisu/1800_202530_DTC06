@@ -113,15 +113,13 @@ function displayProducts(products) {
 
   products.forEach((product) => {
     const productCard = `
-            <div class="product-card border p-4 rounded-md shadow-lg">
-                <img src="${product.imageUrl}" alt="${
-      product.name
-    }" class="w-full h-32 object-cover mb-2" />
-                <h5 class="font-semibold">${product.name}</h5>
-                <p class="text-sm text-gray-600">$${product.price.toFixed(
-                  2
-                )}</p>
-            </div>
+            <div class="border border-gray-300 rounded-md flex flex-col"
+                <div class="flex items-center justify-center grow-1">
+                    <img src="${product.imageUrl}" alt="${product.name}" class=""/>
+                </div>    
+                    <h5 class="font-bold text-center">${product.name}</h5>
+                    <p class="text-sm text-gray-600">${product.price}</p>
+                </div>
         `;
     const cardDiv = document.createElement("div");
     cardDiv.innerHTML = productCard.trim();
