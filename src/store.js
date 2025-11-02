@@ -38,7 +38,7 @@ function displayStores(stores) {
   container.innerHTML = "";
   stores.forEach((store) => {
     const storeCard = `
-            <div class="border border-gray-300 rounded-md flex flex-col">
+            <div class="border border-gray-300 rounded-md flex flex-col" data-store-id="${store.id}" data-store-name="${store.name}">
                 <div class="flex items-center justify-center grow-1">
                     <img class = "hover:cursor-pointer" src="${store.imageUrl}" class="" alt="${store.name} logo" />
                 </div>
@@ -49,7 +49,7 @@ function displayStores(stores) {
         `;
     const cardDiv = document.createElement("div");
     cardDiv.innerHTML = storeCard.trim();
-    const storeCardElement = container.appendChild(cardDiv.firstChild);
+    const storeCardElement = cardDiv.firstChild;
 
     // Change to product list on click
     storeCardElement.addEventListener("click", () => {
@@ -88,10 +88,10 @@ function switchView(showStores) {
 async function getProducts(storeId, storeName) {
   document.getElementById(
     "store-name-header"
-  ).textContent = `#{storeName} Products`;
+  ).textContent = `${storeName} Products`;
 
   try {
-    const productsList = collection(db, "stores", storeId, "products");
+    const productsList = collection(db, "stores", storeId, "storeProducts");
     const querySnapshot = await getDocs(productsList);
     const productArray = querySnapshot.docs.map((doc) => {
       return {
@@ -108,7 +108,7 @@ async function getProducts(storeId, storeName) {
 }
 
 function displayProducts(products) {
-  const container = document.getElementById("product-cards-ccontainer");
+  const container = document.getElementById("product-cards-container");
   container.innerHTML = "";
 
   products.forEach((product) => {
