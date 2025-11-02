@@ -1,3 +1,4 @@
+import { db } from "./firebaseConfig.js";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 
 // Helper function to add the sample store documents.
@@ -48,6 +49,30 @@ function switchView(showStores) {
     storeView.style.display = "none";
     productView.style.display = "block";
   }
+}
+
+async function loadProducts(storeId, storeName) {
+  document.getElementById(
+    "store-name-header"
+  ).textContent = `#{storeName} Products`;
+
+  try {
+    const productsList = collection(db, "stores", storeId, "products");
+    const querySnapshot = await getDocs(productsList);
+    const products = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    displayProducts(products);
+
+    // Switch view to product
+    switchView(false);
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+
+  // Switch view to product
+  switchView(false);
 }
 
 // Call the seeding function when the main.html page loads.
