@@ -45,12 +45,17 @@
       </div>
       <hr />
 
-      <section class="">
+      <section class="store-list-view">
         <div class="md:max-w-4xl m-auto">
           <div class="grid gap-5 m-5 sm:grid-cols-2 md:grid-cols-4">
             <div class="border border-gray-300 rounded-md flex flex-col">
               <div class="flex items-center justify-center grow-1">
-                <img src="./images/safeway-logo.png" class="" alt="..." />
+                <a href="#"
+                  ><img
+                    src="./images/safeway-logo.png"
+                    class=""
+                    alt="Safeway logo"
+                /></a>
               </div>
               <div class="p-3">
                 <h5 class="font-bold text-center">Safeway</h5>
@@ -102,6 +107,17 @@
             </div>
           </div>
         </div>
+      </section>
+
+      <section class="hidden" id="product-list-view">
+        <button id="back-to-stores-button">← Back to Stores</button>
+        <h2 id="store-name-header" class="text-2xl font-bold mt-4">
+          Products at [Store Name]
+        </h2>
+        <div
+          id="product-cards-container"
+          class="grid gap-5 m-5 sm:grid-cols-2 md:grid-cols-4"
+        ></div>
       </section>
     </main>
     <site-footer></site-footer>
