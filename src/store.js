@@ -37,5 +37,18 @@ async function seedStores() {
   }
 }
 
+function switchView(showStores) {
+  const storeView = document.getElementById("store-list-view");
+  const productView = document.getElementById("product-list-view");
+
+  if (showStores) {
+    storeView.style.display = "block";
+    productView.style.display = "none";
+  } else {
+    storeView.style.display = "none";
+    productView.style.display = "block";
+  }
+}
+
 // Call the seeding function when the main.html page loads.
 seedHikes();
