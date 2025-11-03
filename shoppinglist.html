@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <title>Search - Fridge Friends</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,9 +8,13 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
 
     <!-- Web Components for shared layout -->
     <script type="module" src="/src/components/site-navbar.js"></script>
@@ -19,89 +22,53 @@
 
     <!-- Link to styles of your own -->
     <link rel="stylesheet" href="./src/styles/style.css" />
-</head>
+  </head>
 
-<body>
+  <body>
     <!-- Navigation bar -->
     <site-navbar></site-navbar>
 
-    <!-- Cart Items -->
-    <div class="max-w-[480px] p-3 m-auto">
-        <div class="rounded px-8 pt-6 pb-8 mb-4">
-            <h2 class="text-lg font-bold mb-4">Cart (3 items)</h2>
-            <div class="rounded-lg bg-gray-200 p-4 mb-4">
-                <div class="flex items-center justify-between mb-2">
-                    <img src="images/bananas.png" alt="Product Image" class="rounded w-32 h-25">
-                    <div>
-                        <p class="font-semibold">Product Name</p>
-                        <button class="text-red-500">Remove</button>
-                    </div>
-                    <div class="flex items-center">
-                        <button class="mr-2">-</button>
-                        <span class="mx-2">1</span>
-                        <button>+</button>
-                    </div>
-                </div>
-                <p class="text-right font-semibold">$10.99</p>
-            </div>
-            <!-- Repeat the above div for each item in the cart -->
-            <div class="rounded-lg bg-gray-200 p-4 mb-4">
-                <div class="flex items-center justify-between mb-2">
-                    <img src="images/mini-oreo.png" alt="Product Image" class="rounded w-32 h-25">
-                    <div>
-                        <p class="font-semibold">Product Name</p>
-                        <button class="text-red-500">Remove</button>
-                    </div>
-                    <div class="flex items-center">
-                        <button class="mr-2">-</button>
-                        <span class="mx-2">3</span>
-                        <button>+</button>
-                    </div>
-                </div>
-                <p class="text-right font-semibold">$11.97</p>
-            </div>
-            <div class="rounded-lg bg-gray-200 p-4 mb-4">
-                <div class="flex items-center justify-between mb-2">
-                    <img src="images/pumpkin-pie.png" alt="Product Image" class="rounded w-32 h-25">
-                    <div>
-                        <p class="font-semibold">Product Name</p>
-                        <button class="text-red-500">Remove</button>
-                    </div>
-                    <div class="flex items-center">
-                        <button class="mr-2">-</button>
-                        <span class="mx-2">4</span>
-                        <button>+</button>
-                    </div>
-                </div>
-                <p class="text-right font-semibold">$11.96</p>
-            </div>
+    <!-- Cart Content -->
+    <div class="max-w-[480px] p-4 mx-auto space-y-4">
+      <!-- Cart Items Count -->
+      <h2 class="text-lg font-bold">
+        Cart (<span id="cart-items-count"></span> items)
+      </h2>
+
+      <!-- Cart Item Content -->
+      <div id="cart-container" class="space-y-4"></div>
+
+      <!-- Spacer -->
+      <div class="border-t my-8"></div>
+
+      <!-- Total Summary -->
+      <div class="font-semibold">
+        <div class="flex justify-between">
+          <p>Subtotal:</p>
+          <p id="subtotal">$34.92</p>
         </div>
-        <!-- Total Summary -->
-        <div class="border-t pt-6">
-            <div class="flex justify-between">
-                <p class="font-semibold">Subtotal:</p>
-                <p class="font-semibold">$34.92</p>
-            </div>
-            <div class="flex justify-between">
-                <p class="font-semibold">Tax:</p>
-                <p class="font-semibold">$3.49</p>
-            </div>
-            <div class="flex justify-between font-bold mt-2">
-                <p>Total:</p>
-                <p>$38.41</p>
-            </div>
+        <div class="flex justify-between">
+          <p>Tax:</p>
+          <p id="tax">$3.49</p>
         </div>
-    
-        <!-- Checkout Button -->
-        <button
-            class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-4">
-            Checkout
-        </button>
+        <div class="flex justify-between font-bold">
+          <p>Total:</p>
+          <p id="total">$38.41</p>
+        </div>
+      </div>
+
+      <!-- Checkout Button -->
+      <button
+        id="checkout-btn"
+        class="w-full bg-gray-200 hover:bg-gray-300 hover:cursor-pointer text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow my-6"
+      >
+        Checkout
+      </button>
     </div>
     <site-footer></site-footer>
-    
+
     <!-- Link to scripts of your own -->
     <script type="module" src="./src/app.js"></script>
-</body>
-    
+    <script type="module" src="./src/shoppinglist.js"></script>
+  </body>
 </html>
