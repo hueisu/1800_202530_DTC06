@@ -28,111 +28,20 @@
     <!-- Main content -->
     <main class="container mx-auto px-4 py-8">
         <h1 class="text-2xl font-bold mb-4 text-center">Previous Shopping Lists</h1>
-        <div class="max-w-[480px] mx-auto space-y-4">
-            <!-- Shopping List 1 -->
-            <div class="bg-gray-200 rounded-lg p-4">
-                <h2 class="text-lg font-semibold mb-2">Store, Date</h2>
-                <div class="flex items-center mb-2">
-                    <img src="images/heavy-cream.png" alt="Product Image" class="w-12 h-12 mr-2">
-                    <div>
-                        <span class="font-semibold">Product Name</span>
-                        <span class="text-gray-600">$5.45</span>
-                    </div>
-                    <input type="number" value="5" class="w-10 ml-auto p-1 border rounded">
-                </div>
-                <div class="flex items-center mb-2">
-                    <img src="images/heavy-cream.png" alt="Product Image" class="w-12 h-12 mr-2">
-                    <div>
-                        <span class="font-semibold">Product Name</span>
-                        <span class="text-gray-600">$5.45</span>
-                    </div>
-                    <input type="number" value="5" class="w-10 ml-auto p-1 border rounded">
-                </div>
-                <div class="flex items-center">
-                    <img src="images/heavy-cream.png" alt="Product Image" class="w-12 h-12 mr-2">
-                    <div>
-                        <span class="font-semibold">Product Name</span>
-                        <span class="text-gray-600">$5.45</span>
-                    </div>
-                    <input type="number" value="5" class="w-10 ml-auto p-1 border rounded">
-                </div>
-                <div class="text-right mt-4">
-                    <span class="font-bold">Total: $1100</span>
-                </div>
-            </div>
-    
-            <!-- Shopping List 2 -->
-            <div class="bg-gray-200 rounded-lg p-4">
-                <h2 class="text-lg font-semibold mb-2">Store, Date</h2>
-                <div class="flex items-center mb-2">
-                    <img src="images/heavy-cream.png" alt="Product Image" class="w-12 h-12 mr-2">
-                    <div>
-                        <span class="font-semibold">Product Name</span>
-                        <span class="text-gray-600">$5.45</span>
-                    </div>
-                    <input type="number" value="5" class="w-10 ml-auto p-1 border rounded">
-                </div>
-                <div class="flex items-center mb-2">
-                    <img src="images/heavy-cream.png" alt="Product Image" class="w-12 h-12 mr-2">
-                    <div>
-                        <span class="font-semibold">Product Name</span>
-                        <span class="text-gray-600">$5.45</span>
-                    </div>
-                    <input type="number" value="5" class="w-10 ml-auto p-1 border rounded">
-                </div>
-                <div class="flex items-center">
-                    <img src="images/heavy-cream.png" alt="Product Image" class="w-12 h-12 mr-2">
-                    <div>
-                        <span class="font-semibold">Product Name</span>
-                        <span class="text-gray-600">$5.45</span>
-                    </div>
-                    <input type="number" value="5" class="w-10 ml-auto p-1 border rounded">
-                </div>
-                <div class="text-right mt-4">
-                    <span class="font-bold">Total: $1100</span>
-                </div>
-            </div>
-    
-            <!-- Shopping List 3 -->
-            <div class="bg-gray-200 rounded-lg p-4">
-                <h2 class="text-lg font-semibold mb-2">Store, Date</h2>
-                <div class="flex items-center mb-2">
-                    <img src="images/heavy-cream.png" alt="Product Image" class="w-12 h-12 mr-2">
-                    <div>
-                        <span class="font-semibold">Product Name</span>
-                        <span class="text-gray-600">$5.45</span>
-                    </div>
-                    <input type="number" value="5" class="w-10 ml-auto p-1 border rounded">
-                </div>
-                <div class="flex items-center mb-2">
-                    <img src="images/heavy-cream.png" alt="Product Image" class="w-12 h-12 mr-2">
-                    <div>
-                        <span class="font-semibold">Product Name</span>
-                        <span class="text-gray-600">$5.45</span>
-                    </div>
-                    <input type="number" value="5" class="w-10 ml-auto p-1 border rounded">
-                </div>
-                <div class="flex items-center">
-                    <img src="images/heavy-cream.png" alt="Product Image" class="w-12 h-12 mr-2">
-                    <div>
-                        <span class="font-semibold">Product Name</span>
-                        <span class="text-gray-600">$5.45</span>
-                    </div>
-                    <input type="number" value="5" class="w-10 ml-auto p-1 border rounded">
-                </div>
-                <div class="text-right mt-4">
-                    <span class="font-bold">Total: $1100</span>
-                </div>
-            </div>
+
+        <div id="no-history" class="hidden text-gray-500 mb-4">
+            No history found.
         </div>
+        <div id="history-container" class="max-w-[480px] mx-auto space-y-4"></div>
+
     </main>
 
 
     
-
+    <site-footer></site-footer>
     <!-- Link to scripts of your own -->
     <script type="module" src="./src/app.js"></script>
-    <script type="module" src="./src/shoppinglist.js"></script>
+    <script type="module" src="./src/history-list.js"></script>
 </body>
 
 </html>
