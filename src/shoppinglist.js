@@ -68,7 +68,9 @@ async function getShoppingList() {
               <a href="/product?id=${item.id}" class="font-semibold">
                 ${item.name}
               </a>
-              <button class="text-red-500 hover:cursor-pointer">Remove</button>
+              <button id="${
+                item.id
+              }-remove" class="text-red-500 hover:cursor-pointer">Remove</button>
             </div>
 
             <div class="flex flex-col justify-between items-end">
@@ -101,7 +103,7 @@ async function getShoppingList() {
       `);
 
       // add
-      $item.find(`#${item.id}-add`).on("click", function () {
+      $item.on("click", `#${item.id}-add`, function () {
         const currentCount = $(`#${item.id}-count`).val();
         const newCount = Number(currentCount) + 1;
         const newSum = formatPrice(newCount * item.price);
@@ -113,12 +115,11 @@ async function getShoppingList() {
       });
 
       // reduce
-      $item.find(`#${item.id}-reduce`).on("click", function () {
+      $item.on("click", `#${item.id}-reduce`, function () {
         const currentCount = $(`#${item.id}-count`).val();
         const newCount = Number(currentCount) - 1;
-        if (newCount < 0) {
-          return;
-          // TODO: should just remove?
+        if (newCount === 0) {
+          $item.remove();
         }
         const newSum = formatPrice(newCount * item.price);
 
@@ -129,7 +130,7 @@ async function getShoppingList() {
       });
 
       // input
-      $item.find(`#${item.id}-count`).on("change", function () {
+      $item.on("change", `#${item.id}-count`, function () {
         const newCount = $(this).val();
         const newSum = formatPrice(newCount * item.price);
 
@@ -137,7 +138,11 @@ async function getShoppingList() {
         $(`#${item.id}-sum`).text(newSum);
       });
 
-      // TODO: remove
+      // remove
+      $item.on("click", `#${item.id}-remove`, function () {
+        $item.remove();
+      });
+
       cartItems.push($item);
     });
 
