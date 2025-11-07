@@ -10,7 +10,6 @@ import {
 } from "firebase/firestore";
 import $ from "jquery";
 import { hideLoading, showLoading } from "./general";
-import { getAuth } from "firebase/auth";
 
 async function displayProductsCards() {
   const productsRef = collection(db, "products");
