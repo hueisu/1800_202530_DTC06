@@ -1,4 +1,4 @@
-import { db } from "./firebaseConfig";
+import { auth, db } from "./firebaseConfig";
 import {
   addDoc,
   collection,
@@ -144,7 +144,6 @@ function addProductData() {
 
 async function addProductToCurrentList(product, productId) {
   // get current user id
-  const auth = getAuth();
   const userID = auth.currentUser.uid;
 
   // get current list

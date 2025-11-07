@@ -1,5 +1,8 @@
+import { onAuthStateChanged } from "firebase/auth";
 import { hideLoading, showLoading } from "./general";
 import $ from "jquery";
+import { auth, db } from "./firebaseConfig";
+import { collection, doc, getDocs } from "firebase/firestore";
 
 function formatPrice(number) {
   return parseFloat(number.toFixed(2));
@@ -37,64 +40,65 @@ const DUMMY_ITEMS = [
 
 // TODO: tax info in category?
 
-async function getShoppingList() {
+async function getShoppingList(userID) {
   showLoading();
 
   try {
+    const currentListRef = collection(db, "users", userID, "currentList");
+    const currentListSnapshot = await getDocs(currentListRef);
+    const productsSnapshot = currentListSnapshot.docs;
+
     // TODO: empty cart
-    if (!DUMMY_ITEMS.length) return;
+    if (!productsSnapshot) return;
 
     $("#cart-items-count").text(
-      DUMMY_ITEMS.reduce((acc, cur) => acc + cur.count, 0)
+      productsSnapshot.reduce((acc, cur) => acc + cur.data().count, 0)
     );
     const cartContainer = $("#cart-container");
     const cartItems = [];
 
-    // loop added items to create DOM nodes
-    DUMMY_ITEMS.forEach((item, index) => {
-      const $item = $(`
+    // loop list items to create DOM nodes
+    productsSnapshot.forEach((productSnapshot, index) => {
+      const productID = productSnapshot.id;
+      const product = productSnapshot.data();
+
+      const $product = $(`
         <div
             id="cart-item-${index}"
             class="rounded-lg bg-gray-200 p-4 flex justify-between gap-2 min-w-fit"
           >
           <div class="min-w-[80px] max-w-[150px]">
-            <a href="/product?id=${item.id}">
-              <img src="${item.imageUrl}" alt="${item.name}" />
+            <a href="/product?id=${productID}">
+              <img src="${product.imageUrl}" alt="${product.name}" />
             </a>
           </div>
 
           <div class="basis-2/3 flex justify-between gap-2 max-h-30">
             <div class="flex flex-col items-start justify-between">
-              <a href="/product?id=${item.id}" class="font-semibold">
-                ${item.name}
+              <a href="/product?id=${productID}" class="font-semibold">
+                ${product.name}
               </a>
-              <button id="${
-                item.id
-              }-remove" class="text-red-500 hover:cursor-pointer">Remove</button>
+              <button id="${productID}-remove" class="text-red-500 hover:cursor-pointer">Remove</button>
             </div>
 
             <div class="flex flex-col justify-between items-end">
               <div class="flex items-center gap-2">
-                <button id="${
-                  item.id
-                }-reduce" class="hover:cursor-pointer px-2 rounded bg-blue-200">
+                <button id="${productID}-reduce" class="hover:cursor-pointer px-2 rounded bg-blue-200">
                   -
                 </button>
                 <input
-                  id="${item.id}-count"
+                  id="${productID}-count"
                   class="bg-white w-[30px] text-center"
                   name="quantity"
-                  value="${item.count}"
+                  value="${product.count}"
                 />
-                <button id="${
-                  item.id
-                }-add" class="hover:cursor-pointer px-2 rounded bg-blue-200">
+                <button id="${productID}-add" class="hover:cursor-pointer px-2 rounded bg-blue-200">
                   +
                 </button>
               </div>
               <p class="text-right font-semibold">
-                $<span id="${item.id}-sum">
-                  ${formatPrice(item.price * item.count)}
+                $<span id="${productID}-sum">
+                  ${formatPrice(product.price * product.count)}
                 </span>
               </p>
             </div>
@@ -103,47 +107,47 @@ async function getShoppingList() {
       `);
 
       // add
-      $item.on("click", `#${item.id}-add`, function () {
-        const currentCount = $(`#${item.id}-count`).val();
+      $product.on("click", `#${productID}-add`, function () {
+        const currentCount = $(`#${productID}-count`).val();
         const newCount = Number(currentCount) + 1;
-        const newSum = formatPrice(newCount * item.price);
+        const newSum = formatPrice(newCount * product.price);
 
         // update count
-        $(`#${item.id}-count`).val(newCount);
+        $(`#${productID}-count`).val(newCount);
         // update sum
-        $(`#${item.id}-sum`).text(newSum);
+        $(`#${productID}-sum`).text(newSum);
       });
 
       // reduce
-      $item.on("click", `#${item.id}-reduce`, function () {
-        const currentCount = $(`#${item.id}-count`).val();
+      $product.on("click", `#${productID}-reduce`, function () {
+        const currentCount = $(`#${productID}-count`).val();
         const newCount = Number(currentCount) - 1;
         if (newCount === 0) {
-          $item.remove();
+          $product.remove();
         }
-        const newSum = formatPrice(newCount * item.price);
+        const newSum = formatPrice(newCount * product.price);
 
         // update count
-        $(`#${item.id}-count`).val(newCount);
+        $(`#${productID}-count`).val(newCount);
         // update sum
-        $(`#${item.id}-sum`).text(newSum);
+        $(`#${productID}-sum`).text(newSum);
       });
 
       // input
-      $item.on("change", `#${item.id}-count`, function () {
+      $product.on("change", `#${productID}-count`, function () {
         const newCount = $(this).val();
-        const newSum = formatPrice(newCount * item.price);
+        const newSum = formatPrice(newCount * product.price);
 
         // update sum
-        $(`#${item.id}-sum`).text(newSum);
+        $(`#${productID}-sum`).text(newSum);
       });
 
       // remove
-      $item.on("click", `#${item.id}-remove`, function () {
-        $item.remove();
+      $product.on("click", `#${productID}-remove`, function () {
+        $product.remove();
       });
 
-      cartItems.push($item);
+      cartItems.push($product);
     });
 
     // TODO: summary section
@@ -155,4 +159,11 @@ async function getShoppingList() {
   hideLoading();
 }
 
-getShoppingList();
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const userID = user.uid;
+    getShoppingList(userID);
+  } else {
+    // TODO: not login error
+  }
+});
