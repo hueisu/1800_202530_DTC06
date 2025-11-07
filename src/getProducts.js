@@ -38,7 +38,7 @@ async function displayProductsCards() {
       // add to favorite
       $productCard.on("click", "[data-favorite]", function (e) {
         e.preventDefault();
-        // TODO: add to favorite function
+        // TODO: add to favorite function here 🔥
       });
 
       // hover on add to favorite
