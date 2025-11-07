@@ -10,8 +10,9 @@ import "/src/styles/style.css";
 
 function redirectUser() {
   // If user is logged in, redirect to main page with their customized products
+  const isOnIndexPage = window.location.pathname == "/";
   onAuthReady((user) => {
-    if (user) {
+    if (user && isOnIndexPage) {
       location.href = "main";
     }
   });
