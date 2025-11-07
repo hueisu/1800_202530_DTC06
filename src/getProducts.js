@@ -21,19 +21,36 @@ async function displayProductsCards() {
           <div class="flex items-center justify-center grow-1">
             <img src="${product.imageUrl}" class="" alt="${product.name}-image" />
           </div>
-          <div class="p-3">
-            <h5 class="font-bold">${product.name}</h5>
-            <p>
-              ${product.quantity} ${product.unit} - $${product.price}
-            </p>
+          <div class="p-3 flex justify-between">
+            <div>
+              <h5 class="font-bold">${product.name}</h5>
+              <p>
+                ${product.quantity} ${product.unit} - $${product.price}
+              </p>
+            </div>
+            <div class="fa-xl border rounded-full self-start p-1 hover:bg-gray-100">
+              <i class="fa-solid fa-plus"></i>
+            </div>
           </div>
         </a>
       `);
 
-      $productCard.find("[data-favorite]").on("click", function (e) {
+      // add to favorite
+      $productCard.on("click", "[data-favorite]", function (e) {
         e.preventDefault();
-        console.log("add to favorite");
+        // TODO: add to favorite function
       });
+
+      // hover on add to favorite
+      $productCard.on("mouseenter", "[data-favorite]", function () {
+        $(this).find(".fa-heart").addClass("fa-solid");
+        $(this).find(".fa-heart").removeClass("fa-regular");
+      });
+      $productCard.on("mouseleave", "[data-favorite]", function () {
+        $(this).find(".fa-heart").addClass("fa-regular");
+        $(this).find(".fa-heart").removeClass("fa-solid");
+      });
+
       productContainer.append($productCard);
     });
   } catch (error) {
