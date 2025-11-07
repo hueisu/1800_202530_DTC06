@@ -10,13 +10,14 @@ async function displayProductsCards() {
   showLoading();
   try {
     const querySnapshot = await getDocs(productsRef);
-    let elements = "";
-
     querySnapshot.forEach((doc) => {
       const product = doc.data();
 
-      elements += `
-        <a href="/product?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col">
+      const $productCard = $(`
+        <a href="/product?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
+          <div class="absolute right-3 top-3 text-red-500" data-favorite>
+            <i class="fa-regular fa-heart fa-xl"></i>
+          </div>
           <div class="flex items-center justify-center grow-1">
             <img src="${product.imageUrl}" class="" alt="${product.name}-image" />
           </div>
@@ -27,10 +28,14 @@ async function displayProductsCards() {
             </p>
           </div>
         </a>
-      `;
-    });
+      `);
 
-    productContainer.html(elements);
+      $productCard.find("[data-favorite]").on("click", function (e) {
+        e.preventDefault();
+        console.log("add to favorite");
+      });
+      productContainer.append($productCard);
+    });
   } catch (error) {
     console.error(error);
   }
