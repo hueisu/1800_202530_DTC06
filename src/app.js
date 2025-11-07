@@ -1,14 +1,20 @@
 //--------------------------------------------------------------
 // If you have custom global styles, import them as well:
 //--------------------------------------------------------------
+import { onAuthReady } from "./authentication.js";
 import "/src/styles/style.css";
 
 //--------------------------------------------------------------
 // Custom global JS code (shared with all pages)can go here.
 //--------------------------------------------------------------
 
-// This is an example function. Replace it with your own logic.
-function sayHello() {
-  // TODO: implement your logic here
+function redirectUser() {
+  // If user is logged in, redirect to main page with their customized products
+  onAuthReady((user) => {
+    if (user) {
+      location.href = "main";
+    }
+  });
 }
-document.addEventListener("DOMContentLoaded", sayHello);
+
+redirectUser();
