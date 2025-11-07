@@ -1,7 +1,16 @@
 import { db } from "./firebaseConfig";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import $ from "jquery";
 import { hideLoading, showLoading } from "./general";
+import { getAuth } from "firebase/auth";
 
 async function displayProductsCards() {
   const productsRef = collection(db, "products");
@@ -18,9 +27,11 @@ async function displayProductsCards() {
           <div class="absolute right-3 top-3 text-red-500" data-favorite>
             <i class="fa-regular fa-heart fa-xl"></i>
           </div>
+
           <div class="flex items-center justify-center grow-1">
             <img src="${product.imageUrl}" class="" alt="${product.name}-image" />
           </div>
+
           <div class="p-3 flex justify-between">
             <div>
               <h5 class="font-bold">${product.name}</h5>
@@ -28,7 +39,8 @@ async function displayProductsCards() {
                 ${product.quantity} ${product.unit} - $${product.price}
               </p>
             </div>
-            <div class="fa-xl border rounded-full self-start p-1 hover:bg-gray-100">
+
+            <div class="fa-xl border rounded-full self-start p-1 hover:bg-gray-100" data-add-to-list>
               <i class="fa-solid fa-plus"></i>
             </div>
           </div>
@@ -49,6 +61,12 @@ async function displayProductsCards() {
       $productCard.on("mouseleave", "[data-favorite]", function () {
         $(this).find(".fa-heart").addClass("fa-regular");
         $(this).find(".fa-heart").removeClass("fa-solid");
+      });
+
+      // add to current list
+      $productCard.on("click", "[data-add-to-list]", async function (e) {
+        e.preventDefault();
+        await addProductToCurrentList(product, doc.id);
       });
 
       productContainer.append($productCard);
@@ -122,6 +140,39 @@ function addProductData() {
     quantity: 1,
     unit: "pack",
   });
+}
+
+async function addProductToCurrentList(product, productId) {
+  // get current user id
+  const auth = getAuth();
+  const userID = auth.currentUser.uid;
+
+  // get current list
+  try {
+    const queryRef = doc(db, "users", userID, "currentList", productId);
+    const querySnapshot = await getDoc(queryRef);
+
+    const productInCurrentList = querySnapshot.data();
+    if (!productInCurrentList) {
+      // add to current list
+      console.log("product is not in current list");
+      await setDoc(queryRef, {
+        productId: productId,
+        imageUrl: product.imageUrl,
+        name: product.name,
+        price: product.price,
+        count: 1,
+      });
+    } else {
+      // update to current list
+      console.log("product is in current list");
+      await updateDoc(queryRef, {
+        count: productInCurrentList.count + 1,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 displayProductsCards();
