@@ -116,6 +116,10 @@ async function getShoppingList() {
       $item.find(`#${item.id}-reduce`).on("click", function () {
         const currentCount = $(`#${item.id}-count`).val();
         const newCount = Number(currentCount) - 1;
+        if (newCount < 0) {
+          return;
+          // TODO: should just remove?
+        }
         const newSum = formatPrice(newCount * item.price);
 
         // update count
