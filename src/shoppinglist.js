@@ -2,41 +2,11 @@ import { onAuthStateChanged } from "firebase/auth";
 import { hideLoading, showLoading } from "./general";
 import $ from "jquery";
 import { auth, db } from "./firebaseConfig";
-import { collection, doc, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 function formatPrice(number) {
   return parseFloat(number.toFixed(2));
 }
-
-const DUMMY_ITEMS = [
-  {
-    id: "tHm6SI3eBQK0hauIMROQ",
-    brand: "Horizon",
-    imageUrl: "./images/heavy-cream.png",
-    name: "Heavy cream",
-    category: "dairy",
-    price: 6.89,
-    count: 3,
-  },
-  {
-    id: "VZ4RSOtHWZuN9ZgYzTn6",
-    brand: "",
-    imageUrl: "./images/bananas.png",
-    name: "Bananas",
-    category: "produce",
-    price: 0.35,
-    count: 2,
-  },
-  {
-    id: "YdV7gX78XN4YBvhC2hk1",
-    brand: "Horizon",
-    imageUrl: "./images/mini-oreo.png",
-    name: "Mini oreo",
-    category: "snacks",
-    price: 4.25,
-    count: 8,
-  },
-];
 
 // TODO: tax info in category?
 
@@ -54,6 +24,9 @@ async function getShoppingList(userID) {
     $("#cart-items-count").text(
       productsSnapshot.reduce((acc, cur) => acc + cur.data().count, 0)
     );
+    $("#total").text(
+      productsSnapshot.reduce((acc, cur) => acc + cur.data().price, 0)
+    );
     const cartContainer = $("#cart-container");
     const cartItems = [];
 
@@ -64,8 +37,9 @@ async function getShoppingList(userID) {
 
       const $product = $(`
         <div
-            id="cart-item-${index}"
+            id="cart-item-${productID}"
             class="rounded-lg bg-gray-200 p-4 flex justify-between gap-2 min-w-fit"
+            data-price=${product.price}
           >
           <div class="min-w-[80px] max-w-[150px]">
             <a href="/product?id=${productID}">
@@ -91,6 +65,7 @@ async function getShoppingList(userID) {
                   class="bg-white w-[30px] text-center"
                   name="quantity"
                   value="${product.count}"
+                  data-count
                 />
                 <button id="${productID}-add" class="hover:cursor-pointer px-2 rounded bg-blue-200">
                   +
@@ -116,6 +91,8 @@ async function getShoppingList(userID) {
         $(`#${productID}-count`).val(newCount);
         // update sum
         $(`#${productID}-sum`).text(newSum);
+        // update total
+        updateTotalPrice();
       });
 
       // reduce
@@ -131,20 +108,37 @@ async function getShoppingList(userID) {
         $(`#${productID}-count`).val(newCount);
         // update sum
         $(`#${productID}-sum`).text(newSum);
+        // update total
+        updateTotalPrice();
+        // update cart item count
+        updateCartItemCount();
       });
 
       // input
       $product.on("change", `#${productID}-count`, function () {
-        const newCount = $(this).val();
+        let newCount = $(this).val();
+        if (newCount < 1) {
+          // TODO: show error msg
+          newCount = 1;
+          // fixed to 1 as minimum
+          $(this).val(1);
+        }
+        console.log(newCount);
         const newSum = formatPrice(newCount * product.price);
 
         // update sum
         $(`#${productID}-sum`).text(newSum);
+        // update total
+        updateTotalPrice();
       });
 
       // remove
       $product.on("click", `#${productID}-remove`, function () {
         $product.remove();
+        // update total
+        updateTotalPrice();
+        // update cart item count
+        updateCartItemCount();
       });
 
       cartItems.push($product);
@@ -157,6 +151,23 @@ async function getShoppingList(userID) {
     console.error(error);
   }
   hideLoading();
+}
+
+function updateTotalPrice() {
+  const productsInList = $('[id^="cart-item-"]');
+  let total = 0;
+  productsInList.each(function (index, element) {
+    const count = $(element).find("[data-count]").val();
+    const price = $(element).attr("data-price");
+    total += count * price;
+  });
+
+  $("#total").text(formatPrice(total));
+}
+
+function updateCartItemCount() {
+  const productsInList = $('[id^="cart-item-"]');
+  $("#cart-items-count").text(productsInList.length);
 }
 
 onAuthStateChanged(auth, (user) => {
