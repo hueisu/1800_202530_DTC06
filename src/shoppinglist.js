@@ -123,7 +123,6 @@ async function getShoppingList(userID) {
           // fixed to 1 as minimum
           $(this).val(1);
         }
-        console.log(newCount);
         const newSum = formatPrice(newCount * product.price);
 
         // update sum
