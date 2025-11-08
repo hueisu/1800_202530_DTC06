@@ -16,6 +16,35 @@ export function hideLoading() {
   $("#loading").remove();
 }
 
+export function showAlert(type = "", msg = "") {
+  let bgColor = "bg-yellow-300";
+  switch (type) {
+    case "warning":
+      bgColor = "bg-yellow-300";
+      break;
+    case "success":
+      bgColor = "bg-green-300";
+      break;
+    default:
+      bgColor = "bg-gray-300";
+  }
+
+  $("body").prepend(`
+    <div
+      class="w-full ${bgColor} text-gray-600 z-999 fixed text-center text-2xl"
+      id="alert"
+    >
+      ${msg}
+    </div>
+  `);
+
+  setTimeout(hideAlert, 3000);
+}
+
+export function hideAlert() {
+  $("#alert").remove();
+}
+
 const SNPINNER = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
   <radialGradient

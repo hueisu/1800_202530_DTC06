@@ -9,7 +9,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import $ from "jquery";
-import { hideLoading, showLoading } from "./general";
+import { hideLoading, showAlert, showLoading } from "./general";
 
 async function displayProductsCards() {
   const productsRef = collection(db, "products");
@@ -168,6 +168,7 @@ async function addProductToCurrentList(product, productId) {
         count: productInCurrentList.count + 1,
       });
     }
+    showAlert("warning", "Product is added to your list");
   } catch (error) {
     console.log(error);
   }
