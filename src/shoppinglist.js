@@ -148,7 +148,8 @@ function reduceProductCount(productID, product) {
   const currentCount = $(`#${productID}-count`).val();
   const newCount = Number(currentCount) - 1;
   if (newCount === 0) {
-    productElement.remove();
+    showModal("Remove product from list?", () => removeProduct(productID));
+    return;
   }
   const newSum = formatPrice(newCount * product.price);
 
