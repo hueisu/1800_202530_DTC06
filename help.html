@@ -57,9 +57,29 @@
       <hr class="border-gray-200 mx-6" />
 
       <div class="p-6">
-        <a class="hover:cursor-pointer" href="#"
-          ><i class="fa-solid fa-user mr-3"></i>How to Signup or Login
-        </a>
+        <button
+          id="faq-login"
+          class="w-full hover:cursor-pointer"
+          onclick="toggleAnswer('faq-login-answer')"
+        >
+          <div class="flex items-center">
+            <i class="fa-solid fa-user mr-3"></i>How to Signup or Login
+            <i class="fa-solid fa-chevron-down hover:cursor-pointer ml-3"></i>
+          </div>
+        </button>
+
+        <div id="faq-login-answer" class="hidden p-4">
+          <p class="pt-2">
+            To sign up, click the sign up button on the home page. To log in,
+            you can also click the same button or open the dropdown menu in the
+            top left.
+          </p>
+          <a
+            href="login.html"
+            class="text-blue-500 hover:underline mt-2 inline-block"
+            >Go to Sign-up/Login Page</a
+          >
+        </div>
       </div>
 
       <hr class="border-gray-200 mx-6" />
@@ -107,5 +127,6 @@
 
     <!-- Link to scripts of your own -->
     <script type="module" src="./src/app.js"></script>
+    <script type="module" src="./src/help.js"></script>
   </body>
 </html>
