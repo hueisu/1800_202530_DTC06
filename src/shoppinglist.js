@@ -1,11 +1,15 @@
 import { onAuthStateChanged } from "firebase/auth";
-import { hideLoading, showLoading } from "./general";
+import { hideLoading, showAlert, showLoading, showModal } from "./general";
 import $ from "jquery";
 import { auth, db } from "./firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 
 function formatPrice(number) {
   return parseFloat(number.toFixed(2));
+}
+
+function isNumericString(str) {
+  return typeof str === "string" && !Number.isNaN(Number(str));
 }
 
 // TODO: tax info in category?
@@ -91,9 +95,9 @@ async function getShoppingList(userID) {
       );
 
       // remove
-      $product.on("click", `#${productID}-remove`, () =>
-        removeProduct(productID)
-      );
+      $product.on("click", `#${productID}-remove`, () => {
+        showModal("Remove product from list?", () => removeProduct(productID));
+      });
 
       cartItems.push($product);
     });
@@ -161,8 +165,8 @@ function reduceProductCount(productID, product) {
 function editProductCount(productID, product) {
   let productInputElement = $(`#${productID}-count`);
   let newCount = productInputElement.val();
-  if (newCount < 1) {
-    // TODO: show error msg
+  if (newCount < 1 || !isNumericString(newCount)) {
+    showAlert("warning", "Not a valid number...");
     newCount = 1;
     // fixed to 1 as minimum
     productInputElement.val(1);
