@@ -168,7 +168,7 @@ function editProductCount(productID, product) {
   if (newCount < 1 || !isNumericString(newCount)) {
     showAlert("warning", "Not a valid number...");
     newCount = 1;
-    // fixed to 1 as minimum
+    // fixed to 1 as minimum & error default
     productInputElement.val(1);
   }
   const newSum = formatPrice(newCount * product.price);
