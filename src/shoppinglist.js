@@ -21,17 +21,11 @@ async function getShoppingList(userID) {
     // TODO: empty cart
     if (!productsSnapshot) return;
 
-    $("#cart-items-count").text(
-      productsSnapshot.reduce((acc, cur) => acc + cur.data().count, 0)
-    );
-    $("#total").text(
-      productsSnapshot.reduce((acc, cur) => acc + cur.data().price, 0)
-    );
     const cartContainer = $("#cart-container");
     const cartItems = [];
 
     // loop list items to create DOM nodes
-    productsSnapshot.forEach((productSnapshot, index) => {
+    productsSnapshot.forEach((productSnapshot) => {
       const productID = productSnapshot.id;
       const product = productSnapshot.data();
 
@@ -82,70 +76,33 @@ async function getShoppingList(userID) {
       `);
 
       // add
-      $product.on("click", `#${productID}-add`, function () {
-        const currentCount = $(`#${productID}-count`).val();
-        const newCount = Number(currentCount) + 1;
-        const newSum = formatPrice(newCount * product.price);
-
-        // update count
-        $(`#${productID}-count`).val(newCount);
-        // update sum
-        $(`#${productID}-sum`).text(newSum);
-        // update total
-        updateTotalPrice();
-      });
+      $product.on("click", `#${productID}-add`, () =>
+        addProductCount(productID, product)
+      );
 
       // reduce
-      $product.on("click", `#${productID}-reduce`, function () {
-        const currentCount = $(`#${productID}-count`).val();
-        const newCount = Number(currentCount) - 1;
-        if (newCount === 0) {
-          $product.remove();
-        }
-        const newSum = formatPrice(newCount * product.price);
-
-        // update count
-        $(`#${productID}-count`).val(newCount);
-        // update sum
-        $(`#${productID}-sum`).text(newSum);
-        // update total
-        updateTotalPrice();
-        // update cart item count
-        updateCartItemCount();
-      });
+      $product.on("click", `#${productID}-reduce`, () =>
+        reduceProductCount(productID, product)
+      );
 
       // input
-      $product.on("change", `#${productID}-count`, function () {
-        let newCount = $(this).val();
-        if (newCount < 1) {
-          // TODO: show error msg
-          newCount = 1;
-          // fixed to 1 as minimum
-          $(this).val(1);
-        }
-        const newSum = formatPrice(newCount * product.price);
-
-        // update sum
-        $(`#${productID}-sum`).text(newSum);
-        // update total
-        updateTotalPrice();
-      });
+      $product.on("change", `#${productID}-count`, () =>
+        editProductCount(productID, product)
+      );
 
       // remove
-      $product.on("click", `#${productID}-remove`, function () {
-        $product.remove();
-        // update total
-        updateTotalPrice();
-        // update cart item count
-        updateCartItemCount();
-      });
+      $product.on("click", `#${productID}-remove`, () =>
+        removeProduct(productID)
+      );
 
       cartItems.push($product);
     });
 
-    // TODO: summary section
     // append to DOM
     cartContainer.append(cartItems);
+
+    updateCartItemCount();
+    updateTotalPrice();
   } catch (error) {
     console.error(error);
   }
@@ -167,6 +124,63 @@ function updateTotalPrice() {
 function updateCartItemCount() {
   const productsInList = $('[id^="cart-item-"]');
   $("#cart-items-count").text(productsInList.length);
+}
+
+function addProductCount(productID, product) {
+  const currentCount = $(`#${productID}-count`).val();
+  const newCount = Number(currentCount) + 1;
+  const newSum = formatPrice(newCount * product.price);
+
+  // update count
+  $(`#${productID}-count`).val(newCount);
+  // update sum
+  $(`#${productID}-sum`).text(newSum);
+  // update total
+  updateTotalPrice();
+}
+
+function reduceProductCount(productID, product) {
+  const productElement = $(`#cart-item-${productID}`);
+  const currentCount = $(`#${productID}-count`).val();
+  const newCount = Number(currentCount) - 1;
+  if (newCount === 0) {
+    productElement.remove();
+  }
+  const newSum = formatPrice(newCount * product.price);
+
+  // update count
+  $(`#${productID}-count`).val(newCount);
+  // update sum
+  $(`#${productID}-sum`).text(newSum);
+  // update total
+  updateTotalPrice();
+  // update cart item count
+  updateCartItemCount();
+}
+
+function editProductCount(productID, product) {
+  let productInputElement = $(`#${productID}-count`);
+  let newCount = productInputElement.val();
+  if (newCount < 1) {
+    // TODO: show error msg
+    newCount = 1;
+    // fixed to 1 as minimum
+    productInputElement.val(1);
+  }
+  const newSum = formatPrice(newCount * product.price);
+
+  // update sum
+  $(`#${productID}-sum`).text(newSum);
+  // update total
+  updateTotalPrice();
+}
+
+function removeProduct(productID) {
+  $(`#cart-item-${productID}`).remove();
+  // update total
+  updateTotalPrice();
+  // update cart item count
+  updateCartItemCount();
 }
 
 onAuthStateChanged(auth, (user) => {
