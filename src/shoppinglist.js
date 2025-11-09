@@ -9,6 +9,7 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
+import { shareListWithUser } from "./share";
 
 function formatPrice(number) {
   return parseFloat(number.toFixed(2));
@@ -232,10 +233,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const shareModal = document.getElementById("share-modal");
   const cancelShare = document.getElementById("cancel-share");
   const submitShare = document.getElementById("submit-share");
-  console.log(openShareModalBtn);
   if (openShareModalBtn) {
     openShareModalBtn.addEventListener("click", () => {
-      console.log(111);
       shareModal.showModal();
     });
   }
@@ -245,6 +244,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+async function shareConfirm() {
+  const ownerID = auth.currentUser.uid;
+  const sharedUserID = targetUserIDInput.value.trim();
+  try {
+    await shareListWithUser(ownerID, sharedUserID);
+    shareModal.close();
+    targetUserIDInput.value = "";
+  } catch (error) {
+    console.error("Sharing failed", error);
+    showAlert("Error occurred while sharing.");
+  }
+}
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
