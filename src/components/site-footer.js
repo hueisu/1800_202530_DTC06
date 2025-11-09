@@ -6,21 +6,21 @@ class SiteFooter extends HTMLElement {
                 <div class="md:max-w-3xl mx-auto grid md:grid-cols-4 sm:grid-cols-2 gap-5 mt-5 text-sm">
                     <img class="h-15" src="./images/Fridge_Friends.png" alt="logo" />
                     <ul>
-                        <li class="font-bold">Store Flyers</li>
-                        <li class="hover:cursor-pointer">SuperStore Flyers</li>
-                        <li class="hover:cursor-pointer">Costco Flyers</li>
-                        <li class="hover:cursor-pointer">No Frills Flyers</li>
-                        <li class="hover:cursor-pointer">T&T Flyers</li>
+                        <li class="font-bold">Available Stores</li>
+                        <li class="hover:cursor-pointer">SuperStore</li>
+                        <li class="hover:cursor-pointer">Costco</li>
+                        <li class="hover:cursor-pointer">No Frills</li>
+                        <li class="hover:cursor-pointer">T&T</li>
                         <li class="hover:cursor-pointer">Walmart</li>
-                        <li class="hover:cursor-pointer">Save on Foods Flyers</li>
-                        <li class="hover:cursor-pointer">PriceSmart Flyers</li>
+                        <li class="hover:cursor-pointer">Save on Foods</li>
+                        <li class="hover:cursor-pointer">PriceSmart</li>
                     </ul>
 
                     <ul>
                         <li class="font-bold">Quick Links</li>
                         <li class="hover:cursor-pointer">Top Rated Items</li>
-                        <li class="hover:cursor-pointer">Coupons</li>
-                        <li class="hover:cursor-pointer">Stores</li>
+                        <li class="hover:cursor-pointer">Products</li>
+                        <li class="hover:cursor-pointer">Favorites</li>
                     </ul>
 
                     <div class="flex flex-col space-y-1">
