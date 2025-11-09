@@ -9,6 +9,7 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
+import shareListWithUser from "./share.js";
 
 function formatPrice(number) {
   return parseFloat(number.toFixed(2));
@@ -226,6 +227,8 @@ async function removeProductInDB(productID) {
     console.log(error);
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {});
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
