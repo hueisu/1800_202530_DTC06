@@ -141,7 +141,7 @@ function addProductData() {
   });
 }
 
-async function addProductToCurrentList(product, productId) {
+export async function addProductToCurrentList(product, productId) {
   // get current user id
   const userID = auth.currentUser.uid;
 
