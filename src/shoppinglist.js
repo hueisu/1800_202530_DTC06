@@ -228,7 +228,16 @@ async function removeProductInDB(productID) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {});
+const openShareModalBtn = document.getElementById("open-share-modal-btn");
+const shareModal = document.getElementById("share-modal");
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (openShareModalBtn) {
+    openShareModalBtn.addEventListener("click", () => {
+      shareModal.showModal();
+    });
+  }
+});
 
 onAuthStateChanged(auth, (user) => {
   if (user) {

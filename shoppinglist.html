@@ -31,13 +31,13 @@
     <!-- Cart Content -->
     <div class="max-w-[480px] p-4 mx-auto space-y-4">
       <button
-        id="open-share-modal"
+        id="open-share-modal-btn"
         class="bg-gray-200 hover:bg-gray-300 hover:cursor-pointer text-gray-800 font-semibold p-2 rounded shadow my-3"
       >
         <i class="fa-solid fa-user-plus mr-3"></i>Share List
       </button>
 
-      <dialog id="share-modal" class="p-6 rounded-lg shadow-xl">
+      <dialog open id="share-modal" class="p-6 rounded-lg shadow-xl">
         <h3 class="text-lg font-bold mb-4">Share Shopping List</h3>
         <p class="mb-2">
           Enter the user ID of the user you want to share with:
@@ -48,6 +48,18 @@
           class="border p-2 w-full mb-4"
           placeholder="HQE15nTboNMAeX9NrRH9qY56OoE2"
         />
+        <div class="flex justify-between gap-2">
+          <button id="cancel-share" type="button" class="p-2 border rounded">
+            Cancel
+          </button>
+          <button
+            id="submit-share"
+            type="submit"
+            class="p-2 bg-gray-500 text-white rounded"
+          >
+            Submit
+          </button>
+        </div>
       </dialog>
       <!-- Cart Items Count -->
       <h2 class="text-lg font-bold">
