@@ -9,7 +9,6 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-import shareListWithUser from "./share.js";
 
 function formatPrice(number) {
   return parseFloat(number.toFixed(2));
@@ -228,13 +227,21 @@ async function removeProductInDB(productID) {
   }
 }
 
-const openShareModalBtn = document.getElementById("open-share-modal-btn");
-const shareModal = document.getElementById("share-modal");
-
 document.addEventListener("DOMContentLoaded", () => {
+  const openShareModalBtn = document.getElementById("open-share-modal-btn");
+  const shareModal = document.getElementById("share-modal");
+  const cancelShare = document.getElementById("cancel-share");
+  const submitShare = document.getElementById("submit-share");
+  console.log(openShareModalBtn);
   if (openShareModalBtn) {
     openShareModalBtn.addEventListener("click", () => {
+      console.log(111);
       shareModal.showModal();
+    });
+  }
+  if (cancelShare) {
+    cancelShare.addEventListener("click", () => {
+      shareModal.close();
     });
   }
 });
