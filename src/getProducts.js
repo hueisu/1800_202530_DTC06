@@ -168,7 +168,7 @@ async function addProductToCurrentList(product, productId) {
         count: productInCurrentList.count + 1,
       });
     }
-    showAlert("warning", "Product is added to your list");
+    showAlert("Product is added to your list", "warning");
   } catch (error) {
     console.log(error);
   }
