@@ -16,7 +16,7 @@ export function hideLoading() {
   $("#loading").remove();
 }
 
-export function showAlert(type = "", msg = "") {
+export function showAlert(msg = "", type = "") {
   let bgColor = "bg-yellow-300";
   switch (type) {
     case "warning":
