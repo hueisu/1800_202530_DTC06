@@ -16,7 +16,7 @@ export function hideLoading() {
   $("#loading").remove();
 }
 
-export function showAlert(type = "", msg = "") {
+export function showAlert(msg = "", type = "") {
   let bgColor = "bg-yellow-300";
   switch (type) {
     case "warning":
@@ -43,6 +43,35 @@ export function showAlert(type = "", msg = "") {
 
 export function hideAlert() {
   $("#alert").remove();
+}
+
+export function showModal(msg = "", onConfirm = () => console.log("confirm")) {
+  const $modal = $(`
+    <div
+      class="w-full h-full bg-gray-100/80 text-gray-900 z-999 fixed text-center text-2xl flex items-center justify-center"
+      id="modal"
+    >
+      <div class="bg-gray-300 w-80 max-w-[400px] h-80 rounded flex flex-col p-5 justify-center">
+        <div class="flex-1 self-center flex items-center">
+          <div class>${msg}</div>
+        </div>
+        <div class="flex justify-center gap-5">
+          <button id="cancel-modal" class="border px-3 py-1 rounded">Cancel</button>
+          <button id="confirm-modal" class="border px-3 py-1 rounded">Confirm</button>
+        </div>
+      </div>
+    </div>
+  `);
+  $modal.on("click", "#cancel-modal", hideModal);
+  $modal.on("click", "#confirm-modal", () => {
+    onConfirm();
+    hideModal();
+  });
+  $("body").prepend($modal);
+}
+
+function hideModal() {
+  $("#modal").remove();
 }
 
 const SNPINNER = `

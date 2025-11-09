@@ -1,11 +1,21 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { hideLoading, showLoading } from "./general";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { hideLoading, showAlert, showLoading, showModal } from "./general";
 import $ from "jquery";
 import { auth, db } from "./firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 
 function formatPrice(number) {
   return parseFloat(number.toFixed(2));
+}
+
+function isNumericString(str) {
+  return typeof str === "string" && !Number.isNaN(Number(str));
 }
 
 // TODO: tax info in category?
@@ -91,9 +101,9 @@ async function getShoppingList(userID) {
       );
 
       // remove
-      $product.on("click", `#${productID}-remove`, () =>
-        removeProduct(productID)
-      );
+      $product.on("click", `#${productID}-remove`, () => {
+        showModal("Remove product from list?", () => removeProduct(productID));
+      });
 
       cartItems.push($product);
     });
@@ -126,11 +136,13 @@ function updateCartItemCount() {
   $("#cart-items-count").text(productsInList.length);
 }
 
-function addProductCount(productID, product) {
+async function addProductCount(productID, product) {
   const currentCount = $(`#${productID}-count`).val();
   const newCount = Number(currentCount) + 1;
   const newSum = formatPrice(newCount * product.price);
 
+  // update in DB
+  updateProductInDB(productID, newCount);
   // update count
   $(`#${productID}-count`).val(newCount);
   // update sum
@@ -144,10 +156,13 @@ function reduceProductCount(productID, product) {
   const currentCount = $(`#${productID}-count`).val();
   const newCount = Number(currentCount) - 1;
   if (newCount === 0) {
-    productElement.remove();
+    showModal("Remove product from list?", () => removeProduct(productID));
+    return;
   }
   const newSum = formatPrice(newCount * product.price);
 
+  // update in DB
+  updateProductInDB(productID, newCount);
   // update count
   $(`#${productID}-count`).val(newCount);
   // update sum
@@ -161,14 +176,16 @@ function reduceProductCount(productID, product) {
 function editProductCount(productID, product) {
   let productInputElement = $(`#${productID}-count`);
   let newCount = productInputElement.val();
-  if (newCount < 1) {
-    // TODO: show error msg
+  if (newCount < 1 || !isNumericString(newCount)) {
+    showAlert("Not a valid number...", "warning");
     newCount = 1;
-    // fixed to 1 as minimum
+    // fixed to 1 as minimum & error default
     productInputElement.val(1);
   }
   const newSum = formatPrice(newCount * product.price);
 
+  // update in DB
+  updateProductInDB(productID, newCount);
   // update sum
   $(`#${productID}-sum`).text(newSum);
   // update total
@@ -177,10 +194,37 @@ function editProductCount(productID, product) {
 
 function removeProduct(productID) {
   $(`#cart-item-${productID}`).remove();
+
+  // update in DB
+  removeProductInDB(productID);
   // update total
   updateTotalPrice();
   // update cart item count
   updateCartItemCount();
+}
+
+async function updateProductInDB(productID, newCount) {
+  try {
+    const userID = getAuth().currentUser.uid;
+    const productRef = doc(db, "users", userID, "currentList", productID);
+    await updateDoc(productRef, {
+      count: newCount,
+    });
+  } catch (error) {
+    showAlert("Something went wrong :(", "warning");
+    console.log(error);
+  }
+}
+
+async function removeProductInDB(productID) {
+  try {
+    const userID = getAuth().currentUser.uid;
+    const productRef = doc(db, "users", userID, "currentList", productID);
+    await deleteDoc(productRef);
+  } catch (error) {
+    showAlert("Something went wrong :(", "warning");
+    console.log(error);
+  }
 }
 
 onAuthStateChanged(auth, (user) => {
