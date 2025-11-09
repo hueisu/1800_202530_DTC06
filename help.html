@@ -40,6 +40,7 @@
 
     <div
       class="max-w-3xl md:mx-auto shadow-xl rounded-lg overflow-hidden my-7 mx-5"
+      id="faq-container"
     >
       <div class="p-6 bg-gray-600 text-white flex items-center space-x-4">
         <div>
@@ -55,6 +56,7 @@
       </div>
 
       <hr class="border-gray-200 mx-6" />
+      <!-- FAQ Section -->
 
       <div class="p-6">
         <button id="faq-login" class="w-full hover:cursor-pointer">
@@ -81,44 +83,75 @@
       <hr class="border-gray-200 mx-6" />
 
       <div class="p-6">
-        <button id="faq-login" class="w-full hover:cursor-pointer">
+        <button id="faq-shopping-add" class="w-full hover:cursor-pointer">
           <div class="flex items-center">
             <i class="fa-solid fa-basket-shopping mr-3"></i>How to Add to
             Shopping List
             <i class="fa-solid fa-chevron-down hover:cursor-pointer ml-3"></i>
           </div>
-      </div>
+        </button>
 
-      <div id="faq-login-answer" class="hidden p-4">
+        <div id="faq-shopping-add-answer" class="hidden p-4">
           <p class="pt-2">
-            To add products to the shopping list, you can click on the big + sign on the product
+            To add products to the shopping list, you can click on the big '+'
+            sign on the product
           </p>
+        </div>
       </div>
 
       <hr class="border-gray-200 mx-6" />
 
       <div class="p-6">
-        <a class="hover:cursor-pointer" href="#"
-          ><i class="fa-solid fa-store mr-3"></i>Navigating Stores</a
-        >
+        <button id="faq-stores" class="w-full hover:cursor-pointer">
+          <div class="flex items-center">
+            <i class="fa-solid fa-store mr-3"></i>Navigating Stores
+            <i class="fa-solid fa-chevron-down hover:cursor-pointer ml-3"></i>
+          </div>
+        </button>
+
+        <div id="faq-stores-answer" class="hidden p-4">
+          <p class="pt-2">
+            You can visit the
+            <a class="hover:cursor-pointer text-blue-500" href="store-list.html"
+              >stores page</a
+            >
+            to view available stores.
+          </p>
+        </div>
       </div>
 
       <hr class="border-gray-200 mx-6" />
 
       <div class="p-6">
-        <a class="hover:cursor-pointer" href="#"
-          ><i class="fa-solid fa-list-ol mr-3"></i>How does the Shopping List
-          Work?</a
-        >
+        <button id="faq-list" class="w-full hover:cursor-pointer">
+          <div class="flex items-center">
+            <i class="fa-solid fa-list-ol mr-3"></i></i>Can I Checkout Items From My Shopping List?
+            <i class="fa-solid fa-chevron-down hover:cursor-pointer ml-3"></i>
+          </div>
+        </button>
+
+        <div id="faq-list-answer" class="hidden p-4">
+          <p class="pt-2">
+            You cannot purchase from it, but you after you complete the shopping trip, you can click "Mark as Complete" to save that shopping trip in your shopping history. 
+          </p>
+        </div>
       </div>
 
       <hr class="border-gray-200 mx-6" />
 
       <div class="p-6">
-        <a class="hover:cursor-pointer" href="#"
-          ><i class="fa-solid fa-database mr-3"></i>How is Your Review Data
-          Stored?</a
-        >
+        <button id="faq-data" class="w-full hover:cursor-pointer">
+          <div class="flex items-center">
+            <i class="fa-solid fa-database mr-3"></i></i>How is My Review Data Stored?
+            <i class="fa-solid fa-chevron-down hover:cursor-pointer ml-3"></i>
+          </div>
+        </button>
+
+        <div id="faq-data-answer" class="hidden p-4">
+          <p class="pt-2">
+            Your review data is safely stored in a Firestore database. 
+          </p>
+        </div>
       </div>
 
       <hr class="border-gray-200 mx-6" />
