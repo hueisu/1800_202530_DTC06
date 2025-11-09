@@ -9,19 +9,19 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
-async function shareListWithUser(userID, sharedUserID) {
+export async function shareListWithUser(userID, sharedUserID) {
   if (!userID || !sharedUserID) {
     showAlert("Error: User or shared user ID is invalid");
     return;
   }
   try {
-    const listRef = collection(db, "users", ownerID, "currentList");
+    const listRef = collection(db, "users", userID, "currentList");
     const querySnapshot = await getDocs(listRef);
 
     const sharedList = [];
     querySnapshot.forEach((productDoc) => {
       const productID = productDoc.id;
-      const productRef = doc(db, "users", ownerID, "currentList", productID);
+      const productRef = doc(db, "users", userID, "currentList", productID);
       const updatePromise = updateDoc(productRef, {
         sharedWith: arrayUnion(sharedUserID),
       });

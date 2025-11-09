@@ -243,13 +243,16 @@ document.addEventListener("DOMContentLoaded", () => {
       shareModal.close();
     });
   }
+  if (submitShare) {
+    submitShare.addEventListener("click", shareConfirm);
+  }
 });
 
 async function shareConfirm() {
   const ownerID = auth.currentUser.uid;
   const sharedUserID = targetUserIDInput.value.trim();
   try {
-    await shareListWithUser(ownerID, sharedUserID);
+    await shareListWithUser(userID, sharedUserID);
     shareModal.close();
     targetUserIDInput.value = "";
   } catch (error) {
