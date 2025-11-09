@@ -227,32 +227,6 @@ async function removeProductInDB(productID) {
   }
 }
 
-async function shareListWithUser(userID, sharedUserID) {
-  if (!userID || !sharedUserID) {
-    showAlert("Error: User or shared user ID is invalid");
-    return;
-  }
-  try {
-    const listRef = collection(db, "users", ownerID, "currentList");
-    const querySnapshot = await getDocs(listRef);
-
-    const updates = [];
-    querySnapshot.forEach((productDoc) => {
-      const productID = productDoc.id;
-      const productRef = doc(db, "users", ownerID, "currentList", productID);
-      const updatePromise = updateDoc(productRef, {
-        sharedWith: arrayUnion(sharedUserID),
-      });
-      updates.push(updatePromise);
-    });
-    await Promise.all(updates);
-    showAlert("List successfully shared.");
-  } catch (error) {
-    console.error("Error sharing list:", error);
-    showAlert("An error occurred while sharing the list.");
-  }
-}
-
 onAuthStateChanged(auth, (user) => {
   if (user) {
     const userID = user.uid;
