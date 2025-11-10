@@ -7,6 +7,7 @@ import {
   getDocs,
   updateDoc,
   deleteDoc,
+  arrayUnion,
 } from "firebase/firestore";
 
 export async function shareListWithUser(userID, sharedUserID) {
@@ -26,6 +27,7 @@ export async function shareListWithUser(userID, sharedUserID) {
         sharedWith: arrayUnion(sharedUserID),
       });
       sharedList.push(updatePromise);
+      console.log(111);
     });
     await Promise.all(sharedList);
     showAlert("List successfully shared.");

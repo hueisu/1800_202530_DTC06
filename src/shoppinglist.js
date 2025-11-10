@@ -228,11 +228,12 @@ async function removeProductInDB(productID) {
   }
 }
 
+const openShareModalBtn = document.getElementById("open-share-modal-btn");
+const shareModal = document.getElementById("share-modal");
+const cancelShare = document.getElementById("cancel-share");
+const submitShare = document.getElementById("submit-share");
 document.addEventListener("DOMContentLoaded", () => {
-  const openShareModalBtn = document.getElementById("open-share-modal-btn");
-  const shareModal = document.getElementById("share-modal");
-  const cancelShare = document.getElementById("cancel-share");
-  const submitShare = document.getElementById("submit-share");
+  targetUserIDInput = document.getElementById("target-user-id");
   if (openShareModalBtn) {
     openShareModalBtn.addEventListener("click", () => {
       shareModal.showModal();
@@ -245,11 +246,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   if (submitShare) {
     submitShare.addEventListener("click", shareConfirm);
+    console.log(122);
   }
 });
 
+let targetUserIDInput;
+
 async function shareConfirm() {
-  const ownerID = auth.currentUser.uid;
+  const userID = auth.currentUser.uid;
   const sharedUserID = targetUserIDInput.value.trim();
   try {
     await shareListWithUser(userID, sharedUserID);
