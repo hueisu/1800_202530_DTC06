@@ -50,5 +50,31 @@ function showEmail() {
   });
 }
 
+function showUserID() {
+  const userElement = document.getElementById("userID-goes-here");
+
+  // Wait for Firebase to determine the current authentication state.
+  // onAuthReady() runs the callback once Firebase finishes checking the signed-in user.
+  // The user's name is extracted from the Firebase Authentication object
+  // You can "go to console" to check out current users.
+  onAuthReady((user) => {
+    if (!user) {
+      // If no user is signed in → redirect back to login page.
+      location.href = "index.html";
+      return;
+    }
+
+    // If a user is logged in:
+    // Use their display name if available, otherwise show their email.
+    const userID = user.uid;
+
+    // Update the welcome message with their name/email.
+    if (userElement) {
+      userElement.textContent = `${userID}`;
+    }
+  });
+}
+
 showDashboard();
 showEmail();
+showUserID();
