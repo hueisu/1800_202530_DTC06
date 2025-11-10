@@ -160,6 +160,7 @@ export async function addProductToCurrentList(product, productId) {
         name: product.name,
         price: product.price,
         count: 1,
+        sharedWith: [userID],
       });
     } else {
       // update to current list
