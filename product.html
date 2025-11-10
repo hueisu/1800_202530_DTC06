@@ -26,6 +26,7 @@
 
     <!-- Link to styles of your own -->
     <link rel="stylesheet" href="./src/styles/style.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
 
   <body>
@@ -39,6 +40,29 @@
     <!-- Main content goes here -->
     <main id="product-information" class="m-5"></main>
 
+    <!-- Reviews section -->
+    <div class="max-w-xl mx-auto mt-8" id="reviews-section">
+      <h2 class="text-xl font-bold mb-4">Reviews</h2>
+      <div id="details-go-here" class="mb-2"></div>
+    
+      <div class="overflow-x-auto">
+        <div id="reviewCardGroup" class="flex gap-4">
+          <!-- Cards will be appended here -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Template for a single review card -->
+    <template id="reviewCardTemplate">
+      <div class="w-80 bg-white shadow rounded-lg p-4">
+        <h5 class="title text-lg font-semibold mb-1">placeholder</h5>
+        <div class="star-rating mb-2 flex text-yellow-500"></div>
+        <p class="description text-sm text-gray-800">
+          This is a placeholder review description.
+        </p>
+      </div>
+    </template>
+
     <site-footer></site-footer>
     <!---------------------------------------------->
     <!-- Your own JavaScript functions go here    -->
@@ -47,5 +71,7 @@
     <!-- Link to scripts of your own -->
     <script type="module" src="./src/app.js"></script>
     <script type="module" src="./src/product.js"></script>
+    <script type="module" src="./src/populateReviews.js"></script>
+
   </body>
 </html>

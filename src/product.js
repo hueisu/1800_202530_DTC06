@@ -37,6 +37,9 @@ async function displayProduct() {
           </div>
           <p>${product.description}</p>
         </div>
+        <button id="writeReviewBtn" class="bg-blue-200 py-2 px-3 rounded hover:cursor-pointer hover:bg-blue-300 mt-3">
+          Write Review
+        </button>
       </div>
     `);
 
@@ -44,11 +47,21 @@ async function displayProduct() {
       await addProductToCurrentList(product, productID);
     });
 
+    $element.on("click", "#writeReviewBtn", function () {
+      if (!productID) {
+        console.warn("No product ID found!");
+        return;
+      }
+      // Save ID to localStorage and redirect
+      localStorage.setItem("productDocID", productID);
+      window.location.href = "review.html";
+    });
+
     productContainer.append($element);
   } catch (error) {
     console.error(error);
   }
-  hideLoading();
+  hideLoading()
 }
 
 displayProduct();

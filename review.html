@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Fridge Friends</title>
+    <meta name="comp1800 template" content="My 1800 App" />
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Other libraries go here -->
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome -->
+    <!-- Google Material Symbols (Outlined) -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Web Components for shared layout -->
+    <script type="module" src="/src/components/site-navbar.js"></script>
+    <script type="module" src="/src/components/site-footer.js"></script>
+
+    <!-- Link to styles of your own -->
+    <link rel="stylesheet" href="./src/styles/style.css" />
+    <script type="module" src="/src/review.js"></script>
+</head>
+
+<body>
+    <!------------------------------>
+    <!-- Your HTML Layout go here -->
+    <!------------------------------>
+    <!-- Stuff for body goes here -->
+    <site-navbar></site-navbar>
+
+    <!---------------------------->
+    <!-- Main content goes here -->
+
+    <div class="max-w-2xl mx-auto mt-10 bg-white shadow-lg rounded-2xl p-6">
+        <h1 class="text-2xl font-bold mb-6">
+            Review for <span id="productName" class="text-blue-600">Product Name</span>
+        </h1>
+    
+        <form id="reviewForm" class="space-y-6">
+    
+            <!-- Title -->
+            <div>
+                <label for="title" class="block font-semibold mb-1">* Add a title</label>
+                <input id="title" type="text" placeholder="Title"
+                    class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            </div>
+    
+            <!-- Rating -->
+            <div>
+                <p class="font-semibold mb-2">Rate your overall experience:</p>
+                <div id="starRating" class="flex gap-1 mt-3">
+                    <span class="material-symbols-outlined star">star_outline</span>
+                    <span class="material-symbols-outlined star">star_outline</span>
+                    <span class="material-symbols-outlined star">star_outline</span>
+                    <span class="material-symbols-outlined star">star_outline</span>
+                    <span class="material-symbols-outlined star">star_outline</span>
+                </div>
+            </div>
+
+    
+            <!-- Description -->
+            <div>
+                <label for="description" class="block font-semibold mb-1">* Your review</label>
+                <textarea id="description" rows="4"
+                    class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    placeholder="What did you think of this product?"></textarea>
+            </div>
+    
+            <!-- Store Selection -->
+            <div>
+                <label for="store" class="block font-semibold mb-1">Where did you buy it?</label>
+                <select id="store"
+                    class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    <option>Store 1</option>
+                    <option>Store 2</option>
+                    <option>Store 3</option>
+                    <option>Store 4</option>
+                </select>
+            </div>
+    
+            <!-- Submit -->
+            <div class="flex justify-end">
+                <button id="submitBtn" type="button"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <site-footer></site-footer>
+    <!---------------------------------------------->
+    <!-- Your own JavaScript functions go here    -->
+    <!---------------------------------------------->
+
+    <!-- Link to scripts of your own -->
+    <script type="module" src="./src/app.js"></script>
+    
+</body>
+
+</html>
