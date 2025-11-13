@@ -7,11 +7,13 @@ import {
   doc,
   getDocs,
   updateDoc,
-  deleteDoc,
+  addDoc,
+  Timestamp,
+  writeBatch,
 } from "firebase/firestore";
 import { shareListWithUser } from "./share";
 
-function formatPrice(number) {
+export function formatPrice(number) {
   return parseFloat(number.toFixed(2));
 }
 
@@ -29,8 +31,8 @@ async function getShoppingList(userID) {
     const currentListSnapshot = await getDocs(currentListRef);
     const productsSnapshot = currentListSnapshot.docs;
 
-    // TODO: empty cart
-    if (!productsSnapshot) return;
+    // checkout btn
+    productsSnapshot.length && $("#checkout-btn").removeClass("hidden");
 
     const cartContainer = $("#cart-container");
     const cartItems = [];
@@ -265,10 +267,42 @@ async function shareConfirm() {
   }
 }
 
+async function markAsComplete() {
+  const userID = auth.currentUser.uid;
+  try {
+    const currentListRef = collection(db, "users", userID, "currentList");
+    const currentListSnapshot = await getDocs(currentListRef);
+    const productsSnapshot = currentListSnapshot.docs;
+
+    const historyListRef = collection(db, "users", userID, "historyList");
+
+    // add to history list
+    await addDoc(historyListRef, {
+      date: Timestamp.now(),
+      name: "",
+      content: productsSnapshot.map((product) => product.data()),
+    });
+
+    // remove data in current list
+    const batch = writeBatch(db);
+    productsSnapshot.forEach((doc) => {
+      batch.delete(doc.ref);
+    });
+    await batch.commit();
+    showAlert("Successfully added to list history", "success");
+  } catch (error) {
+    console.log(error);
+    showAlert("something went wrong...", "warning");
+  }
+}
+
 onAuthStateChanged(auth, (user) => {
   if (user) {
     const userID = user.uid;
     getShoppingList(userID);
+    $("#checkout-btn").on("click", () =>
+      showModal("Mark as complete?", markAsComplete)
+    );
   } else {
     // TODO: not login error
   }
