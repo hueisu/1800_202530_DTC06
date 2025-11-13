@@ -10,6 +10,7 @@ import {
   addDoc,
   Timestamp,
   writeBatch,
+  deleteDoc,
 } from "firebase/firestore";
 import { shareListWithUser } from "./share";
 
