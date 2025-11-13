@@ -1,11 +1,8 @@
-// src/history-list.js
 import { db } from "./firebaseConfig.js";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { onAuthReady } from "./authentication.js";
 import $ from "jquery";
-
-// your actual user ID
-const MONTH = new Date().toLocaleString("en-US", { month: "short" });
+import { formatPrice } from "./shoppinglist.js";
 
 async function loadHistory(userId) {
   const $container = $("#history-container");
@@ -16,39 +13,48 @@ async function loadHistory(userId) {
 
   try {
     // Get this user's history document under their UID
-    const docRef = doc(db, `users/${userId}/history-list/${userId}`);
-    const docSnap = await getDoc(docRef);
+    const historyListRef = collection(db, `users/${userId}/historyList`);
+    const historyListSnapshot = await getDocs(historyListRef);
 
-    if (!docSnap.exists()) {
+    // no history
+    if (!historyListSnapshot.docs.length) {
       console.warn("No history found for this user.");
       $noHistory.removeClass("hidden");
       return;
     }
 
-    const data = docSnap.data();
-    console.log("History data:", data);
+    historyListSnapshot.docs.forEach((list) => {
+      const listData = list.data();
+      const total = listData.content.reduce(
+        (acc, cur) => acc + cur.price * cur.count,
+        0
+      );
+      const listDate = listData.date.toDate();
+      const listMonth = listDate.toLocaleString("default", { month: "short" });
 
-    const monthData = data[MONTH];
-    if (!monthData) {
-      console.warn(`No month data found under '${MONTH}'`);
-      $noHistory.removeClass("hidden");
-      return;
-    }
+      const $historyList = $(`
+          <div class="bg-gray-200 rounded-lg p-4 mb-4">
+            <h2 class="text-lg font-semibold mb-2">Shopping - ${listMonth} ${listDate.getDate()}</h2>
+            <div data-list></div>
+            <div class="text-right mt-4">
+              <span class="font-bold">Total: $${formatPrice(total)}</span>
+            </div>
+          </div>
+        `);
 
-    
-    Object.keys(monthData).forEach((day) => {
-      const item = monthData[day];
-      const total = Number(item.price) * Number(item.count);
-      const imgName = item.name.toLowerCase().replace(/\s+/g, "-");
+      const dataListContainer = $historyList.find("[data-list]");
 
-      const $shoppingList = $(`
-        <div class="bg-gray-200 rounded-lg p-4 mb-4">
-          <h2 class="text-lg font-semibold mb-2">Shopping - ${MONTH} ${day}</h2>
+      listData.content.forEach((item) => {
+        const $item = $(`
           <div class="flex items-center mb-2">
-            <img src="./images/${imgName}.png" alt="${item.name}" class="w-12 h-12 mr-2">
+            <img src="${item.imageUrl}" alt="${
+          item.name
+        }" class="w-12 h-12 mr-2">
             <div>
               <span class="font-semibold">${item.name}</span>
-              <span class="text-gray-600 ml-2">$${item.price}</span>
+              <span class="text-gray-600 ml-2">$${formatPrice(
+                item.price
+              )}</span>
             </div>
             <input
               type="number"
@@ -57,13 +63,11 @@ async function loadHistory(userId) {
               readonly
             >
           </div>
-          <div class="text-right mt-4">
-            <span class="font-bold">Total: $${total.toFixed(2)}</span>
-          </div>
-        </div>
-      `);
+          `);
 
-      $container.append($shoppingList);
+        dataListContainer.append($item);
+      });
+      $container.append($historyList);
     });
   } catch (err) {
     console.error("Error loading history:", err);
@@ -71,10 +75,9 @@ async function loadHistory(userId) {
   }
 }
 
-//Automatically runs once user is logged in
+// Automatically runs once user is logged in
 onAuthReady((user) => {
   if (user) {
-    console.log(`Loading history for ${user.uid}`);
     loadHistory(user.uid);
   } else {
     $("#history-container").html(
@@ -82,6 +85,3 @@ onAuthReady((user) => {
     );
   }
 });
-
-$(document).ready(loadHistory);
-
