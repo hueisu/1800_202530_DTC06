@@ -143,7 +143,12 @@ function addProductData() {
 
 export async function addProductToCurrentList(product, productId) {
   // get current user id
-  const userID = auth.currentUser.uid;
+  const userID = auth.currentUser?.uid;
+
+  // redirect to login if no user
+  if (!userID) {
+    window.location.href = "/login.html";
+  }
 
   // get current list
   try {
