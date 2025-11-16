@@ -1,4 +1,5 @@
-#share-modal:modal {
+#share-modal,
+#link-display-modal {
   position: fixed;
   top: 50%;
   left: 50%;
