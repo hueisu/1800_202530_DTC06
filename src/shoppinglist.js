@@ -32,8 +32,17 @@ async function getShoppingList(userID) {
     const currentListSnapshot = await getDocs(currentListRef);
     const productsSnapshot = currentListSnapshot.docs;
 
-    // checkout btn
-    productsSnapshot.length && $("#checkout-btn").removeClass("hidden");
+    // no product in list
+    if (!productsSnapshot.length) {
+      $("#checkout-btn").addClass("hidden");
+      $("#open-share-modal-btn").hide();
+      $("#cart-container").append(`
+          <div class="text-gray-500">Your list is empty...</div>
+        `);
+      return;
+    }
+
+    // $("#checkout-btn").removeClass("hidden");
 
     const cartContainer = $("#cart-container");
     const cartItems = [];
@@ -122,8 +131,9 @@ async function getShoppingList(userID) {
     );
   } catch (error) {
     console.error(error);
+  } finally {
+    hideLoading();
   }
-  hideLoading();
 }
 
 function updateTotalPrice() {
