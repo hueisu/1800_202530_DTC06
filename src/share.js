@@ -32,8 +32,8 @@ export async function shareListWithUser(userID, sharedUserID) {
     });
     await Promise.all(sharedList);
     await shareNotification(userID, sharedUserID);
-    generateShareableLink(userID);
-    showAlert("List successfully shared.");
+    const shareLink = generateShareableLink(userID);
+    showAlert(`List successfully shared! Share this link: ${shareLink}`);
   } catch (error) {
     console.error("Error sharing list:", error);
     showAlert("An error occurred while sharing the list.");
