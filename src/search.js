@@ -14,11 +14,11 @@ const ENTER = 13;
 
 async function searchByKeyword(keyword = "") {
   const resultContainer = $("#result");
+  // reset result
   resultContainer.html(``);
   showLoading();
 
   try {
-    // console.log(keyword);
     const productQuery = query(
       collection(db, "products"),
       orderBy("name_lower"),
@@ -26,6 +26,14 @@ async function searchByKeyword(keyword = "") {
       endAt(`${keyword}\uf8ff`)
     );
     const querySnapshot = await getDocs(productQuery);
+
+    // no result error
+    if (!querySnapshot.docs.length) {
+      resultContainer.append(`
+        <div class="text-gray-700">There is no product named ${keyword}. <br/>Try another one.</div>
+        `);
+    }
+
     querySnapshot.forEach((doc) => {
       const product = doc.data();
 
