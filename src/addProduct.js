@@ -132,6 +132,7 @@ async function addProduct() {
       imageUrl: `./images/${image}.png`,
       category: category,
       description: description,
+      stores: stores,
     });
     const productID = newProduct.id;
     // 2, add product doc in categories collection
