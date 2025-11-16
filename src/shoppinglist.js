@@ -117,6 +117,9 @@ async function getShoppingList(userID) {
 
     updateCartItemCount();
     updateTotalPrice();
+    $("#checkout-btn").on("click", () =>
+      showModal("Mark as complete?", markAsComplete)
+    );
   } catch (error) {
     console.error(error);
   }
@@ -297,14 +300,34 @@ async function markAsComplete() {
   }
 }
 
+function showLogin() {
+  $("#cart-container").append(`
+    <div class="px-5 py-15 bg-gray-100">
+      <div class="space-y-2 md:max-w-4xl m-auto">
+        <h1 class="text-3xl font-bold">Signup/Login to create your list</h1>
+        <p>Signup now to shop smarter!</p>
+        <button
+          class="bg-gray-500 text-white px-2 py-1 rounded-sm"
+          type="button"
+          onclick="window.location.href='login.html'"
+        >
+          Signup/Login
+        </button>
+      </div>
+    </div>
+  `);
+}
+
+function hideShareList() {
+  $("#open-share-modal-btn").hide();
+}
+
 onAuthStateChanged(auth, (user) => {
   if (user) {
     const userID = user.uid;
     getShoppingList(userID);
-    $("#checkout-btn").on("click", () =>
-      showModal("Mark as complete?", markAsComplete)
-    );
   } else {
-    // TODO: not login error
+    showLogin();
+    hideShareList();
   }
 });
