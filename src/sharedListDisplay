@@ -13,12 +13,14 @@ import {
 } from "./shoppinglist";
 import { collection, doc, getDocs } from "firebase/firestore";
 
-loadSharedList();
+$(() => {
+  $("#cart-container").empty();
+  loadSharedList();
+});
 
 function renderSharedList(productsList) {
   const cartContainer = $("#cart-container");
   const cartItems = [];
-  cartContainer.empty();
   productsList.forEach((productSnapshot) => {
     const productID = productSnapshot.id;
     const sharedProduct = productSnapshot.data();
