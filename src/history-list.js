@@ -2,7 +2,7 @@ import { db } from "./firebaseConfig.js";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { onAuthReady } from "./authentication.js";
 import $ from "jquery";
-import { formatPrice } from "./shoppinglist.js";
+import { formatPrice } from "./general.js";
 
 async function loadHistory(userId) {
   const $container = $("#history-container");

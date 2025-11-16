@@ -1,5 +1,13 @@
 import $ from "jquery";
 
+export function formatPrice(number) {
+  return parseFloat(number.toFixed(2));
+}
+
+export function isNumericString(str) {
+  return typeof str === "string" && !Number.isNaN(Number(str));
+}
+
 export function showLoading() {
   $("body").prepend(
     `<div id="loading" class="z-99 w-screen h-[100%] bg-gray-200/80 fixed">
