@@ -2,7 +2,7 @@ import { db } from "./firebaseConfig.js";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { onAuthReady } from "./authentication.js";
 import $ from "jquery";
-import { formatPrice } from "./general.js";
+import { formatPrice, hideLoading, showLoading } from "./general.js";
 
 async function loadHistory(userId) {
   const $container = $("#history-container");
@@ -11,6 +11,7 @@ async function loadHistory(userId) {
   $container.empty();
   $noHistory.addClass("hidden");
 
+  showLoading();
   try {
     // Get this user's history document under their UID
     const historyListRef = collection(db, `users/${userId}/historyList`);
@@ -48,9 +49,10 @@ async function loadHistory(userId) {
       listData.content.forEach((item) => {
         const $item = $(`
           <div class="flex items-center mb-2">
-            <img src="${item.imageUrl}" alt="${
-          item.name
-        }" class="w-12 h-12 mr-2">
+            <a href="/product?id=${item.productId}">
+              <img src="${item.imageUrl}"
+                alt="${item.name}" class="w-12 h-12 mr-2">
+            </a>
             <div>
               <span class="font-semibold">${item.name}</span>
               <span class="text-gray-600 ml-2">$${formatPrice(
@@ -73,6 +75,8 @@ async function loadHistory(userId) {
   } catch (err) {
     console.error("Error loading history:", err);
     $container.html(`<p class="text-red-500">Failed to load history.</p>`);
+  } finally {
+    hideLoading();
   }
 }
 
