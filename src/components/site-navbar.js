@@ -4,7 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "/src/firebaseConfig.js";
 import { logoutUser } from "/src/authentication.js";
 import $ from "jquery";
-import { ADMIN } from "../addProduct";
+import { ADMIN } from "../constant";
 
 class SiteNavbar extends HTMLElement {
   constructor() {
@@ -66,7 +66,7 @@ class SiteNavbar extends HTMLElement {
         // permissions
         if (ADMIN.includes(user.uid)) {
           $("#menu-content").append(
-            `<a href="addProduct.html" class="block p-3 text-gray-800 underline">
+            `<a href="editProduct?create=true" class="block p-3 text-gray-800 underline">
               Add product
             </a>`
           );
