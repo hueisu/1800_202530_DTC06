@@ -18,7 +18,7 @@ export function formatPrice(number) {
   return parseFloat(number.toFixed(2));
 }
 
-function isNumericString(str) {
+export function isNumericString(str) {
   return typeof str === "string" && !Number.isNaN(Number(str));
 }
 
@@ -136,7 +136,7 @@ async function getShoppingList(userID) {
   }
 }
 
-function updateTotalPrice() {
+export function updateTotalPrice() {
   const productsInList = $('[id^="cart-item-"]');
   let total = 0;
   productsInList.each(function (index, element) {
@@ -148,12 +148,12 @@ function updateTotalPrice() {
   $("#total").text(formatPrice(total));
 }
 
-function updateCartItemCount() {
+export function updateCartItemCount() {
   const productsInList = $('[id^="cart-item-"]');
   $("#cart-items-count").text(productsInList.length);
 }
 
-async function addProductCount(productID, product) {
+export async function addProductCount(productID, product) {
   const currentCount = $(`#${productID}-count`).val();
   const newCount = Number(currentCount) + 1;
   const newSum = formatPrice(newCount * product.price);
@@ -168,7 +168,7 @@ async function addProductCount(productID, product) {
   updateTotalPrice();
 }
 
-function reduceProductCount(productID, product) {
+export function reduceProductCount(productID, product) {
   const productElement = $(`#cart-item-${productID}`);
   const currentCount = $(`#${productID}-count`).val();
   const newCount = Number(currentCount) - 1;
@@ -190,7 +190,7 @@ function reduceProductCount(productID, product) {
   updateCartItemCount();
 }
 
-function editProductCount(productID, product) {
+export function editProductCount(productID, product) {
   let productInputElement = $(`#${productID}-count`);
   let newCount = productInputElement.val();
   if (newCount < 1 || !isNumericString(newCount)) {

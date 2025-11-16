@@ -3,15 +3,15 @@ import { hideLoading, showAlert, showLoading, showModal } from "./general";
 import $ from "jquery";
 import { auth, db } from "./firebaseConfig";
 import {
-  collection,
-  doc,
-  getDocs,
-  updateDoc,
-  addDoc,
-  Timestamp,
-  writeBatch,
-  deleteDoc,
-} from "firebase/firestore";
+  formatPrice,
+  updateTotalPrice,
+  updateCartItemCount,
+  addProductCount,
+  reduceProductCount,
+  editProductCount,
+  removeProduct,
+} from "./shoppinglist";
+import { collection, doc, getDocs } from "firebase/firestore";
 
 async function loadSharedList() {
   const urlParams = new URLSearchParams(window.location.search);
