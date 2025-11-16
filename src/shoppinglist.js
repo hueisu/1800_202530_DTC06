@@ -209,7 +209,7 @@ export function editProductCount(productID, product) {
   updateTotalPrice();
 }
 
-function removeProduct(productID) {
+export function removeProduct(productID) {
   $(`#cart-item-${productID}`).remove();
 
   // update in DB

@@ -16,11 +16,11 @@ import { collection, doc, getDocs } from "firebase/firestore";
 loadSharedList();
 
 function renderSharedList(productsList) {
-  const listContainer = $("cart-container");
+  const cartContainer = $("#cart-container");
   const cartItems = [];
   productsList.forEach((product) => {
     const productID = product.id;
-    const product = product.data();
+    const newProduct = product.data();
     const $product = $(`
         <div
             id="cart-item-${productID}"
@@ -114,6 +114,7 @@ async function getCurrentList(ownerID) {
 async function loadSharedList() {
   const urlParams = new URLSearchParams(window.location.search);
   const ownerID = urlParams.get("owner");
+  console.log(ownerID);
   if (ownerID) {
     console.log("Loading list for owner:", ownerID);
     await getCurrentList(ownerID);

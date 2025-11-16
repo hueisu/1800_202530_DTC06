@@ -57,8 +57,6 @@ async function shareNotification(ownerID, recipientID) {
 }
 
 function generateShareableLink(ownerID) {
-  const baseURL = "http://localhost:5173";
-  const shareURL = "/view-shared-list";
-
-  return `${baseURL}${shareURL}?owner=${ownerID}`;
+  const baseURL = "http://localhost:5173/view-shared-list.html";
+  return `${baseURL}?owner=${ownerID}`;
 }
