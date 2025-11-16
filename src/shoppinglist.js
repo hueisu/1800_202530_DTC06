@@ -335,7 +335,9 @@ function hideShareList() {
 onAuthStateChanged(auth, (user) => {
   if (user) {
     const userID = user.uid;
-    getShoppingList(userID);
+    if (!window.location.search.includes("owner=")) {
+      getShoppingList(userID);
+    }
   } else {
     showLogin();
     hideShareList();
