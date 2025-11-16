@@ -6,8 +6,9 @@ import {
   doc,
   getDocs,
   updateDoc,
-  deleteDoc,
+  setDoc,
   arrayUnion,
+  serverTimestamp,
 } from "firebase/firestore";
 
 export async function shareListWithUser(userID, sharedUserID) {
@@ -30,9 +31,26 @@ export async function shareListWithUser(userID, sharedUserID) {
       console.log(111);
     });
     await Promise.all(sharedList);
+    await shareNotification(userID, sharedUserID);
     showAlert("List successfully shared.");
   } catch (error) {
     console.error("Error sharing list:", error);
     showAlert("An error occurred while sharing the list.");
   }
+}
+
+async function shareNotification(ownerID, recipientID) {
+  const shareNotificationReference = doc(
+    db,
+    "users",
+    recipientID,
+    "sharedWithMe",
+    ownerID
+  );
+  await setDoc(shareNotificationReference, {
+    listOwnerID: ownerID,
+    readOnly: false,
+    sharedDate: serverTimestamp(),
+  });
+  console.log(232);
 }
