@@ -149,7 +149,7 @@ export async function addProductToCurrentList(product, productId) {
   if (!userID) {
     window.location.href = "/login.html";
   }
-
+  showLoading();
   // get current list
   try {
     const queryRef = doc(db, "users", userID, "currentList", productId);
@@ -176,7 +176,10 @@ export async function addProductToCurrentList(product, productId) {
     }
     showAlert("Product is added to your list", "warning");
   } catch (error) {
+    showAlert("Something went wrong...", "warning");
     console.log(error);
+  } finally {
+    hideLoading();
   }
 }
 
