@@ -32,6 +32,7 @@ export async function shareListWithUser(userID, sharedUserID) {
     });
     await Promise.all(sharedList);
     await shareNotification(userID, sharedUserID);
+    generateShareableLink(userID);
     showAlert("List successfully shared.");
   } catch (error) {
     console.error("Error sharing list:", error);
@@ -53,4 +54,11 @@ async function shareNotification(ownerID, recipientID) {
     sharedDate: serverTimestamp(),
   });
   console.log(232);
+}
+
+function generateShareableLink(ownerID) {
+  const baseURL = "http://localhost:5173";
+  const shareURL = "/view-shared-list";
+
+  return `${baseURL}${shareURL}?owner=${ownerID}`;
 }
