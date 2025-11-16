@@ -18,25 +18,28 @@ loadSharedList();
 function renderSharedList(productsList) {
   const cartContainer = $("#cart-container");
   const cartItems = [];
-  productsList.forEach((product) => {
-    const productID = product.id;
-    const newProduct = product.data();
+  cartContainer.empty();
+  productsList.forEach((productSnapshot) => {
+    const productID = productSnapshot.id;
+    const sharedProduct = productSnapshot.data();
     const $product = $(`
         <div
             id="cart-item-${productID}"
             class="rounded-lg bg-gray-200 p-4 flex justify-between gap-2 min-w-fit"
-            data-price=${product.price}
+            data-price=${sharedProduct.price}
           >
           <div class="min-w-[80px] max-w-[150px]">
             <a href="/product?id=${productID}">
-              <img src="${product.imageUrl}" alt="${product.name}" />
+              <img src="${sharedProduct.imageUrl}" alt="${
+      sharedProduct.name
+    }" />
             </a>
           </div>
 
           <div class="basis-2/3 flex justify-between gap-2 max-h-30">
             <div class="flex flex-col items-start justify-between">
               <a href="/product?id=${productID}" class="font-semibold">
-                ${product.name}
+                ${sharedProduct.name}
               </a>
               <button id="${productID}-remove" class="text-red-500 hover:cursor-pointer">Remove</button>
             </div>
@@ -50,7 +53,7 @@ function renderSharedList(productsList) {
                   id="${productID}-count"
                   class="bg-white w-[30px] text-center"
                   name="quantity"
-                  value="${product.count}"
+                  value="${sharedProduct.count}"
                   data-count
                 />
                 <button id="${productID}-add" class="hover:cursor-pointer px-2 rounded bg-blue-200">
@@ -59,7 +62,7 @@ function renderSharedList(productsList) {
               </div>
               <p class="text-right font-semibold">
                 $<span id="${productID}-sum">
-                  ${formatPrice(product.price * product.count)}
+                  ${formatPrice(sharedProduct.price * sharedProduct.count)}
                 </span>
               </p>
             </div>
@@ -68,17 +71,17 @@ function renderSharedList(productsList) {
       `);
     // add
     $product.on("click", `#${productID}-add`, () =>
-      addProductCount(productID, product)
+      addProductCount(productID, sharedProduct)
     );
 
     // reduce
     $product.on("click", `#${productID}-reduce`, () =>
-      reduceProductCount(productID, product)
+      reduceProductCount(productID, sharedProduct)
     );
 
     // input
     $product.on("change", `#${productID}-count`, () =>
-      editProductCount(productID, product)
+      editProductCount(productID, sharedProduct)
     );
 
     // remove
