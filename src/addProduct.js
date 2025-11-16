@@ -168,6 +168,7 @@ async function addProduct() {
         description: description,
       });
     });
+    showAlert("success!", "success");
   } catch (error) {
     console.error(error);
     showAlert("Check console", "error");
