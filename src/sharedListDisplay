@@ -18,7 +18,7 @@ $(() => {
   loadSharedList();
 });
 
-function renderSharedList(productsList) {
+function renderSharedList(productsList, ownerID) {
   const cartContainer = $("#cart-container");
   const cartItems = [];
   productsList.forEach((productSnapshot) => {
@@ -73,22 +73,24 @@ function renderSharedList(productsList) {
       `);
     // add
     $product.on("click", `#${productID}-add`, () =>
-      addProductCount(productID, sharedProduct)
+      addProductCount(productID, sharedProduct, ownerID)
     );
 
     // reduce
     $product.on("click", `#${productID}-reduce`, () =>
-      reduceProductCount(productID, sharedProduct)
+      reduceProductCount(productID, sharedProduct, ownerID)
     );
 
     // input
     $product.on("change", `#${productID}-count`, () =>
-      editProductCount(productID, sharedProduct)
+      editProductCount(productID, sharedProduct, ownerID)
     );
 
     // remove
     $product.on("click", `#${productID}-remove`, () => {
-      showModal("Remove product from list?", () => removeProduct(productID));
+      showModal("Remove product from list?", () =>
+        removeProduct(productID, ownerID)
+      );
     });
 
     cartItems.push($product);
@@ -109,7 +111,7 @@ async function getCurrentList(ownerID) {
     if (listSnapshot.empty) {
       showAlert("List is Empty!");
     } //process rendering and display
-    renderSharedList(listSnapshot.docs);
+    renderSharedList(listSnapshot.docs, ownerID);
   } catch (error) {
     console.error("Error fetching list", error);
     showAlert("Failed to load list. Permission denied or error occurred.");
