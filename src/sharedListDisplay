@@ -13,15 +13,88 @@ import {
 } from "./shoppinglist";
 import { collection, doc, getDocs } from "firebase/firestore";
 
-async function loadSharedList() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const ownerID = urlParams.get("owner");
-  if (ownerID) {
-    console.log("Loading list for owner:", ownerID);
-    await getCurrentList(ownerID);
-  } else {
-    console.error("Error: Owner ID not found or invalid in URL.");
-  }
+loadSharedList();
+
+function renderSharedList(productsList) {
+  const listContainer = $("cart-container");
+  const cartItems = [];
+  productsList.forEach((product) => {
+    const productID = product.id;
+    const product = product.data();
+    const $product = $(`
+        <div
+            id="cart-item-${productID}"
+            class="rounded-lg bg-gray-200 p-4 flex justify-between gap-2 min-w-fit"
+            data-price=${product.price}
+          >
+          <div class="min-w-[80px] max-w-[150px]">
+            <a href="/product?id=${productID}">
+              <img src="${product.imageUrl}" alt="${product.name}" />
+            </a>
+          </div>
+
+          <div class="basis-2/3 flex justify-between gap-2 max-h-30">
+            <div class="flex flex-col items-start justify-between">
+              <a href="/product?id=${productID}" class="font-semibold">
+                ${product.name}
+              </a>
+              <button id="${productID}-remove" class="text-red-500 hover:cursor-pointer">Remove</button>
+            </div>
+
+            <div class="flex flex-col justify-between items-end">
+              <div class="flex items-center gap-2">
+                <button id="${productID}-reduce" class="hover:cursor-pointer px-2 rounded bg-blue-200">
+                  -
+                </button>
+                <input
+                  id="${productID}-count"
+                  class="bg-white w-[30px] text-center"
+                  name="quantity"
+                  value="${product.count}"
+                  data-count
+                />
+                <button id="${productID}-add" class="hover:cursor-pointer px-2 rounded bg-blue-200">
+                  +
+                </button>
+              </div>
+              <p class="text-right font-semibold">
+                $<span id="${productID}-sum">
+                  ${formatPrice(product.price * product.count)}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      `);
+    // add
+    $product.on("click", `#${productID}-add`, () =>
+      addProductCount(productID, product)
+    );
+
+    // reduce
+    $product.on("click", `#${productID}-reduce`, () =>
+      reduceProductCount(productID, product)
+    );
+
+    // input
+    $product.on("change", `#${productID}-count`, () =>
+      editProductCount(productID, product)
+    );
+
+    // remove
+    $product.on("click", `#${productID}-remove`, () => {
+      showModal("Remove product from list?", () => removeProduct(productID));
+    });
+
+    cartItems.push($product);
+  });
+  cartContainer.append(cartItems);
+
+  updateCartItemCount();
+  updateTotalPrice();
+  $("#checkout-btn").on("click", () =>
+    showModal("Mark as complete?", markAsComplete)
+  );
 }
 
 async function getCurrentList(ownerID) {
@@ -31,8 +104,20 @@ async function getCurrentList(ownerID) {
     if (listSnapshot.empty) {
       showAlert("List is Empty!");
     } //process rendering and display
+    renderSharedList(listSnapshot.docs);
   } catch (error) {
     console.error("Error fetching list", error);
     showAlert("Failed to load list. Permission denied or error occurred.");
+  }
+}
+
+async function loadSharedList() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const ownerID = urlParams.get("owner");
+  if (ownerID) {
+    console.log("Loading list for owner:", ownerID);
+    await getCurrentList(ownerID);
+  } else {
+    console.error("Error: Owner ID not found or invalid in URL.");
   }
 }
