@@ -25,6 +25,9 @@ export function showAlert(msg = "", type = "") {
     case "success":
       bgColor = "bg-green-300";
       break;
+    case "error":
+      bgColor = "bg-red-300";
+      break;
     default:
       bgColor = "bg-gray-300";
   }
