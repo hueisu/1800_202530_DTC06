@@ -1,5 +1,5 @@
 import { db } from "./firebaseConfig.js";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { onAuthReady } from "./authentication.js";
 import $ from "jquery";
 import { formatPrice } from "./shoppinglist.js";
@@ -14,7 +14,8 @@ async function loadHistory(userId) {
   try {
     // Get this user's history document under their UID
     const historyListRef = collection(db, `users/${userId}/historyList`);
-    const historyListSnapshot = await getDocs(historyListRef);
+    const historyQuery = query(historyListRef, orderBy("date", "desc"));
+    const historyListSnapshot = await getDocs(historyQuery);
 
     // no history
     if (!historyListSnapshot.docs.length) {
