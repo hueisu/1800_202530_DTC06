@@ -1,5 +1,7 @@
 import { db } from "./firebaseConfig.js";
 import { collection, getDocs, addDoc } from "firebase/firestore";
+import { addProductToCurrentList } from "./getProducts.js";
+import $ from "jquery";
 
 // Get store data from Firestore
 async function getStores() {
@@ -111,24 +113,58 @@ async function getProducts(storeId, storeName) {
 
 // Display product
 function displayProducts(products) {
-  const container = document.getElementById("product-cards-container");
-  container.innerHTML = "";
+  const container = $("#product-cards-container");
+  container.empty();
 
   products.forEach((product) => {
-    const productCard = `
-            <div class="border border-gray-300 rounded-md flex flex-col">
-                <div class="flex items-center justify-center grow-1">
-                    <img src="${product.imageUrl}" alt="${product.name}" class=""/>
-                </div>    
-                <div>
-                    <h5 class="font-bold text-center">${product.name}</h5>
-                    <p class="text-sm text-gray-600">Price: ${product.price}</p>
-                </div>    
+    const $productCard = $(`
+        <a href="/product?id=${product.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
+          <div class="absolute right-3 top-3 text-red-500" data-favorite>
+            <i class="fa-regular fa-heart fa-xl"></i>
+          </div>
+
+          <div class="flex items-center justify-center grow-1">
+            <img src="${product.imageUrl}" class="" alt="${product.name}-image" />
+          </div>
+
+          <div class="p-3 flex justify-between">
+            <div>
+              <h5 class="font-bold">${product.name}</h5>
+              <p>
+                ${product.quantity} ${product.unit} - $${product.price}
+              </p>
             </div>
-        `;
-    const cardDiv = document.createElement("div");
-    cardDiv.innerHTML = productCard.trim();
-    container.appendChild(cardDiv.firstChild);
+
+            <div class="fa-xl border rounded-full self-start p-1 hover:bg-gray-100" data-add-to-list>
+              <i class="fa-solid fa-plus"></i>
+            </div>
+          </div>
+        </a>
+        `);
+
+    // add to favorite
+    $productCard.on("click", "[data-favorite]", function (e) {
+      e.preventDefault();
+      // TODO: add to favorite function here 🔥
+    });
+
+    // hover on add to favorite
+    $productCard.on("mouseenter", "[data-favorite]", function () {
+      $(this).find(".fa-heart").addClass("fa-solid");
+      $(this).find(".fa-heart").removeClass("fa-regular");
+    });
+    $productCard.on("mouseleave", "[data-favorite]", function () {
+      $(this).find(".fa-heart").addClass("fa-regular");
+      $(this).find(".fa-heart").removeClass("fa-solid");
+    });
+
+    // add to current list
+    $productCard.on("click", "[data-add-to-list]", async function (e) {
+      e.preventDefault();
+      await addProductToCurrentList(product, product.id);
+    });
+
+    container.append($productCard);
   });
 }
 

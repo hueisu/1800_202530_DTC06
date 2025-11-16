@@ -4,6 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "/src/firebaseConfig.js";
 import { logoutUser } from "/src/authentication.js";
 import $ from "jquery";
+import { ADMIN } from "../addProduct";
 
 class SiteNavbar extends HTMLElement {
   constructor() {
@@ -62,6 +63,14 @@ class SiteNavbar extends HTMLElement {
         updatedAuthControl = `<button id="signOutBtn" class="hover:cursor-pointer">Log out</button>`;
         authControls.html(updatedAuthControl);
         $("#signOutBtn").on("click", logoutUser);
+        // permissions
+        if (ADMIN.includes(user.uid)) {
+          $("#menu-content").append(
+            `<a href="addProduct.html" class="block p-3 text-gray-800 underline">
+              Add product
+            </a>`
+          );
+        }
       } else {
         updatedAuthControl = `<a href="/login">Login</a>`;
         authControls.html(updatedAuthControl);
