@@ -3,6 +3,11 @@ import { collection, getDocs, addDoc } from "firebase/firestore";
 import { addProductToCurrentList } from "./getProducts.js";
 import $ from "jquery";
 
+import { doc, getDoc } from "firebase/firestore";
+
+const params = new URLSearchParams(window.location.search);
+const storeId = params.get('id');
+
 // Get store data from Firestore
 async function getStores() {
   try {
@@ -21,6 +26,15 @@ async function getStores() {
   }
 }
 
+async function fetchStoreName(storeId) {
+  const storeDocRef = doc(db, "stores", storeId);
+  const storeDocSnap = await getDoc(storeDocRef);
+  if (storeDocSnap.exists()) {
+    return storeDocSnap.data().name;
+  }
+  return "";
+}
+
 // Get store data synchronously
 async function init() {
   const storesData = await getStores();
@@ -29,6 +43,13 @@ async function init() {
   } else {
     console.log("No store data");
   }
+
+  if (storeId) {
+    const storeName = await fetchStoreName(storeId);
+    getProducts(storeId, storeName); 
+    switchView(false); // Show products only
+  }
+
 }
 
 init();

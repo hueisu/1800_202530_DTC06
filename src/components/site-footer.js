@@ -7,13 +7,14 @@ class SiteFooter extends HTMLElement {
                     <img class="h-15" src="./images/Fridge_Friends.png" alt="logo" />
                     <ul>
                         <li class="font-bold">Available Stores</li>
-                        <li class="hover:cursor-pointer">SuperStore</li>
-                        <li class="hover:cursor-pointer">Costco</li>
-                        <li class="hover:cursor-pointer">No Frills</li>
-                        <li class="hover:cursor-pointer">T&T</li>
-                        <li class="hover:cursor-pointer">Walmart</li>
-                        <li class="hover:cursor-pointer">Save on Foods</li>
-                        <li class="hover:cursor-pointer">PriceSmart</li>
+                        <li><a href="/store-list.html?id=superstore" class="hover:cursor-pointer hover:underline">SuperStore</a></li>
+                        <li><a href="/store-list.html?id=costco" class="hover:cursor-pointer hover:underline">Costco</li>
+                        
+                        <li><a href="/store-list.html?id=t&t" class="hover:cursor-pointer hover:underline">T&T
+                        </li>
+                        <li><a href="/store-list.html?id=walmart" class="hover:cursor-pointer hover:underline">Walmart</li>
+                        <li><a href="/store-list.html?id=save-on" class="hover:cursor-pointer hover:underline">Save on Foods</li>
+                        <li><a href="/store-list.html?id=safeway" class="hover:cursor-pointer hover:underline">SafeWay</li>
                     </ul>
 
                     <ul>
