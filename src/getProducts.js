@@ -8,6 +8,9 @@ import {
   getDoc,
   setDoc,
   updateDoc,
+  query,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 import $ from "jquery";
 import { hideLoading, showAlert, showLoading } from "./general";
@@ -192,10 +195,14 @@ export async function addProductToCurrentList(product, productId) {
 async function displayPreviouslyAddedCards(userID) {
   const previouslyAddedRef = collection(db, "users", userID, "historyList");
   const previouslyAddedContainer = $("#previously-added-container");
-
+  const mostRecentList = query(
+    previouslyAddedRef,
+    orderBy("date", "desc"),
+    limit(1)
+  );
   showLoading();
   try {
-    const querySnapshot = await getDocs(previouslyAddedRef);
+    const querySnapshot = await getDocs(mostRecentList);
     querySnapshot.forEach((doc) => {
       const historyRecord = doc.data();
       historyRecord.content.forEach((product) => {
@@ -215,7 +222,6 @@ async function displayPreviouslyAddedCards(userID) {
                 <p>
                   ${product.count} at $${product.price} each
                 </p>
-                <p>${doc.date}</p>
               </div>
   
               <div class="fa-lg border rounded-full self-start p-1 hover:bg-gray-100 ml-2" data-add-to-list>
