@@ -3,7 +3,6 @@ import { hideLoading, showAlert, showLoading, showModal } from "./general";
 import $ from "jquery";
 import { auth, db } from "./firebaseConfig";
 import {
-  formatPrice,
   updateTotalPrice,
   updateCartItemCount,
   addProductCount,
@@ -11,6 +10,7 @@ import {
   editProductCount,
   removeProduct,
 } from "./shoppinglist";
+import { formatPrice } from "./general";
 import { collection, doc, getDocs } from "firebase/firestore";
 
 $(() => {
