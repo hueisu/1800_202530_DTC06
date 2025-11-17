@@ -195,6 +195,7 @@ export async function addProductToCurrentList(product, productId) {
 async function displayPreviouslyAddedCards(userID) {
   const previouslyAddedRef = collection(db, "users", userID, "historyList");
   const previouslyAddedContainer = $("#previously-added-container");
+  const heading = document.getElementById("previously-added-title");
   const mostRecentList = query(
     previouslyAddedRef,
     orderBy("date", "desc"),
@@ -205,6 +206,11 @@ async function displayPreviouslyAddedCards(userID) {
     const querySnapshot = await getDocs(mostRecentList);
     querySnapshot.forEach((doc) => {
       const historyRecord = doc.data();
+      let displayDate = "";
+      const dateObject = historyRecord.date.toDate();
+      displayDate = dateObject.toDateString();
+      console.log(displayDate);
+      heading.innerText = `Previously Added On ${displayDate}`;
       historyRecord.content.forEach((product) => {
         const $productCard = $(`
           <a href="/product?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
