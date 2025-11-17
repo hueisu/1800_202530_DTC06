@@ -29,26 +29,34 @@
     <site-navbar></site-navbar>
 
     <!-- Search bar -->
-    <div class="max-w-[480px] p-3 m-auto">
-      <div class="rounded px-8 pt-6 pb-8 mb-4">
-        <div class="relative mb-4">
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-          >
-            <i class="fa-solid fa-magnifying-glass fa-lg text-gray-700"></i>
+    <main class="m-5">
+      <div class="max-w-[480px]">
+        <div class="">
+          <div class="relative mb-4">
+            <div
+              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+            >
+              <i class="fa-solid fa-magnifying-glass fa-lg text-gray-700"></i>
+            </div>
+            <input
+              class="block w-full pl-10 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="search"
+              type="text"
+              placeholder="Search for products..."
+            />
           </div>
-          <input
-            class="block w-full pl-10 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="search"
-            type="text"
-            placeholder="Search for products..."
-          />
         </div>
       </div>
-    </div>
+      <div
+        id="result"
+        class="grid grid-cols-1 gap-5 m-5 sm:grid-cols-2 md:grid-cols-4"
+      ></div>
+    </main>
+
     <site-footer></site-footer>
 
     <!-- Link to scripts of your own -->
     <script type="module" src="./src/app.js"></script>
+    <script type="module" src="./src/search.js"></script>
   </body>
 </html>
