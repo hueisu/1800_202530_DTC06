@@ -56,19 +56,47 @@
 
       <hr class="border-gray-200 mx-6" />
 
+      <!-- NAME -->
       <div class="p-6">
         <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-          <p>Name: <span id="name-goes-here"></span></p>
+          <p>
+            Name:
+            <span id="name-goes-here"></span>
+            <input id="name-input" class="hidden border p-2 rounded w-full mt-2">
+          </p>
+        </div>
+      </div>
+      
+      <!-- EMAIL -->
+      <div class="p-6">
+        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+          <p>
+            Email:
+            <span id="email-goes-here"></span>
+            <input id="email-input" class="hidden border p-2 rounded w-full mt-2">
+          </p>
+        </div>
+      </div>
+      
+      <!-- BUTTONS (ONE EDIT BUTTON + SAVE + CANCEL) -->
+      <div class="mt-1 px-6 mb-2 flex items-center justify-end">
+        <div class="flex items-center space-x-2">
+          <button id="edit-btn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+            Edit
+          </button>
+      
+          <div id="edit-actions" class="hidden space-x-2">
+            <button id="save-btn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+              Save
+            </button>
+            <button id="cancel-btn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
 
-      <hr class="border-gray-200 mx-6" />
 
-      <div class="p-6">
-        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-          <p>Email: <span id="email-goes-here"></span></p>
-        </div>
-      </div>
 
       <div class="p-6">
         <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
