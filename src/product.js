@@ -17,15 +17,15 @@ async function displayProduct() {
     const productContainer = $("#product-information");
 
     const storeNames = await Promise.all(
-      product.stores ||
-        [].map(async (store) => {
-          if (!store.length) {
-            return;
-          }
-          const storeRef = doc(db, "stores", store);
-          const storeSnapshot = await getDoc(storeRef);
-          return storeSnapshot.data().name;
-        })
+      (product.stores || []).map(async (store) => {
+        if (!store.length) {
+          return;
+        }
+
+        const storeRef = doc(db, "stores", store);
+        const storeSnapshot = await getDoc(storeRef);
+        return storeSnapshot.data().name;
+      })
     );
 
     const $element = $(`

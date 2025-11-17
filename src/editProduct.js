@@ -222,14 +222,22 @@ async function submitUpdateProduct(productID, originalProductData) {
       await addToCategories(productID, productDetail);
 
       // 2-2 remove from old category
-      await removeFromCategories(productID, originalProductData.category);
+      if (originalProductData.category) {
+        await removeFromCategories(productID, originalProductData.category);
+      }
     }
     // 3, add product doc in stores collection
     // 3-1, remove from old stores
-    const oldStores = removedValueInArray(originalProductData.stores, stores);
+    const oldStores = removedValueInArray(
+      originalProductData?.stores || [],
+      stores
+    );
     oldStores.length > 0 && (await removeFromStores(oldStores, productID));
     // 3-2, add to new stores
-    const newStores = addedValueInArray(originalProductData.stores, stores);
+    const newStores = addedValueInArray(
+      originalProductData.stores || [],
+      stores
+    );
     newStores.length > 0 &&
       (await addToStores(newStores, productID, productDetail));
     showAlert("success!", "success");
