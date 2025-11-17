@@ -135,7 +135,7 @@ async function getShoppingList(userID) {
   }
 }
 
-function updateTotalPrice() {
+export function updateTotalPrice() {
   const productsInList = $('[id^="cart-item-"]');
   let total = 0;
   productsInList.each(function (index, element) {
@@ -147,18 +147,17 @@ function updateTotalPrice() {
   $("#total").text(formatPrice(total));
 }
 
-function updateCartItemCount() {
+export function updateCartItemCount() {
   const productsInList = $('[id^="cart-item-"]');
   $("#cart-items-count").text(productsInList.length);
 }
-
-async function addProductCount(productID, product) {
+export async function addProductCount(productID, product, ownerID) {
   const currentCount = $(`#${productID}-count`).val();
   const newCount = Number(currentCount) + 1;
   const newSum = formatPrice(newCount * product.price);
 
   // update in DB
-  updateProductInDB(productID, newCount);
+  updateProductInDB(productID, newCount, ownerID);
   // update count
   $(`#${productID}-count`).val(newCount);
   // update sum
@@ -167,18 +166,20 @@ async function addProductCount(productID, product) {
   updateTotalPrice();
 }
 
-function reduceProductCount(productID, product) {
+export function reduceProductCount(productID, product, ownerID) {
   const productElement = $(`#cart-item-${productID}`);
   const currentCount = $(`#${productID}-count`).val();
   const newCount = Number(currentCount) - 1;
   if (newCount === 0) {
-    showModal("Remove product from list?", () => removeProduct(productID));
+    showModal("Remove product from list?", () =>
+      removeProduct(productID, ownerID)
+    );
     return;
   }
   const newSum = formatPrice(newCount * product.price);
 
   // update in DB
-  updateProductInDB(productID, newCount);
+  updateProductInDB(productID, newCount, ownerID);
   // update count
   $(`#${productID}-count`).val(newCount);
   // update sum
@@ -189,7 +190,7 @@ function reduceProductCount(productID, product) {
   updateCartItemCount();
 }
 
-function editProductCount(productID, product) {
+export function editProductCount(productID, product, ownerID) {
   let productInputElement = $(`#${productID}-count`);
   let newCount = productInputElement.val();
   if (newCount < 1 || !isNumericString(newCount)) {
@@ -201,28 +202,30 @@ function editProductCount(productID, product) {
   const newSum = formatPrice(newCount * product.price);
 
   // update in DB
-  updateProductInDB(productID, newCount);
+  updateProductInDB(productID, newCount, ownerID);
   // update sum
   $(`#${productID}-sum`).text(newSum);
   // update total
   updateTotalPrice();
 }
 
-function removeProduct(productID) {
+export function removeProduct(productID, ownerID) {
   $(`#cart-item-${productID}`).remove();
 
   // update in DB
-  removeProductInDB(productID);
+  removeProductInDB(productID, ownerID);
   // update total
   updateTotalPrice();
   // update cart item count
   updateCartItemCount();
 }
 
-async function updateProductInDB(productID, newCount) {
+//targetUserID parameter defaults to current user if no other argument is passed to it (necessary for the shared list editing)
+async function updateProductInDB(productID, newCount, targetUserID) {
   try {
     const userID = getAuth().currentUser.uid;
-    const productRef = doc(db, "users", userID, "currentList", productID);
+    const listOwnerID = targetUserID || userID;
+    const productRef = doc(db, "users", listOwnerID, "currentList", productID);
     await updateDoc(productRef, {
       count: newCount,
     });
@@ -232,10 +235,11 @@ async function updateProductInDB(productID, newCount) {
   }
 }
 
-async function removeProductInDB(productID) {
+async function removeProductInDB(productID, targetUserID) {
   try {
     const userID = getAuth().currentUser.uid;
-    const productRef = doc(db, "users", userID, "currentList", productID);
+    const listOwnerID = targetUserID || userID;
+    const productRef = doc(db, "users", listOwnerID, "currentList", productID);
     await deleteDoc(productRef);
   } catch (error) {
     showAlert("Something went wrong :(", "warning");
@@ -334,7 +338,9 @@ function hideShareList() {
 onAuthStateChanged(auth, (user) => {
   if (user) {
     const userID = user.uid;
-    getShoppingList(userID);
+    if (!window.location.search.includes("owner=")) {
+      getShoppingList(userID);
+    }
   } else {
     showLogin();
     hideShareList();
