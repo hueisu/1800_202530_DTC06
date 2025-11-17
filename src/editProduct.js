@@ -1,12 +1,29 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./firebaseConfig";
 import $, { error } from "jquery";
-import { addDoc, collection, doc, getDocs, setDoc } from "firebase/firestore";
-import { hideLoading, showAlert, showLoading, showModal } from "./general";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
+import {
+  addedValueInArray,
+  hideLoading,
+  removedValueInArray,
+  showAlert,
+  showLoading,
+} from "./general";
 import { ADMIN } from "./constant";
 
 async function createForm() {
   const $form = $(defaultForm);
+  $form.append(`
+        <button type="button" class="mt-4 border bg-blue-200 hover:cursor-pointer" id="create-btn">Create product</button>
+    `);
   showLoading();
   try {
     // add cate dropdown
@@ -24,10 +41,10 @@ async function createForm() {
       `);
     });
     // add checking function
-    $form.on("click", "#submit-btn", createProduct);
+    $form.on("click", "#create-btn", submitCreateProduct);
     // add create in products, stores, categories
 
-    $("#add-product").append($form);
+    $("#product-container").append($form);
   } catch (error) {
     showAlert("Something went wrong...", "error");
     console.error(error);
@@ -36,22 +53,34 @@ async function createForm() {
   }
 }
 
-async function createProduct() {
+async function submitCreateProduct() {
   const isValid = validateForm();
   if (!isValid) {
     showAlert("* are required fields, check again", "error");
     return;
   }
 
-  const name = $("#add-product").find("#name").val();
-  const quantity = $("#add-product").find("#quantity").val();
-  const unit = $("#add-product").find("#unit").val();
-  const image = $("#add-product").find("#image").val();
-  const price = $("#add-product").find("#price").val();
-  const brand = $("#add-product").find("#brand").val();
-  const category = $("#add-product").find("#category-dropdown").val();
-  const description = $("#add-product").find("#description").val();
-  const stores = $("#add-product").find("#store-dropdown").val();
+  const name = $("#name").val();
+  const quantity = $("#quantity").val();
+  const unit = $("#unit").val();
+  const imageUrl = $("#imageUrl").val();
+  const price = $("#price").val();
+  const brand = $("#brand").val();
+  const category = $("#category-dropdown").val();
+  const description = $("#description").val();
+  const stores = $("#store-dropdown").val();
+
+  const productDetail = {
+    name,
+    price,
+    quantity,
+    unit,
+    imageUrl,
+    category,
+    brand,
+    description,
+    stores,
+  };
 
   // price, quantity must be integer
   try {
@@ -69,55 +98,138 @@ async function createProduct() {
   showLoading();
   try {
     // 1, products collection
-    const productsRef = collection(db, "products");
-    const newProduct = await addDoc(productsRef, {
-      name: name,
-      name_lower: name.toLowerCase(),
-      quantity: Number(quantity),
-      unit: unit,
-      price: Number(price),
-      brand: brand,
-      imageUrl: `./images/${image}.png`,
-      category: category,
-      description: description,
-      stores: stores,
-    });
-    const productID = newProduct.id;
+    const productID = await addToProducts(productDetail);
     // 2, add product doc in categories collection
-    const categoriesRef = doc(
-      db,
-      "categories",
-      category,
-      "products",
-      productID
-    );
-    await setDoc(categoriesRef, {
-      name: name,
-      name_lower: name.toLowerCase(),
-      quantity: Number(quantity),
-      unit: unit,
-      price: Number(price),
-      brand: brand,
-      imageUrl: `./images/${image}.png`,
-      category: category,
-      description: description,
-    });
+    await addToCategories(productID, productDetail);
     // 3, add product doc in stores collection
-    stores.forEach(async (storeID) => {
-      const storeRef = doc(db, "stores", storeID, "storeProducts", productID);
-      await setDoc(storeRef, {
-        name: name,
-        name_lower: name.toLowerCase(),
-        quantity: Number(quantity),
-        unit: unit,
-        price: Number(price),
-        brand: brand,
-        imageUrl: `./images/${image}.png`,
-        category: category,
-        description: description,
-      });
-    });
+    await addToStores(stores, productID, productDetail);
     showAlert("success!", "success");
+    window.location.href = `/product?id=${productID}`;
+  } catch (error) {
+    console.error(error);
+    showAlert("Check console", "error");
+  } finally {
+    hideLoading();
+  }
+}
+
+async function editForm(productID) {
+  const $form = $(defaultForm);
+  $form.append(`
+        <button type="button" class="mt-4 border bg-blue-200 hover:cursor-pointer" id="save-btn">Save product</button>
+    `);
+  showLoading();
+  try {
+    // Product: get product info
+    const productDoc = await getDoc(doc(db, "products", productID));
+    const product = productDoc.data();
+
+    // Set product values
+    $form.find("#name").val(product.name);
+    $form.find("#quantity").val(product.quantity);
+    $form.find("#unit").val(product.unit);
+    $form.find("#imageUrl").val(product.imageUrl);
+    $form.find("#price").val(product.price);
+    $form.find("#brand").val(product.brand);
+    $form.find("#description").val(product.description);
+
+    // Category: add cate dropdown with its value
+    const categories = await getDocs(collection(db, "categories"));
+    categories.forEach((cate) => {
+      $form.find("#category-dropdown").append(`
+      <option value="${cate.id}">${cate.data().name}</option>
+      `);
+    });
+    // Category: set cate value
+    $form.find("#category-dropdown").val(product.category);
+
+    // Stores: add stores dropdown with its value
+    const stores = await getDocs(collection(db, "stores"));
+    stores.forEach((store) => {
+      $form.find("#store-dropdown").append(`
+      <option value="${store.id}">${store.data().name}</option>
+      `);
+    });
+    // Stores: set stores value
+    $form.find("#store-dropdown").val(product.stores);
+
+    $form.on("click", "#save-btn", () =>
+      submitUpdateProduct(productID, product)
+    );
+
+    $("#product-container").append($form);
+  } catch (error) {
+    showAlert("Something went wrong...", "error");
+    console.error(error);
+  } finally {
+    hideLoading();
+  }
+}
+
+async function submitUpdateProduct(productID, originalProductData) {
+  const isValid = validateForm();
+  if (!isValid) {
+    showAlert("* are required fields, check again", "error");
+    return;
+  }
+
+  const name = $("#name").val();
+  const price = $("#price").val();
+  const quantity = $("#quantity").val();
+  const unit = $("#unit").val();
+  const imageUrl = $("#imageUrl").val();
+  const category = $("#category-dropdown").val();
+  const brand = $("#brand").val();
+  const description = $("#description").val();
+  const stores = $("#store-dropdown").val();
+
+  const productDetail = {
+    name,
+    price,
+    quantity,
+    unit,
+    imageUrl,
+    category,
+    brand,
+    description,
+    stores,
+  };
+
+  // price, quantity must be integer
+  try {
+    const qtyNum = Number(quantity);
+    const priceNum = Number(price);
+    if (Number.isNaN(qtyNum) || Number.isNaN(priceNum)) {
+      throw error;
+    }
+  } catch (err) {
+    console.log(err);
+    showAlert("Price, Quantity must be integer");
+    return;
+  }
+
+  showLoading();
+  try {
+    // 1, products collection
+    await updateProduct(productID, productDetail);
+    // 2, add product doc in categories collection
+    if (originalProductData.category !== category) {
+      // 2-1 add to new category
+      await addToCategories(productID, productDetail);
+
+      // 2-2 remove from old category
+      await removeFromCategories(productID, originalProductData.category);
+    }
+    // 3, add product doc in stores collection
+    // 3-1, remove from old stores
+    const oldStores = removedValueInArray(originalProductData.stores, stores);
+    oldStores.length > 0 && (await removeFromStores(oldStores, productID));
+    // 3-2, add to new stores
+    const newStores = addedValueInArray(originalProductData.stores, stores);
+    newStores.length > 0 &&
+      (await addToStores(newStores, productID, productDetail));
+    showAlert("success!", "success");
+    window.location.href = `/product?id=${productID}`;
   } catch (error) {
     console.error(error);
     showAlert("Check console", "error");
@@ -127,17 +239,154 @@ async function createProduct() {
 }
 
 function validateForm() {
-  const name = $("#add-product").find("#name").val();
-  const quantity = $("#add-product").find("#quantity").val();
-  const unit = $("#add-product").find("#unit").val();
-  const image = $("#add-product").find("#image").val();
-  const price = $("#add-product").find("#price").val();
-  const category = $("#add-product").find("#category-dropdown").val();
-  const store = $("#add-product").find("#store-dropdown").val();
+  const name = $("#name").val();
+  const quantity = $("#quantity").val();
+  const unit = $("#unit").val();
+  const imageUrl = $("#imageUrl").val();
+  const price = $("#price").val();
+  const category = $("#category-dropdown").val();
+  const store = $("#store-dropdown").val();
 
   return Boolean(
-    name && quantity && unit && image && price && category && store
+    name && quantity && unit && imageUrl && price && category && store
   );
+}
+
+async function addToProducts(productDetail) {
+  const {
+    name,
+    price,
+    quantity,
+    unit,
+    imageUrl,
+    category,
+    brand,
+    description,
+    stores,
+  } = productDetail;
+  const productsRef = collection(db, "product");
+  const newProduct = await addDoc(productsRef, {
+    name: name,
+    name_lower: name.toLowerCase(),
+    quantity: Number(quantity),
+    unit: unit,
+    price: Number(price),
+    brand: brand,
+    imageUrl: imageUrl,
+    category: category,
+    description: description,
+    stores: stores,
+  });
+  return newProduct.id;
+}
+
+async function updateProduct(productID, productDetail) {
+  const productsRef = doc(db, "products", productID);
+  const {
+    name,
+    price,
+    quantity,
+    unit,
+    imageUrl,
+    category,
+    brand,
+    description,
+    stores,
+  } = productDetail;
+  await setDoc(productsRef, {
+    name: name,
+    name_lower: name.toLowerCase(),
+    quantity: Number(quantity),
+    unit: unit,
+    price: Number(price),
+    brand: brand,
+    imageUrl: imageUrl,
+    category: category,
+    description: description,
+    stores: stores,
+  });
+}
+
+async function addToCategories(productID, productDetail) {
+  const {
+    name,
+    price,
+    quantity,
+    unit,
+    imageUrl,
+    category,
+    brand,
+    description,
+    stores,
+  } = productDetail;
+  const newCategoriesRef = doc(
+    db,
+    "categories",
+    category,
+    "products",
+    productID
+  );
+  await setDoc(newCategoriesRef, {
+    name: name,
+    name_lower: name.toLowerCase(),
+    quantity: Number(quantity),
+    unit: unit,
+    price: Number(price),
+    brand: brand,
+    imageUrl: imageUrl,
+    category: category,
+    description: description,
+  });
+}
+
+async function removeFromCategories(productID, categoryID) {
+  const oldCategoriesRef = doc(
+    db,
+    "categories",
+    categoryID,
+    "products",
+    productID
+  );
+  await deleteDoc(oldCategoriesRef);
+}
+
+async function addToStores(newStoreIDs, productID, productDetail) {
+  const {
+    name,
+    price,
+    quantity,
+    unit,
+    imageUrl,
+    category,
+    brand,
+    description,
+    stores,
+  } = productDetail;
+  console.log("add store", newStoreIDs);
+  newStoreIDs.forEach(async (newStoreID) => {
+    if (!newStoreID) return;
+    const storeRef = doc(db, "stores", newStoreID, "storeProducts", productID);
+    await setDoc(storeRef, {
+      name: name,
+      name_lower: name.toLowerCase(),
+      quantity: Number(quantity),
+      unit: unit,
+      price: Number(price),
+      brand: brand,
+      imageUrl: imageUrl,
+      category: category,
+      description: description,
+    });
+  });
+}
+
+async function removeFromStores(oldStoreIDs, productID) {
+  console.log("remove store", oldStoreIDs);
+  oldStoreIDs.forEach(async (oldStoreID) => {
+    if (!oldStoreID) return;
+    const storeRef = doc(db, "stores", oldStoreID, "storeProducts", productID);
+    await deleteDoc(storeRef);
+  });
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -150,6 +399,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (editMode) {
       console.log("edit mode");
+      editForm(productID);
     } else {
       console.log("create mode");
       createForm();
@@ -160,55 +410,53 @@ document.addEventListener("DOMContentLoaded", async () => {
 const defaultForm = `
       <div class="flex flex-col gap-2">
         <div class="flex justify-between flex-col gap-2">
-          <span class="font-bold" value="name">Product Name*:</span>
-          <input id="name" value="" class="border" placeholder="Heavy cream"/>
+          <span class="font-bold" value="name">Product Name<span class="text-red-500">*</span>:</span>
+          <input id="name" value="" class="border p-1" placeholder="Heavy cream"/>
         </div>
 
         <div class="flex justify-between flex-col gap-2">
-          <span class="font-bold" value="price">Product Price*:</span>
-          <input id="price" value="" class="border" placeholder="5.99"/>
+          <span class="font-bold" value="price">Product Price<span class="text-red-500">*</span>:</span>
+          <input id="price" value="" class="border p-1" placeholder="5.99"/>
         </div>
         
         <div class="flex justify-between flex-col gap-2">
-          <span class="font-bold" value="quantity">Product quantity*:</span>
-          <input id="quantity" value="" class="border" placeholder="980"/>
+          <span class="font-bold" value="quantity">Product quantity<span class="text-red-500">*</span>:</span>
+          <input id="quantity" value="" class="border p-1" placeholder="980"/>
         </div>
         
         <div class="flex justify-between flex-col gap-2">
-          <span class="font-bold" value="unit">Product unit*:</span>
-          <input id="unit" value="" class="border" placeholder="kg, ml ..." />
+          <span class="font-bold" value="unit">Product unit<span class="text-red-500">*</span>:</span>
+          <input id="unit" value="" class="border p-1" placeholder="kg, ml ..." />
         </div>
         
         <div class="flex justify-between flex-col gap-2">
-          <span class="font-bold" value="image">Image name*:</span>
-          <input id="image" value="" class="border" placeholder="heavy-cream (only file name)" />
+          <span class="font-bold" value="imageUrl">Image url<span class="text-red-500">*</span>:</span>
+          <input id="imageUrl" value="" class="border p-1" placeholder="./images/costco-chicken.png" />
         </div>
 
         <div class="flex justify-between flex-col gap-2">
-          <span class="font-bold" value="category">Category*:</span>
-          <select id="category-dropdown" class="border">
+          <span class="font-bold" value="category">Category<span class="text-red-500">*</span>:</span>
+          <select id="category-dropdown" class="border p-1">
             <option value=""></option>
           </select>
         </div>
-        
-        <div class="flex justify-between flex-col gap-2">
-          <span class="font-bold" value="brand">(optional) Brand:</span>
-          <input id="brand" value="" class="border" placeholder="Horizontal"/>
-        </div>
 
         <div class="flex justify-between flex-col gap-2">
-          <span class="font-bold" value="description">Description:</span>
-          <textarea id="description" value="" class="border" placeholder="Yum yum"></textarea>
-        </div>
-
-        <div class="flex justify-between flex-col gap-2">
-          <span class="font-bold" value="name">Stores*:</span>
+          <span class="font-bold" value="name">Stores<span class="text-red-500">*</span>:</span>
           <span class="text-xs">Press cmd / ctrl to select multiple when you are on desktop view</span>
           <select id="store-dropdown" class="border h-30" multiple>
             <option value=""></option>
           </select>
         </div>
+               
+        <div class="flex justify-between flex-col gap-2">
+          <span class="font-bold" value="brand">Brand:</span>
+          <input id="brand" value="" class="border p-1" placeholder="Horizontal"/>
+        </div>
 
-        <button type="button" class="mt-4 border bg-blue-200 hover:cursor-pointer" id="submit-btn">Create product</button>
+        <div class="flex justify-between flex-col gap-2">
+          <span class="font-bold" value="description">Description:</span>
+          <textarea id="description" value="" class="border p-1" placeholder="Yum yum"></textarea>
+        </div>
       </div>
       `;
