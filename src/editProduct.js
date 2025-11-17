@@ -68,7 +68,9 @@ async function submitCreateProduct() {
   const brand = $("#brand").val();
   const category = $("#category-dropdown").val();
   const description = $("#description").val();
-  const stores = $("#store-dropdown").val();
+  const stores = $("#store-dropdown")
+    .val()
+    .filter((x) => x);
 
   const productDetail = {
     name,
@@ -181,7 +183,9 @@ async function submitUpdateProduct(productID, originalProductData) {
   const category = $("#category-dropdown").val();
   const brand = $("#brand").val();
   const description = $("#description").val();
-  const stores = $("#store-dropdown").val();
+  const stores = $("#store-dropdown")
+    .val()
+    .filter((x) => x);
 
   const productDetail = {
     name,
@@ -363,30 +367,46 @@ async function addToStores(newStoreIDs, productID, productDetail) {
     stores,
   } = productDetail;
   console.log("add store", newStoreIDs);
-  newStoreIDs.forEach(async (newStoreID) => {
-    if (!newStoreID) return;
-    const storeRef = doc(db, "stores", newStoreID, "storeProducts", productID);
-    await setDoc(storeRef, {
-      name: name,
-      name_lower: name.toLowerCase(),
-      quantity: Number(quantity),
-      unit: unit,
-      price: Number(price),
-      brand: brand,
-      imageUrl: imageUrl,
-      category: category,
-      description: description,
-    });
-  });
+  await Promise.all(
+    newStoreIDs.map(async (newStoreID) => {
+      if (!newStoreID) return;
+      const storeRef = doc(
+        db,
+        "stores",
+        newStoreID,
+        "storeProducts",
+        productID
+      );
+      await setDoc(storeRef, {
+        name: name,
+        name_lower: name.toLowerCase(),
+        quantity: Number(quantity),
+        unit: unit,
+        price: Number(price),
+        brand: brand,
+        imageUrl: imageUrl,
+        category: category,
+        description: description,
+      });
+    })
+  );
 }
 
 async function removeFromStores(oldStoreIDs, productID) {
   console.log("remove store", oldStoreIDs);
-  oldStoreIDs.forEach(async (oldStoreID) => {
-    if (!oldStoreID) return;
-    const storeRef = doc(db, "stores", oldStoreID, "storeProducts", productID);
-    await deleteDoc(storeRef);
-  });
+  await Promise.all(
+    oldStoreIDs.map(async (oldStoreID) => {
+      if (!oldStoreID) return;
+      const storeRef = doc(
+        db,
+        "stores",
+        oldStoreID,
+        "storeProducts",
+        productID
+      );
+      await deleteDoc(storeRef);
+    })
+  );
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
