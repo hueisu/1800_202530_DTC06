@@ -222,7 +222,9 @@ async function submitUpdateProduct(productID, originalProductData) {
       await addToCategories(productID, productDetail);
 
       // 2-2 remove from old category
-      await removeFromCategories(productID, originalProductData.category);
+      if (originalProductData.category) {
+        await removeFromCategories(productID, originalProductData.category);
+      }
     }
     // 3, add product doc in stores collection
     // 3-1, remove from old stores
