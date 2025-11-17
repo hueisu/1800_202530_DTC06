@@ -1,8 +1,10 @@
-import { db } from "./firebaseConfig";
+import { auth, db } from "./firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import $ from "jquery";
 import { hideLoading, showLoading } from "./general";
 import { addProductToCurrentList } from "./getProducts";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { ADMIN } from "./constant";
 
 async function displayProduct() {
   const productID = new URL(window.location.href).searchParams.get("id");
@@ -61,7 +63,19 @@ async function displayProduct() {
   } catch (error) {
     console.error(error);
   }
-  hideLoading()
+  hideLoading();
 }
 
-displayProduct();
+document.addEventListener("DOMContentLoaded", async () => {
+  await displayProduct();
+});
+
+onAuthStateChanged(auth, (user) => {
+  const productID = new URL(window.location.href).searchParams.get("id");
+
+  if (user || ADMIN.includes(user.uid)) {
+    $("#product-information").prepend(
+      `<a href="/editProduct?id=${productID}" class="block bg-purple-200 p-2 rounded w-fit mb-5 ml-auto self-end">Edit</a>`
+    );
+  }
+});
