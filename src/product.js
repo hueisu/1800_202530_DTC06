@@ -21,7 +21,7 @@ async function displayProduct() {
         if (!store.length) {
           return;
         }
-        console.log(store);
+
         const storeRef = doc(db, "stores", store);
         const storeSnapshot = await getDoc(storeRef);
         return storeSnapshot.data().name;
