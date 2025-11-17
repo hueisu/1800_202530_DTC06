@@ -1,5 +1,21 @@
 import $ from "jquery";
 
+export function formatPrice(number) {
+  return parseFloat(number.toFixed(2));
+}
+
+export function addedValueInArray(originalArr, newArr) {
+  return newArr.filter((x) => !originalArr.includes(x));
+}
+
+export function removedValueInArray(originalArr, newArr) {
+  return originalArr.filter((x) => !newArr.includes(x));
+}
+
+export function isNumericString(str) {
+  return typeof str === "string" && !Number.isNaN(Number(str));
+}
+
 export function showLoading() {
   $("body").prepend(
     `<div id="loading" class="z-99 w-screen h-[100%] bg-gray-200/80 fixed">

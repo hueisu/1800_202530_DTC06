@@ -1,5 +1,12 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { hideLoading, showAlert, showLoading, showModal } from "./general";
+import {
+  formatPrice,
+  hideLoading,
+  isNumericString,
+  showAlert,
+  showLoading,
+  showModal,
+} from "./general";
 import $ from "jquery";
 import { auth, db } from "./firebaseConfig";
 import {
@@ -13,14 +20,6 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { shareListWithUser } from "./share";
-
-export function formatPrice(number) {
-  return parseFloat(number.toFixed(2));
-}
-
-export function isNumericString(str) {
-  return typeof str === "string" && !Number.isNaN(Number(str));
-}
 
 // TODO: tax info in category?
 
