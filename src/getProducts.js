@@ -1,4 +1,5 @@
 import { auth, db } from "./firebaseConfig";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   addDoc,
   collection,
@@ -7,6 +8,9 @@ import {
   getDoc,
   setDoc,
   updateDoc,
+  query,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 import $ from "jquery";
 import { hideLoading, showAlert, showLoading } from "./general";
@@ -39,7 +43,7 @@ async function displayProductsCards() {
               </p>
             </div>
 
-            <div class="fa-xl border rounded-full self-start p-1 hover:bg-gray-100" data-add-to-list>
+            <div class="fa-lg border rounded-full self-start p-1 hover:bg-gray-100 ml-2" data-add-to-list>
               <i class="fa-solid fa-plus"></i>
             </div>
           </div>
@@ -186,6 +190,93 @@ export async function addProductToCurrentList(product, productId) {
     hideLoading();
   }
 }
+
+//Show previously added list
+async function displayPreviouslyAddedCards(userID) {
+  const previouslyAddedRef = collection(db, "users", userID, "historyList");
+  const previouslyAddedContainer = $("#previously-added-container");
+  const heading = document.getElementById("previously-added-title");
+  const mostRecentList = query(
+    previouslyAddedRef,
+    orderBy("date", "desc"),
+    limit(1)
+  );
+  showLoading();
+  try {
+    const querySnapshot = await getDocs(mostRecentList);
+    if (querySnapshot.empty) {
+      heading.innerText = "Previously Added (No History Available)";
+      return;
+    }
+    querySnapshot.forEach((doc) => {
+      const historyRecord = doc.data();
+      let displayDate = "";
+      const dateObject = historyRecord.date.toDate();
+      displayDate = dateObject.toDateString();
+      console.log(displayDate);
+      heading.innerText = `Previously Added On ${displayDate}`;
+      historyRecord.content.forEach((product) => {
+        const $productCard = $(`
+          <a href="/product?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
+            <div class="absolute right-3 top-3 text-red-500" data-favorite>
+              <i class="fa-regular fa-heart fa-xl"></i>
+            </div>
+  
+            <div class="flex items-center justify-center grow-1">
+              <img src="${product.imageUrl}" class="" alt="${product.name}-image" />
+            </div>
+  
+            <div class="p-3 flex justify-between">
+              <div>
+                <h5 class="font-bold">${product.name}</h5>
+                <p>
+                  ${product.count} at $${product.price} each
+                </p>
+              </div>
+  
+              <div class="fa-lg border rounded-full self-start p-1 hover:bg-gray-100 ml-2" data-add-to-list>
+                <i class="fa-solid fa-plus"></i>
+              </div>
+            </div>
+          </a>
+        `);
+        // add to favorite
+        $productCard.on("click", "[data-favorite]", function (e) {
+          e.preventDefault();
+          // TODO: add to favorite function here 🔥
+        });
+
+        // hover on add to favorite
+        $productCard.on("mouseenter", "[data-favorite]", function () {
+          $(this).find(".fa-heart").addClass("fa-solid");
+          $(this).find(".fa-heart").removeClass("fa-regular");
+        });
+        $productCard.on("mouseleave", "[data-favorite]", function () {
+          $(this).find(".fa-heart").addClass("fa-regular");
+          $(this).find(".fa-heart").removeClass("fa-solid");
+        });
+
+        // add to current list
+        $productCard.on("click", "[data-add-to-list]", async function (e) {
+          e.preventDefault();
+          await addProductToCurrentList(product, doc.id);
+        });
+        previouslyAddedContainer.append($productCard);
+      });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+  hideLoading();
+}
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const userID = user.uid;
+    console.log(userID);
+    displayPreviouslyAddedCards(userID);
+  }
+});
 
 displayProductsCards();
 seedProducts();
