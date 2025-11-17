@@ -204,6 +204,10 @@ async function displayPreviouslyAddedCards(userID) {
   showLoading();
   try {
     const querySnapshot = await getDocs(mostRecentList);
+    if (querySnapshot.empty) {
+      heading.innerText = "Previously Added (No History Available)";
+      return;
+    }
     querySnapshot.forEach((doc) => {
       const historyRecord = doc.data();
       let displayDate = "";
