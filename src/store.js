@@ -1,12 +1,12 @@
 import { db } from "./firebaseConfig.js";
 import { collection, getDocs, addDoc } from "firebase/firestore";
-import { addProductToCurrentList } from "./getProducts.js";
+import { addProductToCurrentList } from "./db.js";
 import $ from "jquery";
 
 import { doc, getDoc } from "firebase/firestore";
 
 const params = new URLSearchParams(window.location.search);
-const storeId = params.get('id');
+const storeId = params.get("id");
 
 // Get store data from Firestore
 async function getStores() {
@@ -46,10 +46,9 @@ async function init() {
 
   if (storeId) {
     const storeName = await fetchStoreName(storeId);
-    getProducts(storeId, storeName); 
+    getProducts(storeId, storeName);
     switchView(false); // Show products only
   }
-
 }
 
 init();

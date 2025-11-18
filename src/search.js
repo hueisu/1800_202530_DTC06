@@ -9,6 +9,7 @@ import {
 import $ from "jquery";
 import { db } from "./firebaseConfig";
 import { hideLoading, showAlert, showLoading } from "./general";
+import { addProductToCurrentList } from "./db";
 
 const ENTER = 13;
 
