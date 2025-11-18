@@ -88,10 +88,10 @@ showUserID();
 // ------------------------------------------------------
 
 const nameSpan = document.getElementById("name-goes-here");
-const emailSpan = document.getElementById("email-goes-here");
+
 
 const nameInput = document.getElementById("name-input");
-const emailInput = document.getElementById("email-input");
+
 
 const editBtn = document.getElementById("edit-btn");
 const editActions = document.getElementById("edit-actions");
@@ -109,20 +109,20 @@ onAuthReady(async (user) => {
   if (snap.exists()) {
     const data = snap.data();
     nameSpan.textContent = data.name;
-    emailSpan.textContent = data.email;
+
   }
 });
 
 // ----- EDIT -----
 editBtn.addEventListener("click", () => {
   nameInput.value = nameSpan.textContent;
-  emailInput.value = emailSpan.textContent;
+
 
   nameSpan.classList.add("hidden");
-  emailSpan.classList.add("hidden");
+
 
   nameInput.classList.remove("hidden");
-  emailInput.classList.remove("hidden");
+
 
   editBtn.classList.add("hidden");
   editActions.classList.remove("hidden");
@@ -131,10 +131,10 @@ editBtn.addEventListener("click", () => {
 // ----- CANCEL -----
 cancelBtn.addEventListener("click", () => {
   nameInput.classList.add("hidden");
-  emailInput.classList.add("hidden");
+
 
   nameSpan.classList.remove("hidden");
-  emailSpan.classList.remove("hidden");
+
 
   editActions.classList.add("hidden");
   editBtn.classList.remove("hidden");
@@ -143,23 +143,23 @@ cancelBtn.addEventListener("click", () => {
 // ----- SAVE -----
 saveBtn.addEventListener("click", async () => {
   const newName = nameInput.value.trim();
-  const newEmail = emailInput.value.trim();
+
 
   // Save to Firestore
   await updateDoc(userRef, {
     name: newName,
-    email: newEmail,
+
   });
 
   // Update UI
   nameSpan.textContent = newName;
-  emailSpan.textContent = newEmail;
+
 
   nameInput.classList.add("hidden");
-  emailInput.classList.add("hidden");
+
 
   nameSpan.classList.remove("hidden");
-  emailSpan.classList.remove("hidden");
+
 
   editActions.classList.add("hidden");
   editBtn.classList.remove("hidden");
