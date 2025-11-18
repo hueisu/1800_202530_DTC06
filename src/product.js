@@ -2,7 +2,7 @@ import { auth, db } from "./firebaseConfig";
 import { doc, getDoc, getDocs, query } from "firebase/firestore";
 import $ from "jquery";
 import { hideLoading, showAlert, showLoading } from "./general";
-import { addProductToCurrentList } from "./getProducts";
+import { addProductToCurrentList } from "./db";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { ADMIN } from "./constant";
 
