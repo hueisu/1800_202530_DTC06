@@ -225,8 +225,9 @@ async function displayPreviouslyAddedCards(userID) {
     });
   } catch (error) {
     console.error(error);
+  } finally {
+    hideLoading();
   }
-  hideLoading();
 }
 
 onAuthStateChanged(auth, (user) => {
