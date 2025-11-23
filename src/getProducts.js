@@ -32,7 +32,7 @@ async function displayProductsCards(userID, favorites) {
       const $productCard = $(`
         <a href="/product?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
           <div class="absolute right-3 top-3 text-red-500" data-favorite>
-            <i id="save-${doc.id}" class="fa-regular fa-heart fa-xl"></i>
+            <i id="save-${doc.id}" class="fa-heart fa-xl"></i>
           </div>
 
           <div class="flex items-center justify-center grow-1">
@@ -54,6 +54,13 @@ async function displayProductsCards(userID, favorites) {
         </a>
       `);
 
+      const isInitiallyFavorited = favorites.includes(doc.id);
+      const iconClass = isInitiallyFavorited ? "fa-solid" : "fa-regular";
+
+      const icon = $productCard.find(".fa-heart");
+      icon.addClass(iconClass);
+      icon.removeClass(isInitiallyFavorited ? "fa-regular" : "fa-solid");
+
       // add to favorite
       $productCard.on("click", "[data-favorite]", async function (e) {
         e.preventDefault();
@@ -64,16 +71,6 @@ async function displayProductsCards(userID, favorites) {
         } else {
           showAlert("Product was removed from favorites!");
         }
-      });
-
-      // hover on add to favorite
-      $productCard.on("mouseenter", "[data-favorite]", function () {
-        $(this).find(".fa-heart").addClass("fa-solid");
-        $(this).find(".fa-heart").removeClass("fa-regular");
-      });
-      $productCard.on("mouseleave", "[data-favorite]", function () {
-        $(this).find(".fa-heart").addClass("fa-regular");
-        $(this).find(".fa-heart").removeClass("fa-solid");
       });
 
       // add to current list
