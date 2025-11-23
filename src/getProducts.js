@@ -11,12 +11,15 @@ import {
   query,
   orderBy,
   limit,
+  arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
 import $ from "jquery";
 import { hideLoading, showAlert, showLoading } from "./general";
 import { addProductToCurrentList } from "./db";
+import { onAuthReady } from "./authentication.js";
 
-async function displayProductsCards() {
+async function displayProductsCards(userID, favorites) {
   const productsRef = collection(db, "products");
   const productContainer = $("#product-container");
 
@@ -29,7 +32,7 @@ async function displayProductsCards() {
       const $productCard = $(`
         <a href="/product?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
           <div class="absolute right-3 top-3 text-red-500" data-favorite>
-            <i class="fa-regular fa-heart fa-xl"></i>
+            <i id="save-${doc.id}" class="fa-regular fa-heart fa-xl"></i>
           </div>
 
           <div class="flex items-center justify-center grow-1">
@@ -51,10 +54,14 @@ async function displayProductsCards() {
         </a>
       `);
 
+      const isFavorited = favorites.includes(doc.id);
+      const icon = $productCard.find(".fa-regular");
       // add to favorite
       $productCard.on("click", "[data-favorite]", function (e) {
         e.preventDefault();
-        // TODO: add to favorite function here 🔥
+        // TODO: add to favorite function here
+        toggleFavorite(userID, doc.id);
+        console.log("Something happened?");
       });
 
       // hover on add to favorite
@@ -72,7 +79,6 @@ async function displayProductsCards() {
         e.preventDefault();
         await addProductToCurrentList(product, doc.id);
       });
-
       productContainer.append($productCard);
     });
   } catch (error) {
@@ -238,5 +244,48 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-displayProductsCards();
+function showDashboard() {
+  onAuthReady(async (user) => {
+    // 1. Build a reference to the user document
+    const userRef = doc(db, "users", user.uid);
+
+    // 2. Read that document once
+    const userDoc = await getDoc(userRef);
+    const userData = userDoc.exists() ? userDoc.data() : {};
+
+    // 4. Read bookmarks as a plain array (no globals)
+    const favorites = userData.favorites || [];
+
+    // 5. Display cards, but now pass userRef and bookmarks (array)
+    await displayProductsCards(user.uid, favorites);
+  });
+}
+
+async function toggleFavorite(userID, docID) {
+  const userRef = doc(db, "users", userID);
+  const userSnap = await getDoc(userRef);
+  const userData = userSnap.data() || {};
+  const favorites = userData.favorites || []; // default to empty array
+
+  const iconId = "save-" + docID;
+  const icon = document.getElementById(iconId);
+
+  // JS function ".includes" will return true if an item is found in the array
+  const isFavorited = favorites.includes(docID);
+  try {
+    if (isFavorited) {
+      // Remove from Firestore array
+      await updateDoc(userRef, { favorites: arrayRemove(docID) });
+      icon.classList.replace("fa-solid", "fa-regular");
+    } else {
+      // Add to Firestore array
+      await updateDoc(userRef, { favorites: arrayUnion(docID) });
+      icon.classList.replace("fa-regular", "fa-solid");
+    }
+  } catch (err) {
+    console.error("Error toggling favorites:", err);
+  }
+}
+
+showDashboard();
 seedProducts();
