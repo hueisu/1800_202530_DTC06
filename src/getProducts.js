@@ -53,12 +53,12 @@ async function displayProductsCards(userID, favorites) {
           </div>
         </a>
       `);
-      const isFavorited = favorites.includes(doc.id);
+
       // add to favorite
-      $productCard.on("click", "[data-favorite]", function (e) {
+      $productCard.on("click", "[data-favorite]", async function (e) {
         e.preventDefault();
         // TODO: add to favorite function here
-        toggleFavorite(userID, doc.id);
+        const isFavorited = await toggleFavorite(userID, doc.id);
         if (isFavorited) {
           showAlert("Product was added to favorites!");
         } else {
@@ -273,19 +273,23 @@ async function toggleFavorite(userID, docID) {
   const icon = document.getElementById(iconId);
 
   // JS function ".includes" will return true if an item is found in the array
-  const isFavorited = favorites.includes(docID);
+  const currentlyFavorited = favorites.includes(docID);
+  let newFavoritedState;
   try {
-    if (isFavorited) {
+    if (currentlyFavorited) {
       // Remove from Firestore array
       await updateDoc(userRef, { favorites: arrayRemove(docID) });
-      icon.classList.add("fa-solid");
-      icon.classList.remove("fa-regular");
+      icon.classList.add("fa-regular");
+      icon.classList.remove("fa-solid");
+      newFavoritedState = false;
     } else {
       // Add to Firestore array
       await updateDoc(userRef, { favorites: arrayUnion(docID) });
-      icon.classList.add("fa-regular");
-      icon.classList.remove("fa-solid");
+      icon.classList.add("fa-solid");
+      icon.classList.remove("fa-regular");
+      newFavoritedState = true;
     }
+    return newFavoritedState;
   } catch (err) {
     console.error("Error toggling favorites:", err);
   }
