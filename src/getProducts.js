@@ -53,15 +53,17 @@ async function displayProductsCards(userID, favorites) {
           </div>
         </a>
       `);
-
       const isFavorited = favorites.includes(doc.id);
-      const icon = $productCard.find(".fa-regular");
       // add to favorite
       $productCard.on("click", "[data-favorite]", function (e) {
         e.preventDefault();
         // TODO: add to favorite function here
         toggleFavorite(userID, doc.id);
-        console.log("Something happened?");
+        if (isFavorited) {
+          showAlert("Product was added to favorites!");
+        } else {
+          showAlert("Product was removed from favorites!");
+        }
       });
 
       // hover on add to favorite
@@ -276,11 +278,13 @@ async function toggleFavorite(userID, docID) {
     if (isFavorited) {
       // Remove from Firestore array
       await updateDoc(userRef, { favorites: arrayRemove(docID) });
-      icon.classList.replace("fa-solid", "fa-regular");
+      icon.classList.add("fa-solid");
+      icon.classList.remove("fa-regular");
     } else {
       // Add to Firestore array
       await updateDoc(userRef, { favorites: arrayUnion(docID) });
-      icon.classList.replace("fa-regular", "fa-solid");
+      icon.classList.add("fa-regular");
+      icon.classList.remove("fa-solid");
     }
   } catch (err) {
     console.error("Error toggling favorites:", err);
