@@ -11,6 +11,7 @@ import {
   query,
   orderBy,
   limit,
+  where,
 } from "firebase/firestore";
 import $ from "jquery";
 import { hideLoading, showAlert, showLoading } from "./general";
@@ -18,11 +19,12 @@ import { addProductToCurrentList } from "./db";
 
 async function displayProductsCards() {
   const productsRef = collection(db, "products");
+  const featuredProducts = query(productsRef, where("featured", "==", "true"));
   const productContainer = $("#product-container");
 
   showLoading();
   try {
-    const querySnapshot = await getDocs(productsRef);
+    const querySnapshot = await getDocs(featuredProducts);
     querySnapshot.forEach((doc) => {
       const product = doc.data();
 
