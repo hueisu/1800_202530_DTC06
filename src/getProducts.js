@@ -182,10 +182,6 @@ async function displayPreviouslyAddedCards(userID) {
       historyRecord.content.forEach((product) => {
         const $productCard = $(`
           <a href="/product?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
-            <div class="absolute right-3 top-3 text-red-500" data-favorite>
-              <i class="fa-regular fa-heart fa-xl"></i>
-            </div>
-  
             <div class="flex items-center justify-center grow-1">
               <img src="${product.imageUrl}" class="" alt="${product.name}-image" />
             </div>
@@ -204,22 +200,6 @@ async function displayPreviouslyAddedCards(userID) {
             </div>
           </a>
         `);
-        // add to favorite
-        $productCard.on("click", "[data-favorite]", function (e) {
-          e.preventDefault();
-          // TODO: add to favorite function here 🔥
-        });
-
-        // hover on add to favorite
-        $productCard.on("mouseenter", "[data-favorite]", function () {
-          $(this).find(".fa-heart").addClass("fa-solid");
-          $(this).find(".fa-heart").removeClass("fa-regular");
-        });
-        $productCard.on("mouseleave", "[data-favorite]", function () {
-          $(this).find(".fa-heart").addClass("fa-regular");
-          $(this).find(".fa-heart").removeClass("fa-solid");
-        });
-
         // add to current list
         $productCard.on("click", "[data-add-to-list]", async function (e) {
           e.preventDefault();
