@@ -157,7 +157,7 @@ function displayProducts(products, userID, favorites) {
     $productCard.on("click", "[data-favorite]", async function (e) {
       e.preventDefault();
       // TODO: add to favorite function here
-      const isFavorited = await toggleFavorite(userID, doc.id);
+      const isFavorited = await toggleFavorite(userID, product.id);
       if (isFavorited) {
         showAlert("Product was added to favorites!");
       } else {
