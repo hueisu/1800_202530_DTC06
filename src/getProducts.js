@@ -260,7 +260,7 @@ function showDashboard() {
   });
 }
 
-async function toggleFavorite(userID, docID) {
+export async function toggleFavorite(userID, docID) {
   const userRef = doc(db, "users", userID);
   const userSnap = await getDoc(userRef);
   const userData = userSnap.data() || {};
