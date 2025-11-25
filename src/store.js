@@ -1,9 +1,18 @@
 import { db } from "./firebaseConfig.js";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  arrayUnion,
+  arrayRemove,
+  getDoc,
+  doc,
+} from "firebase/firestore";
 import { addProductToCurrentList } from "./db.js";
 import $ from "jquery";
-
-import { doc, getDoc } from "firebase/firestore";
+import { toggleFavorite } from "./getProducts";
+import { onAuthReady } from "./authentication.js";
+import { showAlert } from "./general";
 
 const params = new URLSearchParams(window.location.search);
 const storeId = params.get("id");
@@ -35,26 +44,8 @@ async function fetchStoreName(storeId) {
   return "";
 }
 
-// Get store data synchronously
-async function init() {
-  const storesData = await getStores();
-  if (storesData && storesData.length > 0) {
-    displayStores(storesData);
-  } else {
-    console.log("No store data");
-  }
-
-  if (storeId) {
-    const storeName = await fetchStoreName(storeId);
-    getProducts(storeId, storeName);
-    switchView(false); // Show products only
-  }
-}
-
-init();
-
 // Display stores in dynamically made cards
-function displayStores(stores) {
+function displayStores(stores, userID, favorites) {
   const container = document.getElementById("store-cards-container");
 
   container.innerHTML = "";
@@ -77,7 +68,7 @@ function displayStores(stores) {
     storeCardElement.addEventListener("click", () => {
       const storeId = storeCardElement.dataset.storeId;
       const storeName = storeCardElement.dataset.storeName;
-      getProducts(storeId, storeName);
+      getProducts(storeId, storeName, userID, favorites);
     });
 
     container.appendChild(storeCardElement);
@@ -109,7 +100,7 @@ function switchView(showStores) {
 }
 
 // Get store product data
-async function getProducts(storeId, storeName) {
+async function getProducts(storeId, storeName, userID, favorites) {
   document.getElementById(
     "store-name-header"
   ).textContent = `${storeName} Products`;
@@ -123,7 +114,7 @@ async function getProducts(storeId, storeName) {
         ...doc.data(),
       };
     });
-    displayProducts(productArray);
+    displayProducts(productArray, userID, favorites);
     // Switch view to product
     switchView(false);
   } catch (error) {
@@ -132,15 +123,16 @@ async function getProducts(storeId, storeName) {
 }
 
 // Display product
-function displayProducts(products) {
+function displayProducts(products, userID, favorites) {
   const container = $("#product-cards-container");
   container.empty();
 
   products.forEach((product) => {
+    const productID = product.id;
     const $productCard = $(`
         <a href="/product?id=${product.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
           <div class="absolute right-3 top-3 text-red-500" data-favorite>
-            <i class="fa-regular fa-heart fa-xl"></i>
+            <i id="save-${productID}" class="fa-regular fa-heart fa-xl"></i>
           </div>
 
           <div class="flex items-center justify-center grow-1">
@@ -161,23 +153,17 @@ function displayProducts(products) {
           </div>
         </a>
         `);
-
     // add to favorite
-    $productCard.on("click", "[data-favorite]", function (e) {
+    $productCard.on("click", "[data-favorite]", async function (e) {
       e.preventDefault();
-      // TODO: add to favorite function here 🔥
+      // TODO: add to favorite function here
+      const isFavorited = await toggleFavorite(userID, product.id);
+      if (isFavorited) {
+        showAlert("Product was added to favorites!");
+      } else {
+        showAlert("Product was removed from favorites!");
+      }
     });
-
-    // hover on add to favorite
-    $productCard.on("mouseenter", "[data-favorite]", function () {
-      $(this).find(".fa-heart").addClass("fa-solid");
-      $(this).find(".fa-heart").removeClass("fa-regular");
-    });
-    $productCard.on("mouseleave", "[data-favorite]", function () {
-      $(this).find(".fa-heart").addClass("fa-regular");
-      $(this).find(".fa-heart").removeClass("fa-solid");
-    });
-
     // add to current list
     $productCard.on("click", "[data-add-to-list]", async function (e) {
       e.preventDefault();
@@ -187,5 +173,29 @@ function displayProducts(products) {
     container.append($productCard);
   });
 }
+
+function setup() {
+  onAuthReady(async (user) => {
+    const userID = user.uid;
+    const userRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userRef);
+    const userData = userDoc.exists() ? userDoc.data() : {};
+    const favorites = userData.favorites || [];
+
+    const storesData = await getStores();
+    if (storesData && storesData.length > 0) {
+      displayStores(storesData, userID, favorites);
+    } else {
+      console.log("No store data");
+    }
+
+    if (storeId) {
+      const storeName = await fetchStoreName(storeId);
+      getProducts(storeId, storeName, userID, favorites);
+      switchView(false); // Show products only
+    }
+  });
+}
+setup();
 
 window.switchView = switchView;
