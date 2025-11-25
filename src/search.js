@@ -44,7 +44,6 @@ async function searchByKeyword(keyword = "", userID = "", favorites = []) {
       const product = doc.data();
       const docID = doc.id;
       const isInitiallyFavorited = favorites.includes(docID);
-      const iconClass = isInitiallyFavorited ? "fa-solid" : "fa-regular";
 
       const $productCard = $(`
         <a href="/product?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
