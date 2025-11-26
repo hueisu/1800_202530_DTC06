@@ -52,7 +52,7 @@ async function displayProduct(userID = null) {
           ${storeNames
             .map(
               (storeName) =>
-                `<a href="/store-list.html" class="rounded bg-purple-200 py-1 px-2">${storeName}</a>`
+                `<a href="/store-list.html" class="rounded bg-purple-200 py-[2px] px-[5px] text-xs">${storeName}</a>`
             )
             .join("")}
           </div>
@@ -93,7 +93,7 @@ async function displayProduct(userID = null) {
       window.location.href = "review.html";
     });
 
-    productContainer.append($element);
+    productContainer.prepend($element);
   } catch (error) {
     showAlert("Something went wrong...", "error");
     console.error(error);
