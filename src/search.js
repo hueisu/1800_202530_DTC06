@@ -13,8 +13,7 @@ import {
 import $ from "jquery";
 import { db } from "./firebaseConfig";
 import { hideLoading, showAlert, showLoading } from "./general";
-import { addProductToCurrentList } from "./db";
-import { toggleFavorite } from "./getProducts";
+import { addProductToCurrentList, toggleFavorite } from "./db";
 import { onAuthReady } from "./authentication.js";
 const ENTER = 13;
 

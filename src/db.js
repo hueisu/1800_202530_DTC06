@@ -1,4 +1,11 @@
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { auth, db } from "./firebaseConfig";
 import { hideLoading, showAlert, showLoading } from "./general";
 
@@ -43,5 +50,37 @@ export async function addProductToCurrentList(product, productId) {
     console.log(error);
   } finally {
     hideLoading();
+  }
+}
+
+export async function toggleFavorite(userID, docID) {
+  const userRef = doc(db, "users", userID);
+  const userSnap = await getDoc(userRef);
+  const userData = userSnap.data() || {};
+  const favorites = userData.favorites || []; // default to empty array
+
+  const iconId = "save-" + docID;
+  const icon = document.getElementById(iconId);
+
+  // JS function ".includes" will return true if an item is found in the array
+  const currentlyFavorited = favorites.includes(docID);
+  let newFavoritedState;
+  try {
+    if (currentlyFavorited) {
+      // Remove from Firestore array
+      await updateDoc(userRef, { favorites: arrayRemove(docID) });
+      icon.classList.add("fa-regular");
+      icon.classList.remove("fa-solid");
+      newFavoritedState = false;
+    } else {
+      // Add to Firestore array
+      await updateDoc(userRef, { favorites: arrayUnion(docID) });
+      icon.classList.add("fa-solid");
+      icon.classList.remove("fa-regular");
+      newFavoritedState = true;
+    }
+    return newFavoritedState;
+  } catch (err) {
+    console.error("Error toggling favorites:", err);
   }
 }

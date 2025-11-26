@@ -8,9 +8,8 @@ import {
   getDoc,
   doc,
 } from "firebase/firestore";
-import { addProductToCurrentList } from "./db.js";
+import { addProductToCurrentList, toggleFavorite } from "./db.js";
 import $ from "jquery";
-import { toggleFavorite } from "./getProducts";
 import { onAuthReady } from "./authentication.js";
 import { showAlert } from "./general";
 
@@ -156,7 +155,6 @@ function displayProducts(products, userID, favorites) {
     // add to favorite
     $productCard.on("click", "[data-favorite]", async function (e) {
       e.preventDefault();
-      // TODO: add to favorite function here
       const isFavorited = await toggleFavorite(userID, product.id);
       if (isFavorited) {
         showAlert("Product was added to favorites!");
