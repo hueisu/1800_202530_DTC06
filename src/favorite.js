@@ -34,11 +34,14 @@ async function displayFavoritesCards(userID, favorites) {
         return;
       }
       const product = doc.data();
+      //If product was in user's favorites, heart icon should be filled
+      const isInitiallyFavorited = favorites.includes(doc.id);
+      const initialClass = isInitiallyFavorited ? "fa-solid" : "fa-regular";
 
       const $productCard = $(`
         <a href="/product?id=${doc.id}" class="hover:cursor-pointer hover:shadow-lg transition-shadow duration-300 hover:scale-105 border border-gray-300 hover:border-gray-700 rounded-md flex flex-col relative bg-white">
           <div class="absolute right-3 top-3 text-red-500" data-favorite>
-            <i id="save-${doc.id}" class="fa-heart fa-xl"></i>
+            <i id="save-${doc.id}" class="${initialClass} fa-heart fa-xl"></i>
           </div>
 
           <div class="flex items-center justify-center grow-1">
@@ -59,13 +62,6 @@ async function displayFavoritesCards(userID, favorites) {
           </div>
         </a>
       `);
-      //If product was in user's favorites, heart icon should be filled
-      const isInitiallyFavorited = favorites.includes(doc.id);
-      const iconClass = isInitiallyFavorited ? "fa-solid" : "fa-regular";
-
-      const icon = $productCard.find(".fa-heart");
-      icon.addClass(iconClass);
-      icon.removeClass(isInitiallyFavorited ? "fa-regular" : "fa-solid");
 
       // add to favorite
       $productCard.on("click", "[data-favorite]", async function (e) {
