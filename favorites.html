@@ -37,29 +37,7 @@
 
     <!---------------------------->
     <!-- Main content goes here -->
-    <main>
-      <!-- Store List -->
-      <section class="block" id="store-list-view">
-        <h1 class="font-bold text-center text-2xl mt-4">List of Stores</h1>
-        <div class="md:max-w-4xl m-auto">
-          <div
-            class="grid gap-5 m-5 sm:grid-cols-2 md:grid-cols-4"
-            id="store-cards-container"
-          ></div>
-        </div>
-      </section>
 
-      <!-- Product List -->
-      <section class="hidden" id="product-list-view">
-        <h2 id="store-name-header" class="text-2xl font-bold mt-4 ml-5">
-          Products at [Store Name]
-        </h2>
-        <button class="hover:cursor-pointer hover:bg-gray-300 bg-gray-200 rounded p-2 ml-5" onclick="switchView(true)">Back to Stores</button>
-        <div
-          id="product-cards-container"
-          class="grid gap-5 m-5 sm:grid-cols-2 md:grid-cols-4"
-        ></div>
-      </section>
     <site-footer></site-footer>
     <!---------------------------------------------->
     <!-- Your own JavaScript functions go here    -->
@@ -67,6 +45,6 @@
 
     <!-- Link to scripts of your own -->
     <script type="module" src="./src/app.js"></script>
-    <script type="module" src="./src/store.js"></script>
+    <script type="module" src="./src/favorite.js"></script>
   </body>
 </html>
