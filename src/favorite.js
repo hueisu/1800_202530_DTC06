@@ -1,10 +1,9 @@
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
-import { toggleFavorite } from "./getProducts";
 import { onAuthReady } from "./authentication.js";
 import { db } from "./firebaseConfig";
 import $ from "jquery";
 import { hideLoading, showAlert, showLoading } from "./general";
-import { addProductToCurrentList } from "./db";
+import { addProductToCurrentList, toggleFavorite } from "./db";
 
 function showFavorites() {
   onAuthReady(async (user) => {
@@ -71,8 +70,7 @@ async function displayFavoritesCards(userID, favorites) {
       // add to favorite
       $productCard.on("click", "[data-favorite]", async function (e) {
         e.preventDefault();
-        // TODO: add to favorite function here
-        const isFavorited = await toggleFavorite(userID, doc.id);
+        const isFavorited = await toggleFavorite(doc.id);
         if (isFavorited) {
           showAlert("Product was added to favorites!");
         } else {
