@@ -11,6 +11,7 @@ import {
   query,
   orderBy,
   limit,
+  where,
   arrayUnion,
   arrayRemove,
 } from "firebase/firestore";
@@ -21,11 +22,12 @@ import { onAuthReady } from "./authentication.js";
 
 async function displayProductsCards(userID, favorites) {
   const productsRef = collection(db, "products");
+  const featuredProducts = query(productsRef, where("featured", "==", "true"));
   const productContainer = $("#product-container");
 
   showLoading();
   try {
-    const querySnapshot = await getDocs(productsRef);
+    const querySnapshot = await getDocs(featuredProducts);
     querySnapshot.forEach((doc) => {
       const product = doc.data();
 
