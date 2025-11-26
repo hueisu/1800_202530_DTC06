@@ -55,7 +55,7 @@ async function displayProductsCards(userID = null, favorites = []) {
           </div>
         </a>
       `);
-
+      //If product was in user's favorites, heart icon should be filled
       const isInitiallyFavorited = favorites.includes(doc.id);
       const iconClass = isInitiallyFavorited ? "fa-solid" : "fa-regular";
 

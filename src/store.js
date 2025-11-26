@@ -152,6 +152,13 @@ function displayProducts(products, userID, favorites) {
           </div>
         </a>
         `);
+    //If product was in user's favorites, heart icon should be filled
+    const isInitiallyFavorited = favorites.includes(product.id);
+    const iconClass = isInitiallyFavorited ? "fa-solid" : "fa-regular";
+
+    const icon = $productCard.find(".fa-heart");
+    icon.addClass(iconClass);
+    icon.removeClass(isInitiallyFavorited ? "fa-regular" : "fa-solid");
     // add to favorite
     $productCard.on("click", "[data-favorite]", async function (e) {
       e.preventDefault();

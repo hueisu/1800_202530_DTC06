@@ -42,7 +42,6 @@ async function searchByKeyword(keyword = "", userID = "", favorites = []) {
     querySnapshot.forEach((doc) => {
       const product = doc.data();
       const docID = doc.id;
-      const isInitiallyFavorited = favorites.includes(docID);
 
       const $productCard = $(`
         <a href="/product?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
@@ -68,6 +67,13 @@ async function searchByKeyword(keyword = "", userID = "", favorites = []) {
           </div>
         </a>
       `);
+      //If product was in user's favorites, heart icon should be filled
+      const isInitiallyFavorited = favorites.includes(doc.id);
+      const iconClass = isInitiallyFavorited ? "fa-solid" : "fa-regular";
+
+      const icon = $productCard.find(".fa-heart");
+      icon.addClass(iconClass);
+      icon.removeClass(isInitiallyFavorited ? "fa-regular" : "fa-solid");
 
       // add to favorite
       $productCard.on("click", "[data-favorite]", async function (e) {
