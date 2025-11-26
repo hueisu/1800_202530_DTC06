@@ -17,7 +17,7 @@ import {
 } from "firebase/firestore";
 import $ from "jquery";
 import { hideLoading, showAlert, showLoading } from "./general";
-import { addProductToCurrentList } from "./db";
+import { addProductToCurrentList, toggleFavorite } from "./db";
 import { onAuthReady } from "./authentication.js";
 
 async function displayProductsCards(userID, favorites) {
@@ -66,7 +66,6 @@ async function displayProductsCards(userID, favorites) {
       // add to favorite
       $productCard.on("click", "[data-favorite]", async function (e) {
         e.preventDefault();
-        // TODO: add to favorite function here
         const isFavorited = await toggleFavorite(userID, doc.id);
         if (isFavorited) {
           showAlert("Product was added to favorites!");
@@ -240,38 +239,6 @@ function showDashboard() {
     // 5. Display cards, but now pass userRef and bookmarks (array)
     await displayProductsCards(user.uid, favorites);
   });
-}
-
-export async function toggleFavorite(userID, docID) {
-  const userRef = doc(db, "users", userID);
-  const userSnap = await getDoc(userRef);
-  const userData = userSnap.data() || {};
-  const favorites = userData.favorites || []; // default to empty array
-
-  const iconId = "save-" + docID;
-  const icon = document.getElementById(iconId);
-
-  // JS function ".includes" will return true if an item is found in the array
-  const currentlyFavorited = favorites.includes(docID);
-  let newFavoritedState;
-  try {
-    if (currentlyFavorited) {
-      // Remove from Firestore array
-      await updateDoc(userRef, { favorites: arrayRemove(docID) });
-      icon.classList.add("fa-regular");
-      icon.classList.remove("fa-solid");
-      newFavoritedState = false;
-    } else {
-      // Add to Firestore array
-      await updateDoc(userRef, { favorites: arrayUnion(docID) });
-      icon.classList.add("fa-solid");
-      icon.classList.remove("fa-regular");
-      newFavoritedState = true;
-    }
-    return newFavoritedState;
-  } catch (err) {
-    console.error("Error toggling favorites:", err);
-  }
 }
 
 showDashboard();
