@@ -113,6 +113,7 @@ onAuthReady(async (user) => {
   }
 });
 
+
 // ----- EDIT -----
 editBtn.addEventListener("click", () => {
   nameInput.value = nameSpan.textContent;
