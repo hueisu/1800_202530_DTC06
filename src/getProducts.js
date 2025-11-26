@@ -183,7 +183,7 @@ async function displayPreviouslyAddedCards(userID) {
       heading.innerText = `Previously Added On ${displayDate}`;
       historyRecord.content.forEach((product) => {
         const $productCard = $(`
-          <a href="/product?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
+          <a href="/product?id=${product.productId}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
             <div class="flex items-center justify-center grow-1">
               <img src="${product.imageUrl}" class="" alt="${product.name}-image" />
             </div>
