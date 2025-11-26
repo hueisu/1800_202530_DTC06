@@ -20,7 +20,7 @@ import { hideLoading, showAlert, showLoading } from "./general";
 import { addProductToCurrentList } from "./db";
 import { onAuthReady } from "./authentication.js";
 
-async function displayProductsCards(userID, favorites) {
+async function displayProductsCards(userID = null, favorites = []) {
   const productsRef = collection(db, "products");
   const featuredProducts = query(productsRef, where("featured", "==", "true"));
   const productContainer = $("#product-container");
@@ -66,12 +66,15 @@ async function displayProductsCards(userID, favorites) {
       // add to favorite
       $productCard.on("click", "[data-favorite]", async function (e) {
         e.preventDefault();
-        // TODO: add to favorite function here
-        const isFavorited = await toggleFavorite(userID, doc.id);
-        if (isFavorited) {
-          showAlert("Product was added to favorites!");
+        if (userID) {
+          const isFavorited = await toggleFavorite(userID, doc.id);
+          if (isFavorited) {
+            showAlert("Product was added to favorites!");
+          } else {
+            showAlert("Product was removed from favorites!");
+          }
         } else {
-          showAlert("Product was removed from favorites!");
+          window.location.href = "/login.html";
         }
       });
 
@@ -106,7 +109,6 @@ async function seedProducts() {
 function addProductData() {
   const productsRef = collection(db, "products");
 
-  // TODO: cate with tax info
   updateDoc(productsRef, {
     brand: "Horizon",
     category: "dairy",
@@ -227,18 +229,22 @@ onAuthStateChanged(auth, (user) => {
 
 function showDashboard() {
   onAuthReady(async (user) => {
-    // 1. Build a reference to the user document
-    const userRef = doc(db, "users", user.uid);
+    if (user) {
+      // 1. Build a reference to the user document
+      const userRef = doc(db, "users", user.uid);
 
-    // 2. Read that document once
-    const userDoc = await getDoc(userRef);
-    const userData = userDoc.exists() ? userDoc.data() : {};
+      // 2. Read that document once
+      const userDoc = await getDoc(userRef);
+      const userData = userDoc.exists() ? userDoc.data() : {};
 
-    // 4. Read bookmarks as a plain array (no globals)
-    const favorites = userData.favorites || [];
+      // 4. Read bookmarks as a plain array (no globals)
+      const favorites = userData.favorites || [];
 
-    // 5. Display cards, but now pass userRef and bookmarks (array)
-    await displayProductsCards(user.uid, favorites);
+      // 5. Display cards, but now pass userRef and bookmarks (array)
+      await displayProductsCards(user.uid, favorites);
+    } else {
+      await displayProductsCards();
+    }
   });
 }
 
