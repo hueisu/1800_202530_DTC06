@@ -53,7 +53,16 @@ export async function addProductToCurrentList(product, productId) {
   }
 }
 
-export async function toggleFavorite(userID, docID) {
+export async function toggleFavorite(docID) {
+  // get current user id
+  const userID = auth.currentUser?.uid;
+
+  // redirect to login if no user
+  if (!userID) {
+    window.location.href = "/login.html";
+    return;
+  }
+
   const userRef = doc(db, "users", userID);
   const userSnap = await getDoc(userRef);
   const userData = userSnap.data() || {};
