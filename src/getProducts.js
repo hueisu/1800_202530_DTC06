@@ -11,21 +11,23 @@ import {
   query,
   orderBy,
   limit,
+  where,
   arrayUnion,
   arrayRemove,
 } from "firebase/firestore";
 import $ from "jquery";
 import { hideLoading, showAlert, showLoading } from "./general";
-import { addProductToCurrentList } from "./db";
+import { addProductToCurrentList, toggleFavorite } from "./db";
 import { onAuthReady } from "./authentication.js";
 
-async function displayProductsCards(userID, favorites) {
+async function displayProductsCards(userID = null, favorites = []) {
   const productsRef = collection(db, "products");
+  const featuredProducts = query(productsRef, where("featured", "==", "true"));
   const productContainer = $("#product-container");
 
   showLoading();
   try {
-    const querySnapshot = await getDocs(productsRef);
+    const querySnapshot = await getDocs(featuredProducts);
     querySnapshot.forEach((doc) => {
       const product = doc.data();
 
@@ -64,12 +66,15 @@ async function displayProductsCards(userID, favorites) {
       // add to favorite
       $productCard.on("click", "[data-favorite]", async function (e) {
         e.preventDefault();
-        // TODO: add to favorite function here
-        const isFavorited = await toggleFavorite(userID, doc.id);
-        if (isFavorited) {
-          showAlert("Product was added to favorites!");
+        if (userID) {
+          const isFavorited = await toggleFavorite(doc.id);
+          if (isFavorited) {
+            showAlert("Product was added to favorites!");
+          } else {
+            showAlert("Product was removed from favorites!");
+          }
         } else {
-          showAlert("Product was removed from favorites!");
+          window.location.href = "/login.html";
         }
       });
 
@@ -104,7 +109,6 @@ async function seedProducts() {
 function addProductData() {
   const productsRef = collection(db, "products");
 
-  // TODO: cate with tax info
   updateDoc(productsRef, {
     brand: "Horizon",
     category: "dairy",
@@ -181,7 +185,7 @@ async function displayPreviouslyAddedCards(userID) {
       heading.innerText = `Previously Added On ${displayDate}`;
       historyRecord.content.forEach((product) => {
         const $productCard = $(`
-          <a href="/product?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
+          <a href="/product?id=${product.productId}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
             <div class="flex items-center justify-center grow-1">
               <img src="${product.imageUrl}" class="" alt="${product.name}-image" />
             </div>
@@ -225,51 +229,23 @@ onAuthStateChanged(auth, (user) => {
 
 function showDashboard() {
   onAuthReady(async (user) => {
-    // 1. Build a reference to the user document
-    const userRef = doc(db, "users", user.uid);
+    if (user) {
+      // 1. Build a reference to the user document
+      const userRef = doc(db, "users", user.uid);
 
-    // 2. Read that document once
-    const userDoc = await getDoc(userRef);
-    const userData = userDoc.exists() ? userDoc.data() : {};
+      // 2. Read that document once
+      const userDoc = await getDoc(userRef);
+      const userData = userDoc.exists() ? userDoc.data() : {};
 
-    // 4. Read bookmarks as a plain array (no globals)
-    const favorites = userData.favorites || [];
+      // 4. Read bookmarks as a plain array (no globals)
+      const favorites = userData.favorites || [];
 
-    // 5. Display cards, but now pass userRef and bookmarks (array)
-    await displayProductsCards(user.uid, favorites);
-  });
-}
-
-export async function toggleFavorite(userID, docID) {
-  const userRef = doc(db, "users", userID);
-  const userSnap = await getDoc(userRef);
-  const userData = userSnap.data() || {};
-  const favorites = userData.favorites || []; // default to empty array
-
-  const iconId = "save-" + docID;
-  const icon = document.getElementById(iconId);
-
-  // JS function ".includes" will return true if an item is found in the array
-  const currentlyFavorited = favorites.includes(docID);
-  let newFavoritedState;
-  try {
-    if (currentlyFavorited) {
-      // Remove from Firestore array
-      await updateDoc(userRef, { favorites: arrayRemove(docID) });
-      icon.classList.add("fa-regular");
-      icon.classList.remove("fa-solid");
-      newFavoritedState = false;
+      // 5. Display cards, but now pass userRef and bookmarks (array)
+      await displayProductsCards(user.uid, favorites);
     } else {
-      // Add to Firestore array
-      await updateDoc(userRef, { favorites: arrayUnion(docID) });
-      icon.classList.add("fa-solid");
-      icon.classList.remove("fa-regular");
-      newFavoritedState = true;
+      await displayProductsCards();
     }
-    return newFavoritedState;
-  } catch (err) {
-    console.error("Error toggling favorites:", err);
-  }
+  });
 }
 
 showDashboard();

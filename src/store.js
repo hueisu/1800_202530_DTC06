@@ -8,9 +8,8 @@ import {
   getDoc,
   doc,
 } from "firebase/firestore";
-import { addProductToCurrentList } from "./db.js";
+import { addProductToCurrentList, toggleFavorite } from "./db.js";
 import $ from "jquery";
-import { toggleFavorite } from "./getProducts";
 import { onAuthReady } from "./authentication.js";
 import { showAlert } from "./general";
 
@@ -156,12 +155,15 @@ function displayProducts(products, userID, favorites) {
     // add to favorite
     $productCard.on("click", "[data-favorite]", async function (e) {
       e.preventDefault();
-      // TODO: add to favorite function here
-      const isFavorited = await toggleFavorite(userID, product.id);
-      if (isFavorited) {
-        showAlert("Product was added to favorites!");
+      if (userID) {
+        const isFavorited = await toggleFavorite(productID);
+        if (isFavorited) {
+          showAlert("Product was added to favorites!");
+        } else {
+          showAlert("Product was removed from favorites!");
+        }
       } else {
-        showAlert("Product was removed from favorites!");
+        window.location.href = "/login.html";
       }
     });
     // add to current list
@@ -176,11 +178,16 @@ function displayProducts(products, userID, favorites) {
 
 function setup() {
   onAuthReady(async (user) => {
-    const userID = user.uid;
-    const userRef = doc(db, "users", user.uid);
-    const userDoc = await getDoc(userRef);
-    const userData = userDoc.exists() ? userDoc.data() : {};
-    const favorites = userData.favorites || [];
+    let favorites = [];
+    let userID = null;
+
+    if (user) {
+      userID = user.uid;
+      const userRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userRef);
+      const userData = userDoc.exists() ? userDoc.data() : {};
+      favorites = userData.favorites || [];
+    }
 
     const storesData = await getStores();
     if (storesData && storesData.length > 0) {
