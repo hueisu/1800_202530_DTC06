@@ -8,20 +8,20 @@ class SiteFooter extends HTMLElement {
                     <ul>
                         <li class="font-bold">Available Stores</li>
                         <li><a href="/store-list.html?id=superstore" class="hover:cursor-pointer hover:underline">SuperStore</a></li>
-                        <li><a href="/store-list.html?id=costco" class="hover:cursor-pointer hover:underline">Costco</li>
+                        <li><a href="/store-list.html?id=costco" class="hover:cursor-pointer hover:underline">Costco</a></li>
                         
-                        <li><a href="/store-list.html?id=t&t" class="hover:cursor-pointer hover:underline">T&T
+                        <li><a href="/store-list.html?id=t&t" class="hover:cursor-pointer hover:underline">T&T</a>
                         </li>
-                        <li><a href="/store-list.html?id=walmart" class="hover:cursor-pointer hover:underline">Walmart</li>
-                        <li><a href="/store-list.html?id=save-on" class="hover:cursor-pointer hover:underline">Save on Foods</li>
-                        <li><a href="/store-list.html?id=safeway" class="hover:cursor-pointer hover:underline">SafeWay</li>
+                        <li><a href="/store-list.html?id=walmart" class="hover:cursor-pointer hover:underline">Walmart</a></li>
+                        <li><a href="/store-list.html?id=save-on" class="hover:cursor-pointer hover:underline">Save on Foods</a></li>
+                        <li><a href="/store-list.html?id=safeway" class="hover:cursor-pointer hover:underline">SafeWay</a></li>
                     </ul>
 
                     <ul>
                         <li class="font-bold">Quick Links</li>
-                        <li class="hover:cursor-pointer">Top Rated Items</li>
-                        <li class="hover:cursor-pointer">Products</li>
-                        <li class="hover:cursor-pointer">Favorites</li>
+                        <li><a href="#" class="hover:cursor-pointer hover:underline">Top Rated Items</a></li>
+                        <li><a href="#" class="hover:cursor-pointer hover:underline">Products</a></li>
+                        <li><a href="/favorites.html" class="hover:cursor-pointer hover:underline">Favorites</a></li>
                     </ul>
 
                     <div class="flex flex-col space-y-1">
