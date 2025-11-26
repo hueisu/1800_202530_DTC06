@@ -1,6 +1,10 @@
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { toggleFavorite } from "./getProducts";
 import { onAuthReady } from "./authentication.js";
+import { db } from "./firebaseConfig";
+import $ from "jquery";
+import { hideLoading, showAlert, showLoading } from "./general";
+import { addProductToCurrentList } from "./db";
 
 function showFavorites() {
   onAuthReady(async (user) => {
@@ -33,7 +37,7 @@ async function displayFavoritesCards(userID, favorites) {
       const product = doc.data();
 
       const $productCard = $(`
-        <a href="/product?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
+        <a href="/product?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative bg-white">
           <div class="absolute right-3 top-3 text-red-500" data-favorite>
             <i id="save-${doc.id}" class="fa-heart fa-xl"></i>
           </div>
