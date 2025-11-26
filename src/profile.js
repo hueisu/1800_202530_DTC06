@@ -2,6 +2,7 @@ import { onAuthReady } from "./authentication.js";
 import { db } from "./firebaseConfig.js";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth } from "./firebaseConfig.js";
+import { showAlert } from "./general.js";
 
 
 function showDashboard() {
@@ -145,25 +146,22 @@ cancelBtn.addEventListener("click", () => {
 saveBtn.addEventListener("click", async () => {
   const newName = nameInput.value.trim();
 
+  // If empty, show red alert and stop
+  if (newName.length === 0) {
+    showAlert("Name cannot be empty!", "error");
+    return;
+  }
 
   // Save to Firestore
-  await updateDoc(userRef, {
-    name: newName,
-
-  });
+  await updateDoc(userRef, { name: newName });
 
   // Update UI
   nameSpan.textContent = newName;
-
-
   nameInput.classList.add("hidden");
-
-
   nameSpan.classList.remove("hidden");
-
-
   editActions.classList.add("hidden");
   editBtn.classList.remove("hidden");
 
-  alert("Profile updated!");
+  // Success alert
+  showAlert("Your name has been updated!", "success");
 });
