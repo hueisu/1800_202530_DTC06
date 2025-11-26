@@ -2,6 +2,7 @@ import { onAuthReady } from "./authentication.js";
 import { db } from "./firebaseConfig.js";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth } from "./firebaseConfig.js";
+import { showAlert } from "./general.js";
 
 
 function showDashboard() {
@@ -165,5 +166,6 @@ saveBtn.addEventListener("click", async () => {
   editActions.classList.add("hidden");
   editBtn.classList.remove("hidden");
 
-  alert("Profile updated!");
+  showAlert("Your name has been updated!", "success");
+
 });
