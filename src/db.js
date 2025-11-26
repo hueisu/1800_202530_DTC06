@@ -3,6 +3,7 @@ import {
   arrayUnion,
   doc,
   getDoc,
+  increment,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
@@ -91,5 +92,17 @@ export async function toggleFavorite(docID) {
     return newFavoritedState;
   } catch (err) {
     console.error("Error toggling favorites:", err);
+  }
+}
+
+export async function addReviewToProduct(productID, score) {
+  try {
+    const productRef = doc(db, "products", productID);
+    await updateDoc(productRef, {
+      totalScores: increment(score),
+      totalReviewQuantity: increment(1),
+    });
+  } catch (error) {
+    console.error("add review to product failed", error);
   }
 }
