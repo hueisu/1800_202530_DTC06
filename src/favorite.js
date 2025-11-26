@@ -37,7 +37,7 @@ async function displayFavoritesCards(userID, favorites) {
       const product = doc.data();
 
       const $productCard = $(`
-        <a href="/product?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative bg-white">
+        <a href="/product?id=${doc.id}" class="hover:cursor-pointer hover:shadow-lg transition-shadow duration-300 hover:scale-105 border border-gray-300 hover:border-gray-700 rounded-md flex flex-col relative bg-white">
           <div class="absolute right-3 top-3 text-red-500" data-favorite>
             <i id="save-${doc.id}" class="fa-heart fa-xl"></i>
           </div>
