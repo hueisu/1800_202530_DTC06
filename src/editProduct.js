@@ -9,6 +9,7 @@ import {
   getDoc,
   getDocs,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import {
   addedValueInArray,
@@ -279,7 +280,7 @@ async function addToProducts(productDetail) {
   const productsRef = collection(db, "product");
   const newProduct = await addDoc(productsRef, {
     name: name,
-    name_lower: name.toLowerCase(),
+    nameLower: name.toLowerCase(),
     quantity: Number(quantity),
     unit: unit,
     price: Number(price),
@@ -305,9 +306,9 @@ async function updateProduct(productID, productDetail) {
     description,
     stores,
   } = productDetail;
-  await setDoc(productsRef, {
+  await updateDoc(productsRef, {
     name: name,
-    name_lower: name.toLowerCase(),
+    nameLower: name.toLowerCase(),
     quantity: Number(quantity),
     unit: unit,
     price: Number(price),
@@ -340,7 +341,7 @@ async function addToCategories(productID, productDetail) {
   );
   await setDoc(newCategoriesRef, {
     name: name,
-    name_lower: name.toLowerCase(),
+    nameLower: name.toLowerCase(),
     quantity: Number(quantity),
     unit: unit,
     price: Number(price),
@@ -387,7 +388,7 @@ async function addToStores(newStoreIDs, productID, productDetail) {
       );
       await setDoc(storeRef, {
         name: name,
-        name_lower: name.toLowerCase(),
+        nameLower: name.toLowerCase(),
         quantity: Number(quantity),
         unit: unit,
         price: Number(price),
