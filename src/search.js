@@ -73,11 +73,15 @@ async function searchByKeyword(keyword = "", userID = "", favorites = []) {
       $productCard.on("click", "[data-favorite]", async function (e) {
         e.preventDefault();
         // Use the existing toggleFavorite function
-        const isFavorited = await toggleFavorite(userID, docID);
-        if (isFavorited) {
-          showAlert("Product was added to favorites!");
+        if (userID) {
+          const isFavorited = await toggleFavorite(docID);
+          if (isFavorited) {
+            showAlert("Product was added to favorites!");
+          } else {
+            showAlert("Product was removed from favorites!");
+          }
         } else {
-          showAlert("Product was removed from favorites!");
+          window.location.href = "/login.html";
         }
       });
 
@@ -99,16 +103,24 @@ async function searchByKeyword(keyword = "", userID = "", favorites = []) {
 
 function setup() {
   onAuthReady(async (user) => {
-    const userRef = doc(db, "users", user.uid);
-    const userDoc = await getDoc(userRef);
-    const userData = userDoc.exists() ? userDoc.data() : {};
-    const favorites = userData.favorites || [];
+    if (user) {
+      const userRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userRef);
+      const userData = userDoc.exists() ? userDoc.data() : {};
+      const favorites = userData.favorites || [];
 
-    $("#search").on("keydown", function (e) {
-      if (e.which === ENTER) {
-        searchByKeyword(e.target.value, user.uid, favorites);
-      }
-    });
+      $("#search").on("keydown", function (e) {
+        if (e.which === ENTER) {
+          searchByKeyword(e.target.value, user.uid, favorites);
+        }
+      });
+    } else {
+      $("#search").on("keydown", function (e) {
+        if (e.which === ENTER) {
+          searchByKeyword(e.target.value);
+        }
+      });
+    }
   });
 }
 

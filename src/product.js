@@ -2,11 +2,11 @@ import { auth, db } from "./firebaseConfig";
 import { doc, getDoc, getDocs, query } from "firebase/firestore";
 import $ from "jquery";
 import { hideLoading, showAlert, showLoading } from "./general";
-import { addProductToCurrentList } from "./db";
+import { addProductToCurrentList, toggleFavorite } from "./db";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { ADMIN } from "./constant";
 
-async function displayProduct() {
+async function displayProduct(userID = null) {
   const productID = new URL(window.location.href).searchParams.get("id");
 
   showLoading();
@@ -30,11 +30,14 @@ async function displayProduct() {
 
     const $element = $(`
       <div class="max-w-xl mx-auto">
-        <div class="flex flex-col gap-3">
+        <div class="flex flex-col gap-3 relative">
           <div class="flex items-center justify-center grow-1 border border-gray-300 rounded-md ">
-            <img src="${product.imageUrl}" class="" alt="${
-      product.name
-    }-image" />
+            <img src="${product.imageUrl}" alt="${product.name}-image" />
+          </div>
+          <div class="absolute right-3 top-3 text-red-500" data-favorite>
+            <i id="save-${
+              querySnapshot.id
+            }" class="fa-heart fa-xl fa-regular"></i>
           </div>
           <div class="flex justify-between">
             <div>
@@ -65,6 +68,21 @@ async function displayProduct() {
       await addProductToCurrentList(product, productID);
     });
 
+    // add to favorite
+    $element.on("click", "[data-favorite]", async function (e) {
+      e.preventDefault();
+      if (userID) {
+        const isFavorited = await toggleFavorite(productID);
+        if (isFavorited) {
+          showAlert("Product was added to favorites!");
+        } else {
+          showAlert("Product was removed from favorites!");
+        }
+      } else {
+        window.location.href = "/login.html";
+      }
+    });
+
     $element.on("click", "#writeReviewBtn", function () {
       if (!productID) {
         console.warn("No product ID found!");
@@ -83,16 +101,18 @@ async function displayProduct() {
   hideLoading();
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-  await displayProduct();
-});
+document.addEventListener("DOMContentLoaded", async () => {});
 
-onAuthStateChanged(auth, (user) => {
-  const productID = new URL(window.location.href).searchParams.get("id");
-
-  if (user || ADMIN.includes(user.uid)) {
-    $("#product-information").prepend(
-      `<a href="/editProduct?id=${productID}" class="block bg-purple-200 p-2 rounded w-fit mb-5 ml-auto self-end">Edit</a>`
-    );
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    if (ADMIN.includes(user.uid)) {
+      const productID = new URL(window.location.href).searchParams.get("id");
+      $("#product-information").prepend(
+        `<a href="/editProduct?id=${productID}" class="block bg-purple-200 p-2 rounded w-fit mb-5 ml-auto self-end">Edit</a>`
+      );
+    }
+    await displayProduct(user.uid);
+  } else {
+    await displayProduct();
   }
 });
