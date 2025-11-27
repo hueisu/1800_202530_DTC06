@@ -1,5 +1,12 @@
+import { addReviewToProduct } from "./db.js";
 import { db, auth } from "./firebaseConfig.js";
-import { doc, getDoc, collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  collection,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 
 // -----------------------------------------------------------
 // 1️⃣ Get product ID from Local Storage
@@ -83,7 +90,6 @@ async function writeReview() {
   if (user) {
     try {
       const userID = user.uid;
-
       await addDoc(collection(db, "reviews"), {
         productDocID: productDocID,
         userID: userID,
@@ -93,12 +99,11 @@ async function writeReview() {
         rating: productRating,
         timestamp: serverTimestamp(),
       });
-
       console.log("✅ Review successfully written!");
+      await addReviewToProduct(productDocID, productRating);
 
       // Redirect back to product page
       window.location.href = `product.html?id=${productDocID}`;
-
     } catch (error) {
       console.error("❌ Error adding review:", error);
     }

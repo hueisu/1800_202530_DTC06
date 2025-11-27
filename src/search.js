@@ -26,7 +26,7 @@ async function searchByKeyword(keyword = "", userID = "", favorites = []) {
   try {
     const productQuery = query(
       collection(db, "products"),
-      orderBy("name_lower"),
+      orderBy("nameLower"),
       startAt(`${keyword}`),
       endAt(`${keyword}\uf8ff`)
     );

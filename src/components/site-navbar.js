@@ -28,8 +28,7 @@ class SiteNavbar extends HTMLElement {
             </button>
             <div id="menu-content" class="hidden bg-zinc-500 text-white w-50 absolute top-[42px]">
               <a href="store-list.html" class="block p-3">Grocery Stores</a>
-              <a href="/favorites.html" class="block p-3">Favorites</a>
-              <a href="/category" class="block p-3 border-b-2 border-zinc-800">Categories</a>
+              <a href="/favorites.html" class="block p-3 border-b-2 border-zinc-800">Favorites</a>
               
               <div id="authControls" class="block p-3 hover:cursor-pointer"></div>
               <a href="profile.html" class="block p-3">Profile</a>

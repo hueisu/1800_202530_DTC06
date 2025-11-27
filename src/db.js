@@ -3,6 +3,7 @@ import {
   arrayUnion,
   doc,
   getDoc,
+  increment,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
@@ -91,5 +92,24 @@ export async function toggleFavorite(docID) {
     return newFavoritedState;
   } catch (err) {
     console.error("Error toggling favorites:", err);
+  }
+}
+
+export async function addReviewToProduct(productID, score) {
+  try {
+    const productRef = doc(db, "products", productID);
+    const previousProduct = await getDoc(productRef);
+    const previousScores = previousProduct.data().totalScores || 0;
+    const previousReviewQuantity =
+      previousProduct.data().totalReviewQuantity || 0;
+    const newAverageRating =
+      (previousScores + score) / (previousReviewQuantity + 1);
+    await updateDoc(productRef, {
+      totalScores: increment(score),
+      totalReviewQuantity: increment(1),
+      averageRating: newAverageRating,
+    });
+  } catch (error) {
+    console.error("add review to product failed", error);
   }
 }
