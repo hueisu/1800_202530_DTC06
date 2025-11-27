@@ -257,12 +257,9 @@ function validateForm() {
   const unit = $("#unit").val();
   const imageUrl = $("#imageUrl").val();
   const price = $("#price").val();
-  const category = $("#category-dropdown").val();
   const store = $("#store-dropdown").val();
 
-  return Boolean(
-    name && quantity && unit && imageUrl && price && category && store
-  );
+  return Boolean(name && quantity && unit && imageUrl && price && store);
 }
 
 async function addToProducts(productDetail) {
@@ -464,12 +461,12 @@ const defaultForm = `
         </div>
 
         <div class="flex justify-between flex-col gap-2">
-          <span class="font-bold" value="category">Category<span class="text-red-500">*</span>:</span>
+          <span class="font-bold" value="category">Category: (optional)</span>
           <select id="category-dropdown" class="border p-1">
             <option value=""></option>
           </select>
         </div>
-
+        
         <div class="flex justify-between flex-col gap-2">
           <span class="font-bold" value="name">Stores<span class="text-red-500">*</span>:</span>
           <span class="text-xs">Press cmd / ctrl to select multiple when you are on desktop view</span>
