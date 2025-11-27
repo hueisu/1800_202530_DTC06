@@ -220,7 +220,9 @@ async function submitUpdateProduct(productID, originalProductData) {
     // 2, add product doc in categories collection
     if (originalProductData.category !== category) {
       // 2-1 add to new category
-      await addToCategories(productID, productDetail);
+      if (category) {
+        await addToCategories(productID, productDetail);
+      }
 
       // 2-2 remove from old category
       if (originalProductData.category) {
@@ -466,7 +468,7 @@ const defaultForm = `
             <option value=""></option>
           </select>
         </div>
-        
+
         <div class="flex justify-between flex-col gap-2">
           <span class="font-bold" value="name">Stores<span class="text-red-500">*</span>:</span>
           <span class="text-xs">Press cmd / ctrl to select multiple when you are on desktop view</span>
