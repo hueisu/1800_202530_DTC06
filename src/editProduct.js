@@ -72,6 +72,7 @@ async function submitCreateProduct() {
   const stores = $("#store-dropdown")
     .val()
     .filter((x) => x);
+  const featured = $("#featured").prop("checked");
 
   const productDetail = {
     name,
@@ -83,6 +84,7 @@ async function submitCreateProduct() {
     brand,
     description,
     stores,
+    featured,
   };
 
   // price, quantity must be integer
@@ -103,7 +105,9 @@ async function submitCreateProduct() {
     // 1, products collection
     const productID = await addToProducts(productDetail);
     // 2, add product doc in categories collection
-    await addToCategories(productID, productDetail);
+    if (category) {
+      await addToCategories(productID, productDetail);
+    }
     // 3, add product doc in stores collection
     await addToStores(stores, productID, productDetail);
     showAlert("success!", "success");
@@ -135,6 +139,7 @@ async function editForm(productID) {
     $form.find("#price").val(product.price);
     $form.find("#brand").val(product.brand);
     $form.find("#description").val(product.description);
+    $form.find("#featured").prop("checked", product.featured);
 
     // Category: add cate dropdown with its value
     const categories = await getDocs(collection(db, "categories"));
@@ -187,6 +192,7 @@ async function submitUpdateProduct(productID, originalProductData) {
   const stores = $("#store-dropdown")
     .val()
     .filter((x) => x);
+  const featured = $("#featured").prop("checked");
 
   const productDetail = {
     name,
@@ -198,6 +204,7 @@ async function submitUpdateProduct(productID, originalProductData) {
     brand,
     description,
     stores,
+    featured,
   };
 
   // price, quantity must be integer
@@ -275,10 +282,12 @@ async function addToProducts(productDetail) {
     brand,
     description,
     stores,
+    featured,
   } = productDetail;
-  const productsRef = collection(db, "product");
+  const productsRef = collection(db, "products");
   const newProduct = await addDoc(productsRef, {
     name: name,
+    featured: featured,
     nameLower: name.toLowerCase(),
     quantity: Number(quantity),
     unit: unit,
@@ -304,6 +313,7 @@ async function updateProduct(productID, productDetail) {
     brand,
     description,
     stores,
+    featured,
   } = productDetail;
   await updateDoc(productsRef, {
     name: name,
@@ -316,6 +326,7 @@ async function updateProduct(productID, productDetail) {
     category: category,
     description: description,
     stores: stores,
+    featured: featured,
   });
 }
 
@@ -329,7 +340,6 @@ async function addToCategories(productID, productDetail) {
     category,
     brand,
     description,
-    stores,
   } = productDetail;
   const newCategoriesRef = doc(
     db,
@@ -374,7 +384,6 @@ async function addToStores(newStoreIDs, productID, productDetail) {
     description,
     stores,
   } = productDetail;
-  console.log("add store", newStoreIDs);
   await Promise.all(
     newStoreIDs.map(async (newStoreID) => {
       if (!newStoreID) return;
@@ -401,7 +410,6 @@ async function addToStores(newStoreIDs, productID, productDetail) {
 }
 
 async function removeFromStores(oldStoreIDs, productID) {
-  console.log("remove store", oldStoreIDs);
   await Promise.all(
     oldStoreIDs.map(async (oldStoreID) => {
       if (!oldStoreID) return;
@@ -426,10 +434,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const editMode = productID ? true : false;
 
     if (editMode) {
-      console.log("edit mode");
       editForm(productID);
     } else {
-      console.log("create mode");
       createForm();
     }
   });
@@ -440,6 +446,11 @@ const defaultForm = `
         <div class="flex justify-between flex-col gap-2">
           <span class="font-bold" value="name">Product Name<span class="text-red-500">*</span>:</span>
           <input id="name" value="" class="border p-1" placeholder="Heavy cream"/>
+        </div>
+
+        <div class="flex justify-between flex-col gap-2">
+          <span class="font-bold" value="name">Featured:</span>
+          <input id="featured" class="border p-1 scale-200" type="checkbox" />
         </div>
 
         <div class="flex justify-between flex-col gap-2">
