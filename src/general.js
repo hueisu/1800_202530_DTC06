@@ -48,20 +48,27 @@ export function showAlert(msg = "", type = "") {
       bgColor = "bg-gray-300";
   }
 
-  $("body").prepend(`
-    <div
-      class="w-full ${bgColor} text-gray-600 z-999 fixed text-center text-2xl"
-      id="alert"
-    >
-      ${msg}
-    </div>
-  `);
+  const $alertMsg = $(`
+      <div class="${bgColor}/80 rounded ">
+        ${msg}
+      </div>
+    `);
+  const alertElement = $("#alert");
 
-  setTimeout(hideAlert, 3000);
-}
-
-export function hideAlert() {
-  $("#alert").remove();
+  if (alertElement.length) {
+    // alert container already exists
+    alertElement.append($alertMsg);
+  } else {
+    // create alert container
+    $("body").prepend(`
+      <div
+        class="w-full text-gray-600 z-999 fixed text-center text-2xl space-y-2 p-5"
+        id="alert"
+      ></div>
+    `);
+    $("#alert").append($alertMsg);
+  }
+  setTimeout(() => $alertMsg.remove(), 3000);
 }
 
 export function showModal(msg = "", onConfirm = () => console.log("confirm")) {
