@@ -6,7 +6,7 @@ import { addProductToCurrentList, toggleFavorite } from "./db";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { ADMIN } from "./constant";
 
-async function displayProduct(userID = null) {
+async function displayProduct(userID = null, favorites = []) {
   const productID = new URL(window.location.href).searchParams.get("id");
 
   showLoading();
@@ -28,6 +28,10 @@ async function displayProduct(userID = null) {
       })
     );
 
+    // If product was in user's favorites, heart icon should be filled
+    const isInitiallyFavorited = favorites.includes(productID);
+    const initialClass = isInitiallyFavorited ? "fa-solid" : "fa-regular";
+
     const $element = $(`
       <div class="max-w-xl mx-auto">
         <div class="flex flex-col gap-3 relative">
@@ -37,7 +41,7 @@ async function displayProduct(userID = null) {
           <div class="absolute right-3 top-3 text-red-500" data-favorite>
             <i id="save-${
               querySnapshot.id
-            }" class="fa-heart fa-xl fa-regular"></i>
+            }" class="${initialClass} fa-heart fa-xl"></i>
           </div>
           <div class="flex justify-between">
             <div>
@@ -111,7 +115,14 @@ onAuthStateChanged(auth, async (user) => {
         `<a href="/editProduct?id=${productID}" class="block bg-purple-200 p-2 rounded w-fit mb-5 ml-auto self-end">Edit</a>`
       );
     }
-    await displayProduct(user.uid);
+    const userID = user.uid;
+    const userRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userRef);
+    const userData = userDoc.exists() ? userDoc.data() : {};
+    const favorites = userData.favorites || [];
+    console.log(favorites);
+
+    await displayProduct(userID, favorites);
   } else {
     await displayProduct();
   }
