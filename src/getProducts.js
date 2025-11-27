@@ -19,7 +19,11 @@ async function displayProductsCards(userID = null, favorites = []) {
   showLoading();
   try {
     const querySnapshot = await getDocs(productsRef);
-    querySnapshot.docs.forEach((doc) => {
+    const sortedProducts = querySnapshot.docs.sort(
+      (a, b) => b.data()?.averageRating || 0 - a.data()?.averageRating || 0
+    );
+
+    sortedProducts.forEach((doc) => {
       const product = doc.data();
       const isInitiallyFavorited = favorites.includes(doc.id);
       const initialClass = isInitiallyFavorited ? "fa-solid" : "fa-regular";
