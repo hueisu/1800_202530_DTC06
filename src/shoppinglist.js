@@ -265,7 +265,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   if (submitShare) {
     submitShare.addEventListener("click", shareConfirm);
-    console.log(122);
   }
 });
 

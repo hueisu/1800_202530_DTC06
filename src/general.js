@@ -67,16 +67,16 @@ export function hideAlert() {
 export function showModal(msg = "", onConfirm = () => console.log("confirm")) {
   const $modal = $(`
     <div
-      class="w-full h-full bg-gray-100/80 text-gray-900 z-999 fixed text-center text-2xl flex items-center justify-center"
+      class="bg-gray-200/20 w-full h-full text-gray-900 z-999 fixed text-center text-2xl flex items-center justify-center"
       id="modal"
     >
-      <div class="bg-gray-300 w-80 max-w-[400px] h-80 rounded flex flex-col p-5 justify-center">
+      <div class="shadow-xl bg-[#ffffff] w-80 max-w-[400px] h-80 rounded-lg flex flex-col p-5 justify-center">
         <div class="flex-1 self-center flex items-center">
           <div class>${msg}</div>
         </div>
         <div class="flex justify-center gap-5">
-          <button id="cancel-modal" class="border px-3 py-1 rounded">Cancel</button>
-          <button id="confirm-modal" class="border px-3 py-1 rounded">Confirm</button>
+          <button id="cancel-modal" class="p-2 border rounded hover:cursor-pointer">Cancel</button>
+          <button id="confirm-modal" class="p-2 bg-gray-500 text-white rounded hover:cursor-pointer">Confirm</button>
         </div>
       </div>
     </div>
