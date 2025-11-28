@@ -120,7 +120,6 @@ onAuthStateChanged(auth, async (user) => {
     const userDoc = await getDoc(userRef);
     const userData = userDoc.exists() ? userDoc.data() : {};
     const favorites = userData.favorites || [];
-    console.log(favorites);
 
     await displayProduct(userID, favorites);
   } else {

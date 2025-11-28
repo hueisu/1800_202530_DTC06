@@ -39,7 +39,7 @@ class SiteNavbar extends HTMLElement {
               <i class="fa-solid fa-2xl"></i>
             </div>
           </div>
-          <a href="">
+          <a href="/">
             <img class="h-20" src="./images/Fridge_Friends.png" alt="logo" />
           </a>
           <div class="flex gap-2">
