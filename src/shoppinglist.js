@@ -58,14 +58,14 @@ async function getShoppingList(userID) {
             data-price=${product.price}
           >
           <div class="min-w-[80px] max-w-[150px]">
-            <a href="/product?id=${productID}">
+            <a href="product.html?id=${productID}">
               <img src="${product.imageUrl}" alt="${product.name}" />
             </a>
           </div>
 
           <div class="basis-2/3 flex justify-between gap-2 max-h-30">
             <div class="flex flex-col items-start justify-between">
-              <a href="/product?id=${productID}" class="font-semibold">
+              <a href="product.html?id=${productID}" class="font-semibold">
                 ${product.name}
               </a>
               <button id="${productID}-remove" class="text-red-500 hover:cursor-pointer">Remove</button>

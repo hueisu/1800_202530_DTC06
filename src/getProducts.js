@@ -29,7 +29,7 @@ async function displayProductsCards(userID = null, favorites = []) {
       const initialClass = isInitiallyFavorited ? "fa-solid" : "fa-regular";
 
       const $productCard = $(`
-        <a href="/product?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
+        <a href="product.html?id=${doc.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
           <div class="absolute right-3 top-3 text-red-500" data-favorite>
             <i id="save-${doc.id}" class="${initialClass} fa-heart fa-xl"></i>
           </div>
@@ -114,7 +114,7 @@ async function displayPreviouslyAddedCards(userID) {
       heading.innerText = `Previously Added On ${displayDate}`;
       historyRecord.content.forEach((product) => {
         const $productCard = $(`
-          <a href="/product?id=${product.productId}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
+          <a href="product.html?id=${product.productId}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
             <div class="flex items-center justify-center grow-1">
               <img src="${product.imageUrl}" class="" alt="${product.name}-image" />
             </div>

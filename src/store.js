@@ -132,7 +132,7 @@ function displayProducts(products, userID, favorites) {
     const isInitiallyFavorited = favorites.includes(product.id);
     const initialClass = isInitiallyFavorited ? "fa-solid" : "fa-regular";
     const $productCard = $(`
-        <a href="/product?id=${product.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
+        <a href="product.html?id=${product.id}" class="hover:cursor-pointer border border-gray-300 rounded-md flex flex-col relative">
           <div class="absolute right-3 top-3 text-red-500" data-favorite>
             <i id="save-${productID}" class="${initialClass} fa-heart fa-xl"></i>
           </div>
@@ -166,7 +166,7 @@ function displayProducts(products, userID, favorites) {
           showAlert("Product was removed from favorites!");
         }
       } else {
-        window.location.href = "/login.html";
+        window.location.href = "login.html";
       }
     });
     // add to current list

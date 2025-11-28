@@ -49,7 +49,7 @@ async function loadHistory(userId) {
       listData.content.forEach((item) => {
         const $item = $(`
           <div class="flex items-center mb-2">
-            <a href="/product?id=${item.productId}">
+            <a href="product.html?id=${item.productId}">
               <img src="${item.imageUrl}"
                 alt="${item.name}" class="w-12 h-12 mr-2">
             </a>
