@@ -111,7 +111,7 @@ async function submitCreateProduct() {
     // 3, add product doc in stores collection
     await addToStores(stores, productID, productDetail);
     showAlert("success!", "success");
-    window.location.href = `/product?id=${productID}`;
+    window.location.href = `/product.html?id=${productID}`;
   } catch (error) {
     console.error(error);
     showAlert("Check console", "error");
@@ -251,7 +251,7 @@ async function submitUpdateProduct(productID, originalProductData) {
     newStores.length > 0 &&
       (await addToStores(newStores, productID, productDetail));
     showAlert("success!", "success");
-    window.location.href = `/product?id=${productID}`;
+    window.location.href = `/product.html?id=${productID}`;
   } catch (error) {
     console.error(error);
     showAlert("Check console", "error");

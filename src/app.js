@@ -13,7 +13,7 @@ function redirectUser() {
   const isOnIndexPage = window.location.pathname == "/";
   onAuthReady((user) => {
     if (user && isOnIndexPage) {
-      location.href = "main";
+      location.href = "main.html";
     }
   });
 }

@@ -39,7 +39,7 @@ async function displayFavoritesCards(userID, favorites) {
       const initialClass = isInitiallyFavorited ? "fa-solid" : "fa-regular";
 
       const $productCard = $(`
-        <a href="/product?id=${doc.id}" class="hover:cursor-pointer hover:shadow-lg transition-shadow duration-300 hover:scale-105 border border-gray-300 hover:border-gray-700 rounded-md flex flex-col relative bg-white">
+        <a href="product.html?id=${doc.id}" class="hover:cursor-pointer hover:shadow-lg transition-shadow duration-300 hover:scale-105 border border-gray-300 hover:border-gray-700 rounded-md flex flex-col relative bg-white">
           <div class="absolute right-3 top-3 text-red-500" data-favorite>
             <i id="save-${doc.id}" class="${initialClass} fa-heart fa-xl"></i>
           </div>

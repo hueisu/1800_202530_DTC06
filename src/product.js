@@ -56,7 +56,7 @@ async function displayProduct(userID = null, favorites = []) {
           ${storeNames
             .map(
               (storeName) =>
-                `<a href="/store-list.html" class="rounded bg-purple-200 py-[2px] px-[5px] text-xs">${storeName}</a>`
+                `<a href="store-list.html" class="rounded bg-purple-200 py-[2px] px-[5px] text-xs">${storeName}</a>`
             )
             .join("")}
           </div>
@@ -83,7 +83,7 @@ async function displayProduct(userID = null, favorites = []) {
           showAlert("Product was removed from favorites!");
         }
       } else {
-        window.location.href = "/login.html";
+        window.location.href = "login.html";
       }
     });
 
@@ -112,7 +112,7 @@ onAuthStateChanged(auth, async (user) => {
     if (ADMIN.includes(user.uid)) {
       const productID = new URL(window.location.href).searchParams.get("id");
       $("#product-information").prepend(
-        `<a href="/editProduct?id=${productID}" class="block bg-purple-200 p-2 rounded w-fit mb-5 ml-auto self-end">Edit</a>`
+        `<a href="editProduct.html?id=${productID}" class="block bg-purple-200 p-2 rounded w-fit mb-5 ml-auto self-end">Edit</a>`
       );
     }
     const userID = user.uid;
