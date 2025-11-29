@@ -22,9 +22,10 @@ class SiteNavbar extends HTMLElement {
         class="z-9 fixed w-full top-0 bg-white border-b border-gray-300"
       >
         <div class="flex py-10 px-2 items-center justify-between md:max-w-4xl m-auto">
-          <div class="flex gap-2 relative">
-            <button id="menu" class="py-2 hover:cursor-pointer">
+          <div class="flex gap-2 relative iteams-center">
+            <button id="menu" class="py-2 hover:cursor-pointer flex flex-col items-center">
               <i class="fa-solid fa-bars fa-2xl"></i>
+              <span class="text-xs mt-3 font-bold">Menu</span>
             </button>
             <div id="menu-content" class="hidden bg-zinc-500 text-white w-50 absolute top-[42px]">
               <a href="store-list.html" class="block p-3">Grocery Stores</a>
@@ -42,12 +43,15 @@ class SiteNavbar extends HTMLElement {
           <a href="/">
             <img class="h-20" src="./images/Fridge_Friends.png" alt="logo" />
           </a>
-          <div class="flex gap-2">
-            <a href="search.html" class="py-2">
+          <div class="flex gap-3">
+            <a href="search.html" class="py-2 flex flex-col items-center">
               <i class="fa-solid fa-magnifying-glass fa-2xl"></i>
+              <span class="text-xs mt-4 font-bold">Search</span>
             </a>
-            <a href="shoppinglist.html" class="py-2">
-              <i class="fa-solid fa-basket-shopping fa-2xl"></i>
+            <a href="shoppinglist.html" class="py-2 flex flex-col items-center">
+              <i class="fa-solid fa-basket-shopping fa-2xl mr-3"></i>
+              <span class="text-xs mt-4 mr-3 font-bold leading-tight text-center">
+              Shopping <br /> list </span>
             </a>
           </div>
         </div>
