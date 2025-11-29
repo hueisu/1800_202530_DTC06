@@ -43,28 +43,33 @@
     <!-- Main content goes here -->
     <main id="product-information" class="m-5">
       <!-- Reviews section -->
-      <div class="max-w-xl mx-auto mt-8" id="reviews-section">
-        <h2 class="text-xl font-bold mb-4">Reviews</h2>
-        <div id="details-go-here" class="mb-2"></div>
-
-        <div class="overflow-x-auto">
-          <div id="reviewCardGroup" class="flex gap-4">
-            <!-- Cards will be appended here -->
-          </div>
+      <div class="max-w-3xl mx-auto mt-12 px-4" id="reviews-section">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Reviews</h2>
+        <div id="details-go-here" class="mb-4 text-gray-600"></div>
+          <!-- Scrollable review container -->
+          <div id="reviewCardGroup" 
+         class="flex flex-col gap-4 overflow-y-auto pr-2"
+         style="max-height: 380px;">
+          <!-- Cards injected here -->
         </div>
+        
       </div>
     </main>
+<!-- Template for review card -->
+<template id="reviewCardTemplate">
+  <div class="w-full bg-gray-100 rounded-xl p-5 shadow-md border border-gray-200">
+    <!-- Title + stars -->
+    <div class="flex items-center justify-between mb-2">
+      <h5 class="title text-lg font-semibold text-gray-900">Title</h5>
+      <div class="star-rating flex"></div>
+    </div>
 
-    <!-- Template for a single review card -->
-    <template id="reviewCardTemplate">
-      <div class="w-80 bg-white shadow rounded-lg p-4">
-        <h5 class="title text-lg font-semibold mb-1">placeholder</h5>
-        <div class="star-rating mb-2 flex text-yellow-500"></div>
-        <p class="description text-sm text-gray-800">
-          This is a placeholder review description.
-        </p>
-      </div>
-    </template>
+    <!-- Description text -->
+    <p class="description text-gray-800 leading-relaxed">
+      Review description goes here.
+    </p>
+  </div>
+</template>
 
     <site-footer></site-footer>
     <!---------------------------------------------->
