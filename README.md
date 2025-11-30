@@ -1,4 +1,4 @@
-# Elmo Hikes
+# Fridge Friends
 
 ## Overview
 
