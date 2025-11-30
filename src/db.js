@@ -29,7 +29,6 @@ export async function addProductToCurrentList(product, productId) {
     const productInCurrentList = querySnapshot.data();
     if (!productInCurrentList) {
       // add to current list
-      console.log("product is not in current list");
       await setDoc(queryRef, {
         productId: productId,
         imageUrl: product.imageUrl,
@@ -40,7 +39,6 @@ export async function addProductToCurrentList(product, productId) {
       });
     } else {
       // update to current list
-      console.log("product is in current list");
       await updateDoc(queryRef, {
         count: productInCurrentList.count + 1,
       });
@@ -48,7 +46,6 @@ export async function addProductToCurrentList(product, productId) {
     showAlert("Product is added to your list", "warning");
   } catch (error) {
     showAlert("Something went wrong...", "warning");
-    console.log(error);
   } finally {
     hideLoading();
   }

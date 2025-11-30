@@ -121,9 +121,7 @@ async function getCurrentList(ownerID) {
 async function loadSharedList() {
   const urlParams = new URLSearchParams(window.location.search);
   const ownerID = urlParams.get("owner");
-  console.log(ownerID);
   if (ownerID) {
-    console.log("Loading list for owner:", ownerID);
     await getCurrentList(ownerID);
   } else {
     console.error("Error: Owner ID not found or invalid in URL.");

@@ -28,7 +28,6 @@ export async function shareListWithUser(userID, sharedUserID) {
         sharedWith: arrayUnion(sharedUserID),
       });
       sharedList.push(updatePromise);
-      console.log(111);
     });
     await Promise.all(sharedList);
     await shareNotification(userID, sharedUserID);
@@ -54,7 +53,6 @@ async function shareNotification(ownerID, recipientID) {
     readOnly: false,
     sharedDate: serverTimestamp(),
   });
-  console.log(232);
 }
 
 function generateShareableLink(ownerID) {

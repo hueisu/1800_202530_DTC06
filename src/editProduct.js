@@ -95,7 +95,6 @@ async function submitCreateProduct() {
       throw error;
     }
   } catch (err) {
-    console.log(err);
     showAlert("Price, Quantity must be integer");
     return;
   }
@@ -215,7 +214,6 @@ async function submitUpdateProduct(productID, originalProductData) {
       throw error;
     }
   } catch (err) {
-    console.log(err);
     showAlert("Price, Quantity must be integer");
     return;
   }

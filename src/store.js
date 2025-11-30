@@ -195,8 +195,6 @@ function setup() {
     const storesData = await getStores();
     if (storesData && storesData.length > 0) {
       displayStores(storesData, userID, favorites);
-    } else {
-      console.log("No store data");
     }
 
     if (storeId) {

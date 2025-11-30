@@ -110,7 +110,6 @@ async function displayPreviouslyAddedCards(userID) {
       let displayDate = "";
       const dateObject = historyRecord.date.toDate();
       displayDate = dateObject.toDateString();
-      console.log(displayDate);
       heading.innerText = `Previously Added On ${displayDate}`;
       historyRecord.content.forEach((product) => {
         const $productCard = $(`

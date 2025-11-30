@@ -230,8 +230,7 @@ async function updateProductInDB(productID, newCount, targetUserID) {
       count: newCount,
     });
   } catch (error) {
-    showAlert("Something went wrong :(", "warning");
-    console.log(error);
+    showAlert("Update failed", "warning");
   }
 }
 
@@ -242,8 +241,7 @@ async function removeProductInDB(productID, targetUserID) {
     const productRef = doc(db, "users", listOwnerID, "currentList", productID);
     await deleteDoc(productRef);
   } catch (error) {
-    showAlert("Something went wrong :(", "warning");
-    console.log(error);
+    showAlert("Update failed", "warning");
   }
 }
 
@@ -307,8 +305,7 @@ async function markAsComplete() {
     await batch.commit();
     showAlert("Successfully added to list history", "success");
   } catch (error) {
-    console.log(error);
-    showAlert("something went wrong...", "warning");
+    showAlert("Update failed", "error");
   }
 }
 
