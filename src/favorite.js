@@ -34,7 +34,7 @@ async function displayFavoritesCards(userID, favorites) {
         return;
       }
       const product = doc.data();
-      //If product was in user's favorites, heart icon should be filled
+      // If product was in user's favorites, heart icon should be filled
       const isInitiallyFavorited = favorites.includes(doc.id);
       const initialClass = isInitiallyFavorited ? "fa-solid" : "fa-regular";
 
@@ -68,9 +68,9 @@ async function displayFavoritesCards(userID, favorites) {
         e.preventDefault();
         const isFavorited = await toggleFavorite(doc.id);
         if (isFavorited) {
-          showAlert("Product was added to favorites!");
+          showAlert("Product was added to favorites!", "success");
         } else {
-          showAlert("Product was removed from favorites!");
+          showAlert("Product was removed from favorites!", "warning");
         }
         $productCard.remove();
       });
@@ -83,6 +83,7 @@ async function displayFavoritesCards(userID, favorites) {
       favoriteContainer.append($productCard);
     });
   } catch (error) {
+    showAlert("Display favorites failed", "error");
     console.error(error);
   }
   hideLoading();

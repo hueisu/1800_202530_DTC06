@@ -29,7 +29,6 @@ export async function addProductToCurrentList(product, productId) {
     const productInCurrentList = querySnapshot.data();
     if (!productInCurrentList) {
       // add to current list
-      console.log("product is not in current list");
       await setDoc(queryRef, {
         productId: productId,
         imageUrl: product.imageUrl,
@@ -40,15 +39,14 @@ export async function addProductToCurrentList(product, productId) {
       });
     } else {
       // update to current list
-      console.log("product is in current list");
       await updateDoc(queryRef, {
         count: productInCurrentList.count + 1,
       });
     }
-    showAlert("Product is added to your list", "warning");
+    showAlert("Product was added to your list", "success");
   } catch (error) {
-    showAlert("Something went wrong...", "warning");
-    console.log(error);
+    showAlert("Add to list failed", "error");
+    console.error(error);
   } finally {
     hideLoading();
   }
@@ -90,8 +88,9 @@ export async function toggleFavorite(docID) {
       newFavoritedState = true;
     }
     return newFavoritedState;
-  } catch (err) {
-    console.error("Error toggling favorites:", err);
+  } catch (error) {
+    showAlert("Add to favorites failed", "error");
+    console.error(error);
   }
 }
 
@@ -110,6 +109,7 @@ export async function addReviewToProduct(productID, score) {
       averageRating: newAverageRating,
     });
   } catch (error) {
-    console.error("add review to product failed", error);
+    showAlert("Add review failed", "error");
+    console.error(error);
   }
 }

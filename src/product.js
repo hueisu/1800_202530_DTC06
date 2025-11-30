@@ -1,9 +1,9 @@
 import { auth, db } from "./firebaseConfig";
-import { doc, getDoc, getDocs, query } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import $ from "jquery";
 import { hideLoading, showAlert, showLoading } from "./general";
 import { addProductToCurrentList, toggleFavorite } from "./db";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { ADMIN } from "./constant";
 
 async function displayProduct(userID = null, favorites = []) {
@@ -50,13 +50,15 @@ async function displayProduct(userID = null, favorites = []) {
               ${product.quantity} ${product.unit} - $${product.price}
               </p>
             </div>
-            <button id="add-to-list" class="bg-blue-200 py-2 px-3 rounded hover:cursor-pointer hover:bg-blue-300">Add to list</button>
+            <button id="add-to-list" class="fa-lg border rounded-full self-start py-2 px-3 hover:bg-gray-100 ml-2" data-add-to-list>
+              <i class="fa-solid fa-plus"></i>
+            </button>
           </div>
           <div class="flex gap-2 flex-wrap">
           ${storeNames
             .map(
               (storeName) =>
-                `<a href="store-list.html" class="rounded bg-purple-200 py-[2px] px-[5px] text-xs">${storeName}</a>`
+                `<a href="storeList.html" class="rounded bg-purple-200 py-[2px] px-[5px] text-xs">${storeName}</a>`
             )
             .join("")}
           </div>
@@ -78,9 +80,9 @@ async function displayProduct(userID = null, favorites = []) {
       if (userID) {
         const isFavorited = await toggleFavorite(productID);
         if (isFavorited) {
-          showAlert("Product was added to favorites!");
+          showAlert("Product was added to favorites!", "success");
         } else {
-          showAlert("Product was removed from favorites!");
+          showAlert("Product was removed from favorites!", "warning");
         }
       } else {
         window.location.href = "login.html";
@@ -99,7 +101,7 @@ async function displayProduct(userID = null, favorites = []) {
 
     productContainer.prepend($element);
   } catch (error) {
-    showAlert("Something went wrong...", "error");
+    showAlert("Display product failed", "error");
     console.error(error);
   }
   hideLoading();

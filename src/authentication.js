@@ -19,6 +19,7 @@ import {
   onAuthStateChanged,
   signOut,
 } from "firebase/auth";
+import { showAlert } from "./general";
 
 // -------------------------------------------------------------
 // loginUser(email, password)
@@ -68,9 +69,9 @@ export async function signupUser(name, email, password) {
       country: "Canada", // Default value
       school: "BCIT", // Default value
     });
-    console.log("Firestore user document created successfully!");
   } catch (error) {
-    console.error("Error creating user document in Firestore:", error);
+    showAlert("Sign up failed", "error");
+    console.error(error);
   }
 
   return user;

@@ -84,9 +84,9 @@ function initAuthUI() {
     try {
       await loginUser(email, password);
       location.href = redirectUrl;
-    } catch (err) {
-      showError(authErrorMessage(err));
-      console.error(err);
+    } catch (error) {
+      showError(authErrorMessage(error));
+      console.error(error);
     } finally {
       setSubmitDisabled(loginForm, false);
     }
@@ -107,9 +107,9 @@ function initAuthUI() {
     try {
       await signupUser(name, email, password);
       location.href = redirectUrl;
-    } catch (err) {
-      showError(authErrorMessage(err));
-      console.error(err);
+    } catch (error) {
+      showError(authErrorMessage(error));
+      console.error(error);
     } finally {
       setSubmitDisabled(signupForm, false);
     }

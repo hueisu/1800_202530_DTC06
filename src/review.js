@@ -7,6 +7,7 @@ import {
   addDoc,
   serverTimestamp,
 } from "firebase/firestore";
+import { showAlert } from "./general.js";
 
 // -----------------------------------------------------------
 // 1️⃣ Get product ID from Local Storage
@@ -51,7 +52,6 @@ function manageStars() {
       });
 
       productRating = index + 1;
-      console.log("⭐ Current rating:", productRating);
     });
 
     // Optional: Hover effect
@@ -72,16 +72,13 @@ function manageStars() {
 }
 
 async function writeReview() {
-  console.log("📝 Inside writeReview");
-
   // Collect form data
   const title = document.getElementById("title").value.trim();
   const description = document.getElementById("description").value.trim();
-  const store = document.getElementById("store").value;
 
   // Simple validation
   if (!title || !description) {
-    alert("Please complete all required fields.");
+    showAlert("Please complete all required fields.", "error");
     return;
   }
 
@@ -95,17 +92,16 @@ async function writeReview() {
         userID: userID,
         title: title,
         description: description,
-        store: store,
         rating: productRating,
         timestamp: serverTimestamp(),
       });
-      console.log("✅ Review successfully written!");
       await addReviewToProduct(productDocID, productRating);
 
       // Redirect back to product page
       window.location.href = `product.html?id=${productDocID}`;
     } catch (error) {
-      console.error("❌ Error adding review:", error);
+      showAlert("Create review failed.", "error");
+      console.error(error);
     }
   } else {
     alert("You must be signed in to submit a review.");

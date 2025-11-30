@@ -21,8 +21,6 @@ import {
 } from "firebase/firestore";
 import { shareListWithUser } from "./share";
 
-// TODO: tax info in category?
-
 async function getShoppingList(userID) {
   showLoading();
 
@@ -40,8 +38,6 @@ async function getShoppingList(userID) {
         `);
       return;
     }
-
-    // $("#checkout-btn").removeClass("hidden");
 
     const cartContainer = $("#cart-container");
     const cartItems = [];
@@ -130,6 +126,7 @@ async function getShoppingList(userID) {
     );
   } catch (error) {
     console.error(error);
+    showAlert("Get shopping list failed", "error");
   } finally {
     hideLoading();
   }
@@ -220,7 +217,7 @@ export function removeProduct(productID, ownerID) {
   updateCartItemCount();
 }
 
-//targetUserID parameter defaults to current user if no other argument is passed to it (necessary for the shared list editing)
+// targetUserID parameter defaults to current user if no other argument is passed to it (necessary for the shared list editing)
 async function updateProductInDB(productID, newCount, targetUserID) {
   try {
     const userID = getAuth().currentUser.uid;
@@ -230,8 +227,8 @@ async function updateProductInDB(productID, newCount, targetUserID) {
       count: newCount,
     });
   } catch (error) {
-    showAlert("Something went wrong :(", "warning");
-    console.log(error);
+    console.error(error);
+    showAlert("Update failed", "error");
   }
 }
 
@@ -242,8 +239,8 @@ async function removeProductInDB(productID, targetUserID) {
     const productRef = doc(db, "users", listOwnerID, "currentList", productID);
     await deleteDoc(productRef);
   } catch (error) {
-    showAlert("Something went wrong :(", "warning");
-    console.log(error);
+    console.error(error);
+    showAlert("Update failed", "error");
   }
 }
 
@@ -279,7 +276,7 @@ async function shareConfirm() {
     targetUserIDInput.value = "";
   } catch (error) {
     console.error("Sharing failed", error);
-    showAlert("Error occurred while sharing.");
+    showAlert("Error occurred while sharing.", "error");
   }
 }
 
@@ -305,11 +302,22 @@ async function markAsComplete() {
       batch.delete(doc.ref);
     });
     await batch.commit();
+    clearShoppingList();
     showAlert("Successfully added to list history", "success");
   } catch (error) {
-    console.log(error);
-    showAlert("something went wrong...", "warning");
+    showAlert("Update failed", "error");
+    console.error(error);
   }
+}
+
+function clearShoppingList() {
+  // clear current shopping list nodes
+  $("#checkout-btn").addClass("hidden");
+  $("#cart-items-count").text(0);
+  $("#total").text(0);
+  $("#cart-container").html(`
+          <div class="text-gray-500">Your list is empty...</div>
+        `);
 }
 
 function showLogin() {

@@ -1,7 +1,6 @@
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { hideLoading, showAlert, showLoading, showModal } from "./general";
+import { showAlert, showModal } from "./general";
 import $ from "jquery";
-import { auth, db } from "./firebaseConfig";
+import { db } from "./firebaseConfig";
 import {
   updateTotalPrice,
   updateCartItemCount,
@@ -9,9 +8,9 @@ import {
   reduceProductCount,
   editProductCount,
   removeProduct,
-} from "./shoppinglist";
+} from "./shoppingList";
 import { formatPrice } from "./general";
-import { collection, doc, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 $(() => {
   $("#cart-container").empty();
@@ -99,9 +98,6 @@ function renderSharedList(productsList, ownerID) {
 
   updateCartItemCount();
   updateTotalPrice();
-  $("#checkout-btn").on("click", () =>
-    showModal("Mark as complete?", markAsComplete)
-  );
 }
 
 async function getCurrentList(ownerID) {
@@ -110,20 +106,22 @@ async function getCurrentList(ownerID) {
     const listSnapshot = await getDocs(currentList);
     if (listSnapshot.empty) {
       showAlert("List is Empty!");
-    } //process rendering and display
+    }
+    // process rendering and display
     renderSharedList(listSnapshot.docs, ownerID);
   } catch (error) {
     console.error("Error fetching list", error);
-    showAlert("Failed to load list. Permission denied or error occurred.");
+    showAlert(
+      "Failed to load list. Permission denied or error occurred.",
+      "error"
+    );
   }
 }
 
 async function loadSharedList() {
   const urlParams = new URLSearchParams(window.location.search);
   const ownerID = urlParams.get("owner");
-  console.log(ownerID);
   if (ownerID) {
-    console.log("Loading list for owner:", ownerID);
     await getCurrentList(ownerID);
   } else {
     console.error("Error: Owner ID not found or invalid in URL.");

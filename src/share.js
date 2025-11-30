@@ -1,6 +1,5 @@
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { hideLoading, showAlert, showLoading, showModal } from "./general";
-import { auth, db } from "./firebaseConfig";
+import { showAlert } from "./general";
+import { db } from "./firebaseConfig";
 import {
   collection,
   doc,
@@ -10,6 +9,7 @@ import {
   arrayUnion,
   serverTimestamp,
 } from "firebase/firestore";
+import { baseURL } from "./constant";
 
 export async function shareListWithUser(userID, sharedUserID) {
   if (!userID || !sharedUserID) {
@@ -28,7 +28,6 @@ export async function shareListWithUser(userID, sharedUserID) {
         sharedWith: arrayUnion(sharedUserID),
       });
       sharedList.push(updatePromise);
-      console.log(111);
     });
     await Promise.all(sharedList);
     await shareNotification(userID, sharedUserID);
@@ -37,7 +36,7 @@ export async function shareListWithUser(userID, sharedUserID) {
     showAlert("List successfully shared!");
   } catch (error) {
     console.error("Error sharing list:", error);
-    showAlert("An error occurred while sharing the list.");
+    showAlert("An error occurred while sharing the list.", "error");
   }
 }
 
@@ -54,12 +53,10 @@ async function shareNotification(ownerID, recipientID) {
     readOnly: false,
     sharedDate: serverTimestamp(),
   });
-  console.log(232);
 }
 
 function generateShareableLink(ownerID) {
-  const baseURL = "http://localhost:5173/view-shared-list.html";
-  return `${baseURL}?owner=${ownerID}`;
+  return `${baseURL}/viewSharedList.html?owner=${ownerID}`;
 }
 
 function displayShareLinkModal(link) {

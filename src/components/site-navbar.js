@@ -1,6 +1,4 @@
-// Import specific functions from the Firebase Auth SDK
 import { onAuthStateChanged } from "firebase/auth";
-
 import { auth } from "/src/firebaseConfig.js";
 import { logoutUser } from "/src/authentication.js";
 import $ from "jquery";
@@ -28,7 +26,7 @@ class SiteNavbar extends HTMLElement {
               <span class="text-xs mt-3 font-bold">Menu</span>
             </button>
             <div id="menu-content" class="hidden bg-zinc-500 text-white w-50 absolute top-[42px]">
-              <a href="store-list.html" class="block p-3">Grocery Stores</a>
+              <a href="storeList.html" class="block p-3">Grocery Stores</a>
               <a href="favorites.html" class="block p-3 border-b-2 border-zinc-800">Favorites</a>
               
               <div id="authControls" class="block p-3 hover:cursor-pointer"></div>
@@ -48,7 +46,7 @@ class SiteNavbar extends HTMLElement {
               <i class="fa-solid fa-magnifying-glass fa-2xl"></i>
               <span class="text-xs mt-4 font-bold">Search</span>
             </a>
-            <a href="shoppinglist.html" class="py-2 flex flex-col items-center">
+            <a href="shoppingList.html" class="py-2 flex flex-col items-center">
               <i class="fa-solid fa-basket-shopping fa-2xl mr-3"></i>
               <span class="text-xs mt-4 mr-3 font-bold leading-tight text-center">
               Shopping <br /> list </span>

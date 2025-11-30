@@ -6,8 +6,6 @@ import {
   query,
   startAt,
   doc,
-  arrayUnion,
-  arrayRemove,
   getDoc,
 } from "firebase/firestore";
 import $ from "jquery";
@@ -42,7 +40,7 @@ async function searchByKeyword(keyword = "", userID = "", favorites = []) {
     querySnapshot.forEach((doc) => {
       const product = doc.data();
       const docID = doc.id;
-      //If product was in user's favorites, heart icon should be filled
+      // If product was in user's favorites, heart icon should be filled
       const isInitiallyFavorited = favorites.includes(doc.id);
       const initialClass = isInitiallyFavorited ? "fa-solid" : "fa-regular";
       const $productCard = $(`
@@ -77,9 +75,9 @@ async function searchByKeyword(keyword = "", userID = "", favorites = []) {
         if (userID) {
           const isFavorited = await toggleFavorite(docID);
           if (isFavorited) {
-            showAlert("Product was added to favorites!");
+            showAlert("Product was added to favorites!", "success");
           } else {
-            showAlert("Product was removed from favorites!");
+            showAlert("Product was removed from favorites!", "warning");
           }
         } else {
           window.location.href = "login.html";
@@ -95,8 +93,8 @@ async function searchByKeyword(keyword = "", userID = "", favorites = []) {
       resultContainer.append($productCard);
     });
   } catch (error) {
+    showAlert("Search failed", "error");
     console.error(error);
-    showAlert("Something went wrong...", "error");
   } finally {
     hideLoading();
   }

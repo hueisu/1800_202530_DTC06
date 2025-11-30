@@ -94,9 +94,9 @@ async function submitCreateProduct() {
     if (Number.isNaN(qtyNum) || Number.isNaN(priceNum)) {
       throw error;
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
     showAlert("Price, Quantity must be integer");
+    console.error(error);
     return;
   }
 
@@ -113,8 +113,8 @@ async function submitCreateProduct() {
     showAlert("success!", "success");
     window.location.href = `/product.html?id=${productID}`;
   } catch (error) {
-    console.error(error);
     showAlert("Check console", "error");
+    console.error(error);
   } finally {
     hideLoading();
   }
@@ -214,9 +214,9 @@ async function submitUpdateProduct(productID, originalProductData) {
     if (Number.isNaN(qtyNum) || Number.isNaN(priceNum)) {
       throw error;
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
     showAlert("Price, Quantity must be integer");
+    console.error(error);
     return;
   }
 
@@ -253,8 +253,8 @@ async function submitUpdateProduct(productID, originalProductData) {
     showAlert("success!", "success");
     window.location.href = `/product.html?id=${productID}`;
   } catch (error) {
-    console.error(error);
     showAlert("Check console", "error");
+    console.error(error);
   } finally {
     hideLoading();
   }

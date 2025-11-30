@@ -1,13 +1,5 @@
 import { db } from "./firebaseConfig.js";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  arrayUnion,
-  arrayRemove,
-  getDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 import { addProductToCurrentList, toggleFavorite } from "./db.js";
 import $ from "jquery";
 import { onAuthReady } from "./authentication.js";
@@ -76,7 +68,7 @@ function displayStores(stores, userID, favorites) {
 
 // Switch from store list to product list
 function switchView(showStores) {
-  const storeView = document.getElementById("store-list-view");
+  const storeView = document.getElementById("storeList-view");
   const productView = document.getElementById("product-list-view");
 
   if (showStores) {
@@ -117,7 +109,7 @@ async function getProducts(storeId, storeName, userID, favorites) {
     // Switch view to product
     switchView(false);
   } catch (error) {
-    console.error("Error: ", error);
+    console.error("Get product error: ", error);
   }
 }
 
@@ -128,7 +120,7 @@ function displayProducts(products, userID, favorites) {
 
   products.forEach((product) => {
     const productID = product.id;
-    //If product was in user's favorites, heart icon should be filled
+    // If product was in user's favorites, heart icon should be filled
     const isInitiallyFavorited = favorites.includes(product.id);
     const initialClass = isInitiallyFavorited ? "fa-solid" : "fa-regular";
     const $productCard = $(`
@@ -161,9 +153,9 @@ function displayProducts(products, userID, favorites) {
       if (userID) {
         const isFavorited = await toggleFavorite(productID);
         if (isFavorited) {
-          showAlert("Product was added to favorites!");
+          showAlert("Product was added to favorites!", "success");
         } else {
-          showAlert("Product was removed from favorites!");
+          showAlert("Product was removed from favorites!", "warning");
         }
       } else {
         window.location.href = "login.html";
@@ -195,8 +187,6 @@ function setup() {
     const storesData = await getStores();
     if (storesData && storesData.length > 0) {
       displayStores(storesData, userID, favorites);
-    } else {
-      console.log("No store data");
     }
 
     if (storeId) {
