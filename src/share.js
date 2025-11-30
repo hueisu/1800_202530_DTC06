@@ -56,7 +56,7 @@ async function shareNotification(ownerID, recipientID) {
 }
 
 function generateShareableLink(ownerID) {
-  return `${baseURL}?owner=${ownerID}`;
+  return `${baseURL}/viewSharedList.html?owner=${ownerID}`;
 }
 
 function displayShareLinkModal(link) {

@@ -98,9 +98,6 @@ function renderSharedList(productsList, ownerID) {
 
   updateCartItemCount();
   updateTotalPrice();
-  $("#checkout-btn").on("click", () =>
-    showModal("Mark as complete?", markAsComplete)
-  );
 }
 
 async function getCurrentList(ownerID) {
