@@ -21,7 +21,7 @@ export default defineConfig({
         search: resolve(__dirname, "search.html"),
         shoppingList: resolve(__dirname, "shoppingList.html"),
         storeList: resolve(__dirname, "storeList.html"),
-        "view-shared-list": resolve(__dirname, "view-shared-list.html"),
+        viewSharedList: resolve(__dirname, "viewSharedList.html"),
       },
     },
   },
