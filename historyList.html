@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <title>Search - Fridge Friends</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,9 +8,13 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
 
     <!-- Web Components for shared layout -->
     <script type="module" src="/src/components/site-navbar.js"></script>
@@ -19,29 +22,27 @@
 
     <!-- Link to styles of your own -->
     <link rel="stylesheet" href="./src/styles/style.css" />
-</head>
+  </head>
 
-<body>
+  <body>
     <!-- Navigation bar -->
     <site-navbar></site-navbar>
 
     <!-- Main content -->
     <main class="container mx-auto px-4 py-8">
-        <h1 class="text-2xl font-bold mb-4 text-center">Previous Shopping Lists</h1>
+      <h1 class="text-2xl font-bold mb-4 text-center">
+        Previous Shopping Lists
+      </h1>
 
-        <div id="no-history" class="hidden text-gray-500 mb-4">
-            No history found.
-        </div>
-        <div id="history-container" class="max-w-[480px] mx-auto space-y-4"></div>
-
+      <div id="no-history" class="hidden text-gray-500 mb-4">
+        No history found.
+      </div>
+      <div id="history-container" class="max-w-[480px] mx-auto space-y-4"></div>
     </main>
 
-
-    
     <site-footer></site-footer>
     <!-- Link to scripts of your own -->
     <script type="module" src="./src/app.js"></script>
-    <script type="module" src="./src/history-list.js"></script>
-</body>
-
+    <script type="module" src="./src/historyList.js"></script>
+  </body>
 </html>

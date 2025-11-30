@@ -11,7 +11,7 @@ export default defineConfig({
         editProduct: resolve(__dirname, "editProduct.html"),
         favorites: resolve(__dirname, "favorites.html"),
         help: resolve(__dirname, "help.html"),
-        "history-list": resolve(__dirname, "history-list.html"),
+        historyList: resolve(__dirname, "historyList.html"),
         index: resolve(__dirname, "index.html"),
         login: resolve(__dirname, "login.html"),
         main: resolve(__dirname, "main.html"),
