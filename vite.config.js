@@ -19,7 +19,7 @@ export default defineConfig({
         profile: resolve(__dirname, "profile.html"),
         review: resolve(__dirname, "review.html"),
         search: resolve(__dirname, "search.html"),
-        shoppinglist: resolve(__dirname, "shoppinglist.html"),
+        shoppingList: resolve(__dirname, "shoppingList.html"),
         storeList: resolve(__dirname, "storeList.html"),
         "view-shared-list": resolve(__dirname, "view-shared-list.html"),
       },

@@ -9,7 +9,7 @@ import {
   reduceProductCount,
   editProductCount,
   removeProduct,
-} from "./shoppinglist";
+} from "./shoppingList";
 import { formatPrice } from "./general";
 import { collection, doc, getDocs } from "firebase/firestore";
 

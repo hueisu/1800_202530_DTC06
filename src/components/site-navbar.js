@@ -48,7 +48,7 @@ class SiteNavbar extends HTMLElement {
               <i class="fa-solid fa-magnifying-glass fa-2xl"></i>
               <span class="text-xs mt-4 font-bold">Search</span>
             </a>
-            <a href="shoppinglist.html" class="py-2 flex flex-col items-center">
+            <a href="shoppingList.html" class="py-2 flex flex-col items-center">
               <i class="fa-solid fa-basket-shopping fa-2xl mr-3"></i>
               <span class="text-xs mt-4 mr-3 font-bold leading-tight text-center">
               Shopping <br /> list </span>
