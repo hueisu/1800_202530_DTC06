@@ -6,8 +6,6 @@ import {
   query,
   startAt,
   doc,
-  arrayUnion,
-  arrayRemove,
   getDoc,
 } from "firebase/firestore";
 import $ from "jquery";

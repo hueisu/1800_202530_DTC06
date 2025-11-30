@@ -1,9 +1,9 @@
 import { auth, db } from "./firebaseConfig";
-import { doc, getDoc, getDocs, query } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import $ from "jquery";
 import { hideLoading, showAlert, showLoading } from "./general";
 import { addProductToCurrentList, toggleFavorite } from "./db";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { ADMIN } from "./constant";
 
 async function displayProduct(userID = null, favorites = []) {

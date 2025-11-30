@@ -1,7 +1,6 @@
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { hideLoading, showAlert, showLoading, showModal } from "./general";
+import { showAlert, showModal } from "./general";
 import $ from "jquery";
-import { auth, db } from "./firebaseConfig";
+import { db } from "./firebaseConfig";
 import {
   updateTotalPrice,
   updateCartItemCount,
@@ -11,7 +10,7 @@ import {
   removeProduct,
 } from "./shoppingList";
 import { formatPrice } from "./general";
-import { collection, doc, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 $(() => {
   $("#cart-container").empty();

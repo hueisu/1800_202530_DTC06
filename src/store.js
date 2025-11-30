@@ -1,13 +1,5 @@
 import { db } from "./firebaseConfig.js";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  arrayUnion,
-  arrayRemove,
-  getDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 import { addProductToCurrentList, toggleFavorite } from "./db.js";
 import $ from "jquery";
 import { onAuthReady } from "./authentication.js";

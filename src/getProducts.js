@@ -151,17 +151,17 @@ async function displayPreviouslyAddedCards(userID) {
 
 onAuthReady(async (user) => {
   if (user) {
-    // 1. Build a reference to the user document
+    // Build a reference to the user document
     const userRef = doc(db, "users", user.uid);
 
-    // 2. Read that document once
+    // Read that document once
     const userDoc = await getDoc(userRef);
     const userData = userDoc.exists() ? userDoc.data() : {};
 
-    // 4. Read bookmarks as a plain array (no globals)
+    // Read bookmarks as a plain array (no globals)
     const favorites = userData.favorites || [];
 
-    // 5. Display cards, but now pass userRef and bookmarks (array)
+    // Display cards, but now pass userRef and bookmarks (array)
     await displayProductsCards(user.uid, favorites);
     await displayPreviouslyAddedCards(user.uid);
   } else {

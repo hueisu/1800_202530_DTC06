@@ -1,9 +1,7 @@
 import { onAuthReady } from "./authentication.js";
 import { db } from "./firebaseConfig.js";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { auth } from "./firebaseConfig.js";
 import { showAlert } from "./general.js";
-
 
 function showDashboard() {
   const nameElement = document.getElementById("name-goes-here"); // the <h1> element to display "Hello, {name}"
@@ -90,9 +88,7 @@ showUserID();
 
 const nameSpan = document.getElementById("name-goes-here");
 
-
 const nameInput = document.getElementById("name-input");
-
 
 const editBtn = document.getElementById("edit-btn");
 const editActions = document.getElementById("edit-actions");
@@ -110,21 +106,16 @@ onAuthReady(async (user) => {
   if (snap.exists()) {
     const data = snap.data();
     nameSpan.textContent = data.name;
-
   }
 });
-
 
 // ----- EDIT -----
 editBtn.addEventListener("click", () => {
   nameInput.value = nameSpan.textContent;
 
-
   nameSpan.classList.add("hidden");
 
-
   nameInput.classList.remove("hidden");
-
 
   editBtn.classList.add("hidden");
   editActions.classList.remove("hidden");
@@ -134,9 +125,7 @@ editBtn.addEventListener("click", () => {
 cancelBtn.addEventListener("click", () => {
   nameInput.classList.add("hidden");
 
-
   nameSpan.classList.remove("hidden");
-
 
   editActions.classList.add("hidden");
   editBtn.classList.remove("hidden");

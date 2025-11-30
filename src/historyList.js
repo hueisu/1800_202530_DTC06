@@ -80,7 +80,6 @@ async function loadHistory(userId) {
   }
 }
 
-// Automatically runs once user is logged in
 onAuthReady((user) => {
   if (user) {
     loadHistory(user.uid);
