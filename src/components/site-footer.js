@@ -7,14 +7,14 @@ class SiteFooter extends HTMLElement {
                     <img class="h-15" src="./images/Fridge_Friends.png" alt="logo" />
                     <ul>
                         <li class="font-bold">Available Stores</li>
-                        <li><a href="store-list.html?id=superstore" class="hover:cursor-pointer hover:underline">SuperStore</a></li>
-                        <li><a href="store-list.html?id=costco" class="hover:cursor-pointer hover:underline">Costco</a></li>
+                        <li><a href="storeList.html?id=superstore" class="hover:cursor-pointer hover:underline">SuperStore</a></li>
+                        <li><a href="storeList.html?id=costco" class="hover:cursor-pointer hover:underline">Costco</a></li>
                         
-                        <li><a href="store-list.html?id=t&t" class="hover:cursor-pointer hover:underline">T&T</a>
+                        <li><a href="storeList.html?id=t&t" class="hover:cursor-pointer hover:underline">T&T</a>
                         </li>
-                        <li><a href="store-list.html?id=walmart" class="hover:cursor-pointer hover:underline">Walmart</a></li>
-                        <li><a href="store-list.html?id=save-on" class="hover:cursor-pointer hover:underline">Save on Foods</a></li>
-                        <li><a href="store-list.html?id=safeway" class="hover:cursor-pointer hover:underline">SafeWay</a></li>
+                        <li><a href="storeList.html?id=walmart" class="hover:cursor-pointer hover:underline">Walmart</a></li>
+                        <li><a href="storeList.html?id=save-on" class="hover:cursor-pointer hover:underline">Save on Foods</a></li>
+                        <li><a href="storeList.html?id=safeway" class="hover:cursor-pointer hover:underline">SafeWay</a></li>
                     </ul>
 
                     <ul>

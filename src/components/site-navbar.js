@@ -28,7 +28,7 @@ class SiteNavbar extends HTMLElement {
               <span class="text-xs mt-3 font-bold">Menu</span>
             </button>
             <div id="menu-content" class="hidden bg-zinc-500 text-white w-50 absolute top-[42px]">
-              <a href="store-list.html" class="block p-3">Grocery Stores</a>
+              <a href="storeList.html" class="block p-3">Grocery Stores</a>
               <a href="favorites.html" class="block p-3 border-b-2 border-zinc-800">Favorites</a>
               
               <div id="authControls" class="block p-3 hover:cursor-pointer"></div>

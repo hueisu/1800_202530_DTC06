@@ -76,7 +76,7 @@ function displayStores(stores, userID, favorites) {
 
 // Switch from store list to product list
 function switchView(showStores) {
-  const storeView = document.getElementById("store-list-view");
+  const storeView = document.getElementById("storeList-view");
   const productView = document.getElementById("product-list-view");
 
   if (showStores) {

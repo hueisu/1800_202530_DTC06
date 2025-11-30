@@ -58,7 +58,7 @@ async function displayProduct(userID = null, favorites = []) {
           ${storeNames
             .map(
               (storeName) =>
-                `<a href="store-list.html" class="rounded bg-purple-200 py-[2px] px-[5px] text-xs">${storeName}</a>`
+                `<a href="storeList.html" class="rounded bg-purple-200 py-[2px] px-[5px] text-xs">${storeName}</a>`
             )
             .join("")}
           </div>
