@@ -110,7 +110,8 @@ async function getCurrentList(ownerID) {
     const listSnapshot = await getDocs(currentList);
     if (listSnapshot.empty) {
       showAlert("List is Empty!");
-    } //process rendering and display
+    }
+    // process rendering and display
     renderSharedList(listSnapshot.docs, ownerID);
   } catch (error) {
     console.error("Error fetching list", error);

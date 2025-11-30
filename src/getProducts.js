@@ -89,7 +89,7 @@ async function displayProductsCards(userID = null, favorites = []) {
   hideLoading();
 }
 
-//Show previously added list
+// Show previously added list
 async function displayPreviouslyAddedCards(userID) {
   const previouslyAddedRef = collection(db, "users", userID, "historyList");
   const previouslyAddedContainer = $("#previously-added-container");

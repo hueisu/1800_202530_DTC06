@@ -128,7 +128,7 @@ function displayProducts(products, userID, favorites) {
 
   products.forEach((product) => {
     const productID = product.id;
-    //If product was in user's favorites, heart icon should be filled
+    // If product was in user's favorites, heart icon should be filled
     const isInitiallyFavorited = favorites.includes(product.id);
     const initialClass = isInitiallyFavorited ? "fa-solid" : "fa-regular";
     const $productCard = $(`

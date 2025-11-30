@@ -21,8 +21,6 @@ import {
 } from "firebase/firestore";
 import { shareListWithUser } from "./share";
 
-// TODO: tax info in category?
-
 async function getShoppingList(userID) {
   showLoading();
 
@@ -40,8 +38,6 @@ async function getShoppingList(userID) {
         `);
       return;
     }
-
-    // $("#checkout-btn").removeClass("hidden");
 
     const cartContainer = $("#cart-container");
     const cartItems = [];
@@ -221,7 +217,7 @@ export function removeProduct(productID, ownerID) {
   updateCartItemCount();
 }
 
-//targetUserID parameter defaults to current user if no other argument is passed to it (necessary for the shared list editing)
+// targetUserID parameter defaults to current user if no other argument is passed to it (necessary for the shared list editing)
 async function updateProductInDB(productID, newCount, targetUserID) {
   try {
     const userID = getAuth().currentUser.uid;
