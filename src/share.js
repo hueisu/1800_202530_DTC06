@@ -1,6 +1,5 @@
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { hideLoading, showAlert, showLoading, showModal } from "./general";
-import { auth, db } from "./firebaseConfig";
+import { showAlert } from "./general";
+import { db } from "./firebaseConfig";
 import {
   collection,
   doc,
@@ -10,6 +9,7 @@ import {
   arrayUnion,
   serverTimestamp,
 } from "firebase/firestore";
+import { baseURL } from "./constant";
 
 export async function shareListWithUser(userID, sharedUserID) {
   if (!userID || !sharedUserID) {
@@ -56,7 +56,6 @@ async function shareNotification(ownerID, recipientID) {
 }
 
 function generateShareableLink(ownerID) {
-  const baseURL = "http://localhost:5173/viewSharedList.html";
   return `${baseURL}?owner=${ownerID}`;
 }
 
