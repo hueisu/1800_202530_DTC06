@@ -50,7 +50,9 @@ async function displayProduct(userID = null, favorites = []) {
               ${product.quantity} ${product.unit} - $${product.price}
               </p>
             </div>
-            <button id="add-to-list" class="bg-blue-200 py-2 px-3 rounded hover:cursor-pointer hover:bg-blue-300">Add to list</button>
+            <button id="add-to-list" class="fa-lg border rounded-full self-start py-2 px-3 hover:bg-gray-100 ml-2" data-add-to-list>
+              <i class="fa-solid fa-plus"></i>
+            </button>
           </div>
           <div class="flex gap-2 flex-wrap">
           ${storeNames
