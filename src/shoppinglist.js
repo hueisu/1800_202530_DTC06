@@ -302,11 +302,22 @@ async function markAsComplete() {
       batch.delete(doc.ref);
     });
     await batch.commit();
+    clearShoppingList();
     showAlert("Successfully added to list history", "success");
   } catch (error) {
     showAlert("Update failed", "error");
     console.error(error);
   }
+}
+
+function clearShoppingList() {
+  // clear current shopping list nodes
+  $("#checkout-btn").addClass("hidden");
+  $("#cart-items-count").text(0);
+  $("#total").text(0);
+  $("#cart-container").html(`
+          <div class="text-gray-500">Your list is empty...</div>
+        `);
 }
 
 function showLogin() {
