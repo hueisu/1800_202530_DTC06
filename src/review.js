@@ -75,11 +75,10 @@ async function writeReview() {
   // Collect form data
   const title = document.getElementById("title").value.trim();
   const description = document.getElementById("description").value.trim();
-  const store = document.getElementById("store").value;
 
   // Simple validation
   if (!title || !description) {
-    showAlert("Please complete all required fields.");
+    showAlert("Please complete all required fields.", "error");
     return;
   }
 
@@ -93,7 +92,6 @@ async function writeReview() {
         userID: userID,
         title: title,
         description: description,
-        store: store,
         rating: productRating,
         timestamp: serverTimestamp(),
       });
