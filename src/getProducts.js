@@ -59,9 +59,9 @@ async function displayProductsCards(userID = null, favorites = []) {
         if (userID) {
           const isFavorited = await toggleFavorite(doc.id);
           if (isFavorited) {
-            showAlert("Product was added to favorites!");
+            showAlert("Product was added to favorites!", "success");
           } else {
-            showAlert("Product was removed from favorites!");
+            showAlert("Product was removed from favorites!", "warning");
           }
         } else {
           window.location.href = "/login.html";
@@ -83,6 +83,7 @@ async function displayProductsCards(userID = null, favorites = []) {
       }
     });
   } catch (error) {
+    showAlert("Display product failed", "error");
     console.error(error);
   }
   hideLoading();
@@ -141,6 +142,7 @@ async function displayPreviouslyAddedCards(userID) {
       });
     });
   } catch (error) {
+    showAlert("Display previously added cards failed", "error");
     console.error(error);
   } finally {
     hideLoading();

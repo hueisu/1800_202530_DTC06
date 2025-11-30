@@ -43,9 +43,10 @@ export async function addProductToCurrentList(product, productId) {
         count: productInCurrentList.count + 1,
       });
     }
-    showAlert("Product is added to your list", "warning");
+    showAlert("Product was added to your list", "success");
   } catch (error) {
-    showAlert("Something went wrong...", "warning");
+    showAlert("Add to list failed", "error");
+    console.error(error);
   } finally {
     hideLoading();
   }
@@ -87,8 +88,9 @@ export async function toggleFavorite(docID) {
       newFavoritedState = true;
     }
     return newFavoritedState;
-  } catch (err) {
-    console.error("Error toggling favorites:", err);
+  } catch (error) {
+    showAlert("Add to favorites failed", "error");
+    console.error(error);
   }
 }
 
@@ -107,6 +109,7 @@ export async function addReviewToProduct(productID, score) {
       averageRating: newAverageRating,
     });
   } catch (error) {
-    console.error("add review to product failed", error);
+    showAlert("Add review failed", "error");
+    console.error(error);
   }
 }

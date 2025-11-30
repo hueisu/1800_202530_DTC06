@@ -36,7 +36,7 @@ export async function shareListWithUser(userID, sharedUserID) {
     showAlert("List successfully shared!");
   } catch (error) {
     console.error("Error sharing list:", error);
-    showAlert("An error occurred while sharing the list.");
+    showAlert("An error occurred while sharing the list.", "error");
   }
 }
 

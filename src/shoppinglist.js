@@ -130,6 +130,7 @@ async function getShoppingList(userID) {
     );
   } catch (error) {
     console.error(error);
+    showAlert("Get shopping list failed", "error");
   } finally {
     hideLoading();
   }
@@ -230,7 +231,8 @@ async function updateProductInDB(productID, newCount, targetUserID) {
       count: newCount,
     });
   } catch (error) {
-    showAlert("Update failed", "warning");
+    console.error(error);
+    showAlert("Update failed", "error");
   }
 }
 
@@ -241,7 +243,8 @@ async function removeProductInDB(productID, targetUserID) {
     const productRef = doc(db, "users", listOwnerID, "currentList", productID);
     await deleteDoc(productRef);
   } catch (error) {
-    showAlert("Update failed", "warning");
+    console.error(error);
+    showAlert("Update failed", "error");
   }
 }
 
@@ -277,7 +280,7 @@ async function shareConfirm() {
     targetUserIDInput.value = "";
   } catch (error) {
     console.error("Sharing failed", error);
-    showAlert("Error occurred while sharing.");
+    showAlert("Error occurred while sharing.", "error");
   }
 }
 
@@ -306,6 +309,7 @@ async function markAsComplete() {
     showAlert("Successfully added to list history", "success");
   } catch (error) {
     showAlert("Update failed", "error");
+    console.error(error);
   }
 }
 

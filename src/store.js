@@ -117,7 +117,7 @@ async function getProducts(storeId, storeName, userID, favorites) {
     // Switch view to product
     switchView(false);
   } catch (error) {
-    console.error("Error: ", error);
+    console.error("Get product error: ", error);
   }
 }
 
@@ -161,9 +161,9 @@ function displayProducts(products, userID, favorites) {
       if (userID) {
         const isFavorited = await toggleFavorite(productID);
         if (isFavorited) {
-          showAlert("Product was added to favorites!");
+          showAlert("Product was added to favorites!", "success");
         } else {
-          showAlert("Product was removed from favorites!");
+          showAlert("Product was removed from favorites!", "warning");
         }
       } else {
         window.location.href = "login.html";

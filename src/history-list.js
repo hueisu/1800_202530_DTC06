@@ -72,7 +72,7 @@ async function loadHistory(userId) {
       });
       $container.append($historyList);
     });
-  } catch (err) {
+  } catch (error) {
     console.error("Error loading history:", err);
     $container.html(`<p class="text-red-500">Failed to load history.</p>`);
   } finally {

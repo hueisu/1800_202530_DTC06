@@ -14,14 +14,18 @@ async function populateReviews() {
   const params = new URL(window.location.href);
   const productID = params.searchParams.get("id");
   if (!productID) {
-    detailsGoHere.textContent = "No product ID in URL. Reviews can't be loaded.";
+    detailsGoHere.textContent =
+      "No product ID in URL. Reviews can't be loaded.";
     console.warn("No product ID found in URL.");
     return;
   }
 
   try {
     // Query reviews where productDocID == productID
-    const q = query(collection(db, "reviews"), where("productDocID", "==", productID));
+    const q = query(
+      collection(db, "reviews"),
+      where("productDocID", "==", productID)
+    );
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
@@ -48,16 +52,17 @@ async function populateReviews() {
         starHTML += '<span class="material-icons text-yellow-500">star</span>';
       }
       for (let i = rating; i < 5; i++) {
-        starHTML += '<span class="material-icons text-gray-300">star_outline</span>';
+        starHTML +=
+          '<span class="material-icons text-gray-300">star_outline</span>';
       }
       reviewCard.querySelector(".star-rating").innerHTML = starHTML;
 
       // Append to container
       reviewCardGroup.appendChild(reviewCard);
     });
-  } catch (err) {
+  } catch (error) {
     console.error("Error loading reviews:", err);
-    detailsGoHere.textContent = "Error loading reviews. See console for details.";
+    detailsGoHere.textContent = "Loading reviews failed.";
   }
 }
 

@@ -114,7 +114,10 @@ async function getCurrentList(ownerID) {
     renderSharedList(listSnapshot.docs, ownerID);
   } catch (error) {
     console.error("Error fetching list", error);
-    showAlert("Failed to load list. Permission denied or error occurred.");
+    showAlert(
+      "Failed to load list. Permission denied or error occurred.",
+      "error"
+    );
   }
 }
 

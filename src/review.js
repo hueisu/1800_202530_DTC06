@@ -103,6 +103,7 @@ async function writeReview() {
       window.location.href = `product.html?id=${productDocID}`;
     } catch (error) {
       showAlert("Create review failed.", "error");
+      console.error(error);
     }
   } else {
     alert("You must be signed in to submit a review.");

@@ -78,9 +78,9 @@ async function displayProduct(userID = null, favorites = []) {
       if (userID) {
         const isFavorited = await toggleFavorite(productID);
         if (isFavorited) {
-          showAlert("Product was added to favorites!");
+          showAlert("Product was added to favorites!", "success");
         } else {
-          showAlert("Product was removed from favorites!");
+          showAlert("Product was removed from favorites!", "warning");
         }
       } else {
         window.location.href = "login.html";
@@ -99,7 +99,7 @@ async function displayProduct(userID = null, favorites = []) {
 
     productContainer.prepend($element);
   } catch (error) {
-    showAlert("Something went wrong...", "error");
+    showAlert("Display product failed", "error");
     console.error(error);
   }
   hideLoading();
