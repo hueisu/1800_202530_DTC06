@@ -136,7 +136,7 @@ async function displayPreviouslyAddedCards(userID) {
         // add to current list
         $productCard.on("click", "[data-add-to-list]", async function (e) {
           e.preventDefault();
-          await addProductToCurrentList(product, doc.id);
+          await addProductToCurrentList(product, product.productId);
         });
         previouslyAddedContainer.append($productCard);
       });
