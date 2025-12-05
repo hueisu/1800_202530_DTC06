@@ -111,7 +111,15 @@ Fridge Friends is a client-side JavaScript web application that helps users make
 
   - **Authentication**: Managed the User Logout process.
 
-- Matthew - BCIT CST Student with a passion for indoor adventures and friendly applications. Fun fact: Has arms.
+- **Matthew**
+
+  - **Main Page Featured & Most Recent List**: Implemented Featured Products and Products from User's Most Recent Shopping List on the main page
+
+  - **Shared List**: Built shared list function, including generating a shared list link and the displaying of the shared list on the shared with user's account.
+
+  - **Favorite Products**: Added Favorite Products function and page.
+
+  - **Grocery Store Products**: Created grocery store page that lists each store's products.
 
 ---
 
