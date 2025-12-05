@@ -98,7 +98,15 @@ Fridge Friends is a client-side JavaScript web application that helps users make
 
 ## Contributors
 
-- **Rishi** - BCIT CST Student with a passion for outdoor adventures and user-friendly applications. Fun fact: Loves solving Rubik's Cubes in under a minute.
+- **Rishi**
+
+  - **UI Design**: Implemented search page, Shopping-list page, Shopping-list history page.
+
+  - **Product Reviews**: Implemented the write a reviews function and display the reviews for each product.
+
+  - **Edit Profile**: Implemented a edit button to update user info.
+
+
 - **Su**
 
   - **Main Page & Discovery**: Implemented Top-Rated Product Sorting (based on review averages) to highlight popular items on the main page.
